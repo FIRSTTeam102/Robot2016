@@ -20,8 +20,13 @@ public class SetSolenoid extends Command {
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
-    	Pneumatics.setSolenoid(turnOn);
+    protected void initialize()
+    {
+    	if(turnOn){
+    		Pneumatics.setSolenoid(turnOn);
+    	}else{
+    		Pneumatics.setSolenoid(!turnOn);
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run

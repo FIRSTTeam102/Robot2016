@@ -1,5 +1,8 @@
 package org.usfirst.frc.team102.robot;
 
+import org.usfirst.frc.team102.robot.Rumbler.Rumbles;
+import org.usfirst.frc.team102.robot.commands.CommandRumble;
+import org.usfirst.frc.team102.robot.commands.CommandToggleReverse;
 import org.usfirst.frc.team102.robot.commands.MoveArm;
 import org.usfirst.frc.team102.robot.commands.MoveArmOpposite;
 import org.usfirst.frc.team102.robot.commands.SetSolenoid;
@@ -22,13 +25,20 @@ public class OI {
 	private JoystickButton xBoxX;
 	private JoystickButton xBoxRightBump;
 	private JoystickButton xBoxLeftBump;
+	private JoystickButton xBoxStart;
+	
+	public static Rumbler driveRumble, opRumble, testRumble;
 
 	public OI() {
 
 		xBoxDriver = new Joystick(RobotMap.driverJoystickPort);
 		xBoxOperator = new Joystick(RobotMap.operatorJoystickPort);
 		xBoxTest = new Joystick(RobotMap.testJoystickPort);
-
+		
+		driveRumble = new Rumbler(xBoxDriver);
+		opRumble = new Rumbler(xBoxOperator);
+		testRumble = new Rumbler(xBoxTest);
+		
 		xBoxA = new JoystickButton(xBoxOperator, RobotMap.xBoxAIndex);
 		xBoxA.whenPressed(new MoveArmOpposite(0.3, 1));
 		xBoxA.whenReleased(new MoveArmOpposite(0.0, 1));
@@ -54,12 +64,16 @@ public class OI {
 		xBoxLeftBump.whenReleased(new MoveArm(0.0, 3));
 		
 		xBoxA = new JoystickButton(xBoxDriver, RobotMap.xBoxAIndex);
+		
+		// THIS IS COMMENTED FOR RUMBLER TEST MODE.
+		// UNCOMMENT THE NEXT TWO LINES AND COMMENT THE LINE AFTER
+		// TO DISABLE THIS.
 		xBoxA.whenPressed(new SetSolenoid(true));
 		xBoxA.whenReleased(new SetSolenoid(false));
-
-		xBoxY = new JoystickButton(xBoxDriver, RobotMap.xBoxYIndex);
-		xBoxY.whenPressed(new MoveArm(0.3, 1));
-		xBoxY.whenReleased(new MoveArm(0.0, 1));
+		//xBoxA.whenPressed(new CommandRumble(xBoxDriver, Rumbles.L1R1));
+		
+		xBoxStart = new JoystickButton(xBoxDriver, RobotMap.xBoxStartButtonIndex);
+		xBoxStart.whenPressed(new CommandToggleReverse());
 	}
 
 	public Joystick getDriverXBox() {

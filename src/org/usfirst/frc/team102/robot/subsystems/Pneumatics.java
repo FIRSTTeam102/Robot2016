@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Pneumatics extends Subsystem {
     
-    public static Solenoid sol = new Solenoid(1);
+    public static Solenoid sol1 = new Solenoid(1);
+    public static Solenoid sol2 = new Solenoid(2);
+    
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -18,10 +20,11 @@ public class Pneumatics extends Subsystem {
     public static void setSolenoid(boolean turnOn){
     	if(turnOn){
     		
-        	sol.set(true);
+        	sol1.set(true);
+        	
     	}else{
     		
-    		sol.set(false);
+    		sol1.set(false);
     	}
 
     }
