@@ -15,8 +15,25 @@ public class CommandToggleReverse extends Command {
 		OI.opRumble.playRumbleMessage(isReverse ? Rumbles.reverse : Rumbles.forward);
 	}
 	
-	protected void execute() {}
-	protected boolean isFinished() { return true; }
-	protected void end() {}
-	protected void interrupted() {}
+	protected void execute() {
+		
+		
+	}
+	
+	protected boolean isFinished() { 
+		
+		return true; 
+		
+	}
+	
+	protected void end() {
+		
+		
+		
+	}
+	protected void interrupted() {
+		
+		
+		
+	}
 }

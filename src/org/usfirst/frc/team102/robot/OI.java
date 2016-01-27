@@ -1,12 +1,8 @@
 package org.usfirst.frc.team102.robot;
 
-import org.usfirst.frc.team102.robot.Rumbler.Rumbles;
-import org.usfirst.frc.team102.robot.commands.CommandRumble;
 import org.usfirst.frc.team102.robot.commands.CommandToggleReverse;
 import org.usfirst.frc.team102.robot.commands.MoveArm;
 import org.usfirst.frc.team102.robot.commands.MoveArmOpposite;
-import org.usfirst.frc.team102.robot.commands.SetSolenoid;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -66,20 +62,15 @@ public class OI {
 		xBoxA = new JoystickButton(xBoxDriver, RobotMap.xBoxAIndex);
 		
 		// THIS IS COMMENTED FOR RUMBLER TEST MODE.
-		// UNCOMMENT THE NEXT TWO LINES AND COMMENT THE LINE AFTER
-		// TO DISABLE THIS.
-		xBoxA.whenPressed(new SetSolenoid(true));
-		xBoxA.whenReleased(new SetSolenoid(false));
+		// Uncomment the next two lines and comment the line after
+		// to disable this.
 		//xBoxA.whenPressed(new CommandRumble(xBoxDriver, Rumbles.L1R1));
 		
 		xBoxStart = new JoystickButton(xBoxDriver, RobotMap.xBoxStartButtonIndex);
 		xBoxStart.whenPressed(new CommandToggleReverse());
 	}
-
-	public Joystick getDriverXBox() {
-		// TODO Auto-generated method stub
-		return xBoxDriver;
-	}
+	
+	public Joystick getDriverXBox() { return xBoxDriver; }
 
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a

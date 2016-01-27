@@ -1,11 +1,8 @@
 package org.usfirst.frc.team102.robot.subsystems;
 
 import org.usfirst.frc.team102.robot.RobotMap;
-import org.usfirst.frc.team102.robot.commands.CommandToggleReverse;
 import org.usfirst.frc.team102.robot.commands.DriveWithXBox;
-
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -59,19 +56,11 @@ public class DriveTrain extends Subsystem {
 			leftJoyY *= 1.0;
 			rightJoyX *= 1.0;
 			rightJoyY *= 1.0;
-
-			if (Math.abs(leftJoyX) < 0.1) {
-				leftJoyX = 0.0;
-			}
-			if (Math.abs(leftJoyY) < 0.1) {
-				leftJoyY = 0.0;
-			}
-			if (Math.abs(rightJoyX) < 0.1) {
-				rightJoyX = 0.0;
-			}
-			if (Math.abs(rightJoyY) < 0.1) {
-				rightJoyY = 0.0;
-			}
+			
+			if(Math.abs(leftJoyX) < 0.1) leftJoyX = 0.0;
+			if(Math.abs(leftJoyY) < 0.1) leftJoyY = 0.0;
+			if(Math.abs(rightJoyX) < 0.1) rightJoyX = 0.0;
+			if(Math.abs(rightJoyY) < 0.1) rightJoyY = 0.0;
 
 			m1.set(isReverse ? -leftJoyY : leftJoyY);
 			m2.set(isReverse ? -rightJoyY : rightJoyY);

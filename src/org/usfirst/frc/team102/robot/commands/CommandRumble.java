@@ -19,9 +19,29 @@ public class CommandRumble extends Command {
 		rType = r;
 	}
 	
-	protected void execute() { theRumbler.playRumbleMessage(rType); }
-	protected boolean isFinished() { return true; }
-	protected void initialize() {}
-	protected void end() {}
-	protected void interrupted() {}
+	protected void execute() { 
+		
+		theRumbler.playRumbleMessage(rType); 
+		
+	}
+	protected boolean isFinished() { 
+		
+		return true; 
+		
+	}
+	protected void initialize() {
+		
+		
+		
+	}
+	protected void end() {
+		
+		
+		
+	}
+	protected void interrupted() {
+		
+		
+		
+	}
 }
