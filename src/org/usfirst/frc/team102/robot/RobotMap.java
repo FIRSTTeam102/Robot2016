@@ -20,6 +20,8 @@ public class RobotMap {
 	public static final int m3 = 3;
 	public static final int m4 = 4;
 	public static final int m5 = 5;
+	public static final int m6 = 6;
+	public static final int m7 = 7;
 	public static final int xBoxAIndex = 1;
 	public static final int xBoxBIndex = 2;
 	public static final int xBoxXIndex = 3;

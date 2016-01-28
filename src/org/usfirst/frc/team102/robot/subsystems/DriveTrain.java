@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import static org.usfirst.frc.team102.robot.commands.CommandToggleReverse.isReverse;
@@ -17,6 +19,8 @@ public class DriveTrain extends Subsystem {
 
 	CANTalon m1;
 	CANTalon m2;
+	Victor m6;
+	Victor m7;
 	private DigitalOutput isGoingForward, isGoingBackward;
 	private double leftJoyX;
 	private double leftJoyY;
@@ -36,6 +40,8 @@ public class DriveTrain extends Subsystem {
 	public DriveTrain() {
 		m1 = new CANTalon(RobotMap.m1);
 		m2 = new CANTalon(RobotMap.m2);
+		m6 = new Victor(RobotMap.m6);
+		m7 = new Victor(RobotMap.m7);
 		
 		isGoingForward = new DigitalOutput(RobotMap.forwardIndicator);
 		isGoingBackward = new DigitalOutput(RobotMap.backwardIndicator);
@@ -64,6 +70,8 @@ public class DriveTrain extends Subsystem {
 
 			m1.set(isReverse ? -leftJoyY : leftJoyY);
 			m2.set(isReverse ? -rightJoyY : rightJoyY);
+			m6.set(isReverse ? -leftJoyX : leftJoyX);
+			m7.set(isReverse ? -rightJoyX : rightJoyX);
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
