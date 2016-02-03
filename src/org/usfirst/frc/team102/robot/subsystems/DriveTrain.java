@@ -19,8 +19,8 @@ public class DriveTrain extends Subsystem {
 
 	CANTalon m1;
 	CANTalon m2;
-	Victor m6;
-	Victor m7;
+	Victor m3;
+	Victor m4;
 	private DigitalOutput isGoingForward, isGoingBackward;
 	private double leftJoyX;
 	private double leftJoyY;
@@ -40,8 +40,8 @@ public class DriveTrain extends Subsystem {
 	public DriveTrain() {
 		m1 = new CANTalon(RobotMap.m1);
 		m2 = new CANTalon(RobotMap.m2);
-		m6 = new Victor(RobotMap.m6);
-		m7 = new Victor(RobotMap.m7);
+		m3 = new Victor(RobotMap.m3);
+		m4 = new Victor(RobotMap.m4);
 		
 		isGoingForward = new DigitalOutput(RobotMap.forwardIndicator);
 		isGoingBackward = new DigitalOutput(RobotMap.backwardIndicator);
@@ -52,7 +52,6 @@ public class DriveTrain extends Subsystem {
 		isGoingBackward.set(isReverse);
 		
 		try {
-
 			leftJoyX = xBox.getRawAxis(RobotMap.xBoxLeftXAxis);
 			leftJoyY = xBox.getRawAxis(RobotMap.xBoxLeftYAxis);
 			rightJoyX = xBox.getRawAxis(RobotMap.xBoxRightXAxis);
@@ -68,13 +67,32 @@ public class DriveTrain extends Subsystem {
 			if(Math.abs(rightJoyX) < 0.1) rightJoyX = 0.0;
 			if(Math.abs(rightJoyY) < 0.1) rightJoyY = 0.0;
 
-			m1.set(isReverse ? -leftJoyY : leftJoyY);
-			m2.set(isReverse ? -rightJoyY : rightJoyY);
-			m6.set(isReverse ? -leftJoyX : leftJoyX);
-			m7.set(isReverse ? -rightJoyX : rightJoyX);
+			m1.set(isReverse ? -rightJoyY : rightJoyY);
+			m2.set(!isReverse ? -leftJoyY : leftJoyY);
+			m3.set(isReverse ? -rightJoyY : rightJoyY);
+			m4.set(!isReverse ? -leftJoyY : leftJoyY);
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
 		}
 	}
+	
+	public void straightDrive(int speedNumber){
+		if(speedNumber == 1){
+		m1.set(0.5);
+		m2.set(0.5);
+		m3.set(0.5);
+		m4.set(0.5);
+		}else if(speedNumber == 2){
+			m1.set(0.0);
+			m2.set(0.0);
+			m3.set(0.0);
+			m4.set(0.0);
+		}
+	}
+	
+	// ========== Begin autonomous mode handling code ==========
+	
+	public void startDriving(boolean isReverse) {}
+	public void stopDriving() {}
 }

@@ -24,9 +24,8 @@ public class OI {
 	private JoystickButton xBoxStart;
 	
 	public static Rumbler driveRumble, opRumble, testRumble;
-
+	
 	public OI() {
-
 		xBoxDriver = new Joystick(RobotMap.driverJoystickPort);
 		xBoxOperator = new Joystick(RobotMap.operatorJoystickPort);
 		xBoxTest = new Joystick(RobotMap.testJoystickPort);
@@ -71,7 +70,8 @@ public class OI {
 	}
 	
 	public Joystick getDriverXBox() { return xBoxDriver; }
-
+	public Joystick getOperatorXBox() { return xBoxOperator; }
+	
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.

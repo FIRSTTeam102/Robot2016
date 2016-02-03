@@ -1,36 +1,59 @@
 package org.usfirst.frc.team102.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *
+ * Autonomous Mode Command Group
  */
-public class Autonomous extends Command {
-
-	public Autonomous() {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
+public class Autonomous extends CommandGroup {
+	
+	public static char inputDataValue;
+	
+	public static int initialPosition;
+	public static Defense[] defs;
+	
+	public  Autonomous() {
+		// Add Commands here:
+		// e.g. addSequential(new Command1());
+		//      addSequential(new Command2());
+		// these will run in order.
+		
+		// To run multiple commands at the same time,
+		// use addParallel()
+		// e.g. addParallel(new Command1());
+		//      addSequential(new Command2());
+		// Command1 and Command2 will run in parallel.
+		
+		// A command group will require all of the subsystems that each member
+		// would require.
+		// e.g. if Command1 requires chassis, and Command2 requires arm,
+		// a CommandGroup containing them would require both the chassis and the
+		// arm.
+		
+		//Actual Autonomous
+		//addSequential(new GetInitialData());
+		
+		//Test Stuff
+		addSequential(new DriveStraightNoGyro());
+		
 	}
-
-	// Called just before this Command runs the first time
-	protected void initialize() {
-	}
-
-	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
-	}
-
-	// Make this return true when this Command no longer needs to run execute()
-	protected boolean isFinished() {
-		return false;
-	}
-
-	// Called once after isFinished returns true
-	protected void end() {
-	}
-
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
-	protected void interrupted() {
+	
+	public static enum Defense {
+		lowBar,
+		porticullus, chevalDeFris,
+		moat, ramparts,
+		drawbridge, sallyPort,
+		rockWall, roughTerrain;
+		
+		/* public Command getPassingCommand() {
+		 * 	if(this == lowBar || this == moat || this == ramparts || this == rockWall || this == roughTerrain) ;
+		 * 	if(this == porticullus) ;
+		 * 	if(this == chevalDeFris) ;
+		 * 	if(this == drawbridge) ;
+		 *	if(this == sallyPort) ;
+		 *	
+		 *	return null;
+		 *}
+		*/
 	}
 }

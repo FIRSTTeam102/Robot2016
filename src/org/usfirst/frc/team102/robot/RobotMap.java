@@ -38,7 +38,11 @@ public class RobotMap {
 	// public static int rightMotor = 2;
 	public static int forwardIndicator = 0;
 	public static int backwardIndicator = 1;
-
+	
+	public static int cfgSw0 = 2, cfgSw1 = 3, cfgSw2 = 4, cfgSw3 = 5, cfgSw4 = 6, cfgSw5 = 7, cfgSw6 = 8, cfgSw7 = 9;
+	
+	public static int xAxisServo = 0, yAxisServo = 1;
+	
 	// If you are using multiple modules, make sure to define both the port
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;

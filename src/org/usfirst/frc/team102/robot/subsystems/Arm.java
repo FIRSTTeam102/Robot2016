@@ -1,8 +1,7 @@
 package org.usfirst.frc.team102.robot.subsystems;
 
 import org.usfirst.frc.team102.robot.RobotMap;
-
-import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -12,12 +11,12 @@ public class Arm extends Subsystem {
 	// here. Call these from Commands.
 	Victor armMotor1;
 	Victor armMotor2;
-	Jaguar armMotor3;
+	Talon armMotor3;
 
 	public Arm() {
-		armMotor1 = new Victor(RobotMap.m3);
-		armMotor2 = new Victor(RobotMap.m4);
-		armMotor3 = new Jaguar(RobotMap.m5);
+		armMotor1 = new Victor(RobotMap.m5);
+		armMotor2 = new Victor(RobotMap.m6);
+		armMotor3 = new Talon(RobotMap.m7);
 	}
 
 	public void initDefaultCommand() {

@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team102.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -7,10 +6,12 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+
 import org.usfirst.frc.team102.robot.commands.Autonomous;
 import org.usfirst.frc.team102.robot.subsystems.Arm;
+import org.usfirst.frc.team102.robot.subsystems.CameraMovement;
 import org.usfirst.frc.team102.robot.subsystems.DriveTrain;
-//This comment was created on Gearheads 5.
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -23,38 +24,28 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static DriveTrain robotDriveTrain;
 	public static Arm robotArm;
+	public static CameraMovement robotCam;
 	public static Joystick driverJoystick;
 	public static Joystick operatorJoystick;
 	Command autonomousCommand;
-
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
 		try {
+			System.out.println("Enodia will block your path!");
 			robotDriveTrain = new DriveTrain();
 			robotArm = new Arm();
+			robotCam = new CameraMovement();
 			oi = new OI();
-		} catch (Exception ex1) {
+		} catch(Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
 		}
 	}
-
-	/**
-	 * This function is called once each time the robot enters Disabled mode.
-	 * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
-	 */
-	public void disabledInit() {
-
-	}
-
-	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
-	}
-
+	
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable
@@ -71,45 +62,46 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = new Autonomous();
 			if (autonomousCommand != null)
 				autonomousCommand.start();
-		} catch (Exception ex1) {
+		} catch(Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
 		}
 	}
-
+	
 	/**
 	 * This function is called periodically during autonomous
 	 */
-	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
-	}
-
+	public void autonomousPeriodic() { Scheduler.getInstance().run(); }
+	
 	public void teleopInit() {
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		try {
-			if (autonomousCommand != null)
-				autonomousCommand.cancel();
-		} catch (Exception ex1) {
+			if(autonomousCommand != null) autonomousCommand.cancel();
+		} catch(Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
 
 		}
 	}
-
+	
 	/**
 	 * This function is called periodically during operator control
 	 */
-	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-	}
+	public void teleopPeriodic() { Scheduler.getInstance().run(); }
 
 	/**
 	 * This function is called periodically during test mode
 	 */
-	public void testPeriodic() {
-		LiveWindow.run();
-	}
+	public void testPeriodic() { LiveWindow.run(); }
+	
+	/**
+	 * This function is called once each time the robot enters Disabled mode.
+	 * You can use it to reset any subsystem information you want to clear when
+	 * the robot is disabled.
+	 */
+	public void disabledInit() {}
+	public void disabledPeriodic() { Scheduler.getInstance().run(); }
 }
