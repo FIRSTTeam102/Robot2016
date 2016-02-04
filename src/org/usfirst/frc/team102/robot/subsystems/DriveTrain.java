@@ -19,8 +19,8 @@ public class DriveTrain extends Subsystem {
 
 	CANTalon m1;
 	CANTalon m2;
-	Victor m3;
-	Victor m4;
+	CANTalon m3;
+	CANTalon m4;
 	private DigitalOutput isGoingForward, isGoingBackward;
 	private double leftJoyX;
 	private double leftJoyY;
@@ -40,8 +40,8 @@ public class DriveTrain extends Subsystem {
 	public DriveTrain() {
 		m1 = new CANTalon(RobotMap.m1);
 		m2 = new CANTalon(RobotMap.m2);
-		m3 = new Victor(RobotMap.m3);
-		m4 = new Victor(RobotMap.m4);
+		m3 = new CANTalon(RobotMap.m3);
+		m4 = new CANTalon(RobotMap.m4);
 		
 		isGoingForward = new DigitalOutput(RobotMap.forwardIndicator);
 		isGoingBackward = new DigitalOutput(RobotMap.backwardIndicator);
@@ -77,18 +77,12 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 	
-	public void straightDrive(int speedNumber){
-		if(speedNumber == 1){
-		m1.set(0.5);
-		m2.set(0.5);
-		m3.set(0.5);
-		m4.set(0.5);
-		}else if(speedNumber == 2){
-			m1.set(0.0);
-			m2.set(0.0);
-			m3.set(0.0);
-			m4.set(0.0);
-		}
+	//1.84, 1.71, 
+	public void straightDrive(double speed){
+		m1.set(-speed);
+		m2.set(speed);
+		m3.set(-speed);
+		m4.set(speed);
 	}
 	
 	// ========== Begin autonomous mode handling code ==========

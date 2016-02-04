@@ -34,7 +34,10 @@ public class Autonomous extends CommandGroup {
 		//addSequential(new GetInitialData());
 		
 		//Test Stuff
-		addSequential(new DriveStraightNoGyro());
+		addSequential(new DriveStraightNoGyro(0.33, 0.25));
+		addSequential(new DriveStraightNoGyro(0.66, 0.25));
+		addSequential(new DriveStraightNoGyro(1.0, 5.0));
+		addSequential(new DriveStraightNoGyro(0.0, 0.1));
 		
 	}
 	

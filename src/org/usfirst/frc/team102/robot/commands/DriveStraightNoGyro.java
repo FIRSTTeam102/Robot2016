@@ -11,19 +11,20 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveStraightNoGyro extends Command {
 	
+	double speed;
 	
-	
-    public DriveStraightNoGyro() {
+    public DriveStraightNoGyro(double speed, double timeout) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires (Robot.robotDriveTrain);
-    	this.setTimeout(5.0);
+    	this.setTimeout(timeout);
+    	this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	try{
-    	Robot.robotDriveTrain.straightDrive(1);
+    	Robot.robotDriveTrain.straightDrive(speed);
     }catch (Exception ex1){
     	ex1.printStackTrace();
 		DriverStation.reportError(ex1.getMessage(), true);
@@ -42,12 +43,6 @@ public class DriveStraightNoGyro extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	try{
-    	Robot.robotDriveTrain.straightDrive(2);
-    }catch (Exception ex1){
-    	ex1.printStackTrace();
-		DriverStation.reportError(ex1.getMessage(), true);	
-    }
     }
 
     // Called when another command which requires one or more of the same
