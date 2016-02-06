@@ -1,22 +1,22 @@
 package org.usfirst.frc.team102.robot.subsystems;
 
 import org.usfirst.frc.team102.robot.RobotMap;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Victor;
+
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Arm extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	Victor armMotor1;
-	Victor armMotor2;
-	Talon armMotor3;
+	CANTalon armMotor1;
+	CANTalon armMotor2;
+	CANTalon armMotor3;
 
 	public Arm() {
-		armMotor1 = new Victor(RobotMap.m5);
-		armMotor2 = new Victor(RobotMap.m6);
-		armMotor3 = new Talon(RobotMap.m7);
+		armMotor1 = new CANTalon(RobotMap.m5);
+		armMotor2 = new CANTalon(RobotMap.m6);
+		armMotor3 = new CANTalon(RobotMap.m7);
 	}
 
 	public void initDefaultCommand() {

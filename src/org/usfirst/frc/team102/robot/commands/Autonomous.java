@@ -1,5 +1,6 @@
 package org.usfirst.frc.team102.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -10,7 +11,8 @@ public class Autonomous extends CommandGroup {
 	public static char inputDataValue;
 	
 	public static int initialPosition;
-	public static Defense[] defs;
+	
+	public static final boolean IS_TEST_MODE = false;
 	
 	public  Autonomous() {
 		// Add Commands here:
@@ -30,33 +32,18 @@ public class Autonomous extends CommandGroup {
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
 		
-		//Actual Autonomous
-		//addSequential(new GetInitialData());
-		
-		//Test Stuff
-		addSequential(new DriveStraightNoGyro(0.33, 0.25));
-		addSequential(new DriveStraightNoGyro(0.66, 0.25));
-		addSequential(new DriveStraightNoGyro(1.0, 5.0));
-		addSequential(new DriveStraightNoGyro(0.0, 0.1));
-		
+		if(IS_TEST_MODE) { // Test Stuff
+			DriverStation.reportError("Autonomous Tests activated!", false);
+			
+			addSequential(new DriveStraightNoGyro(0.33, 0.25));
+			addSequential(new DriveStraightNoGyro(0.66, 0.25));
+			addSequential(new DriveStraightNoGyro(1.0, 5.0));
+			addSequential(new DriveStraightNoGyro(0.0, 0.1));
+		} else { // "REAL" auto-mode code
+			addSequential(new GetInitialData());
+			
+		}
 	}
 	
-	public static enum Defense {
-		lowBar,
-		porticullus, chevalDeFris,
-		moat, ramparts,
-		drawbridge, sallyPort,
-		rockWall, roughTerrain;
-		
-		/* public Command getPassingCommand() {
-		 * 	if(this == lowBar || this == moat || this == ramparts || this == rockWall || this == roughTerrain) ;
-		 * 	if(this == porticullus) ;
-		 * 	if(this == chevalDeFris) ;
-		 * 	if(this == drawbridge) ;
-		 *	if(this == sallyPort) ;
-		 *	
-		 *	return null;
-		 *}
-		*/
-	}
+	public static enum Def { B, D; }
 }

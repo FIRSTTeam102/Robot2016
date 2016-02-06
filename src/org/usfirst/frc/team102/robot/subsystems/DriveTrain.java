@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import static org.usfirst.frc.team102.robot.commands.CommandToggleReverse.isReverse;
@@ -66,10 +64,11 @@ public class DriveTrain extends Subsystem {
 			if(Math.abs(leftJoyY) < 0.1) leftJoyY = 0.0;
 			if(Math.abs(rightJoyX) < 0.1) rightJoyX = 0.0;
 			if(Math.abs(rightJoyY) < 0.1) rightJoyY = 0.0;
-
+			
 			m1.set(isReverse ? -rightJoyY : rightJoyY);
-			m2.set(!isReverse ? -leftJoyY : leftJoyY);
 			m3.set(isReverse ? -rightJoyY : rightJoyY);
+			
+			m2.set(!isReverse ? -leftJoyY : leftJoyY);
 			m4.set(!isReverse ? -leftJoyY : leftJoyY);
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
@@ -86,7 +85,21 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	// ========== Begin autonomous mode handling code ==========
+	public static final double autoSpeed = .5;
 	
-	public void startDriving(boolean isReverse) {}
-	public void stopDriving() {}
+	public void startDriving(boolean isReverse) {
+		m1.set(isReverse ? -autoSpeed : autoSpeed);
+		m3.set(isReverse ? -autoSpeed : autoSpeed);
+		m2.set(!isReverse ? -autoSpeed : autoSpeed);
+		m4.set(!isReverse ? -autoSpeed : autoSpeed);
+	}
+	
+	public void startTurning(boolean direction) {
+		m1.set(direction ? -autoSpeed : autoSpeed);
+		m3.set(direction ? -autoSpeed : autoSpeed);
+		m2.set(direction ? -autoSpeed : autoSpeed);
+		m4.set(direction ? -autoSpeed : autoSpeed);
+	}
+	
+	public void stop() { m1.set(0); m2.set(0); m3.set(0); m4.set(0); }
 }

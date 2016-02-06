@@ -1,42 +1,50 @@
 package org.usfirst.frc.team102.robot.commands;
 
 import org.usfirst.frc.team102.robot.RobotMap;
-
+import org.usfirst.frc.team102.robot.commands.Autonomous.Def;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Command;
+import static org.usfirst.frc.team102.robot.commands.Autonomous.Def.*;
 
 public class GetInitialData extends Command {
 	
+	public static boolean lowBar = false;
+	public static boolean noAuto = false;
+	public static int startingPos = 1;
+	public static Def def = null;
+	
 	protected void initialize() {
-		Autonomous.inputDataValue = 0;
-		
+		int i = 0;
 		DigitalInput in = new DigitalInput(RobotMap.cfgSw0);
-		if(in.get()) Autonomous.initialPosition++;
+		if(in.get()) i++;
 		
 		in = new DigitalInput(RobotMap.cfgSw1);
-		if(in.get()) Autonomous.initialPosition += 2;
+		if(in.get()) i += 2;
 		
 		in = new DigitalInput(RobotMap.cfgSw2);
-		if(in.get()) Autonomous.initialPosition += 4;
+		if(in.get()) i += 4;
 		
 		in = new DigitalInput(RobotMap.cfgSw3);
-		if(in.get()) Autonomous.initialPosition += 8;
-		
-		in = new DigitalInput(RobotMap.cfgSw4);
-		if(in.get()) Autonomous.initialPosition += 16;
-		
-		in = new DigitalInput(RobotMap.cfgSw5);
-		if(in.get()) Autonomous.initialPosition += 32;
-		
-		in = new DigitalInput(RobotMap.cfgSw6);
-		if(in.get()) Autonomous.initialPosition += 64;
-		
-		in = new DigitalInput(RobotMap.cfgSw7);
-		if(in.get()) Autonomous.initialPosition += 128;
+		if(in.get()) i += 8;
 		
 		in = null;
 		
-		
+		if(i == 0) { noAuto = true; }
+		if(i == 1) { lowBar = true; }
+		if(i == 2) { startingPos = 2; def = B; }
+		if(i == 3) { startingPos = 2; def = D; }
+		if(i == 4) { startingPos = 3; def = B; }
+		if(i == 5) { startingPos = 3; def = D; }
+		if(i == 6) { startingPos = 4; def = B; }
+		if(i == 7) { startingPos = 4; def = D; }
+		if(i == 8) { startingPos = 5; def = B; }
+		if(i == 9) { startingPos = 6; def = D; }
+		if(i == 10) ;
+		if(i == 11) ;
+		if(i == 12) ;
+		if(i == 13) ;
+		if(i == 14) ;
+		if(i == 15) ;
 	}
 	
 	protected void execute() {}

@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		try {
-			System.out.println("Enodia will block your path!");
+		//	System.out.println("Enodia will block your path!");
 			robotDriveTrain = new DriveTrain();
 			robotArm = new Arm();
 			robotCam = new CameraMovement();
