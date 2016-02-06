@@ -28,8 +28,13 @@ public class CameraMovement extends Subsystem {
 		if(y > .5 && yPos < .95) yPos += delta;
 		if(y < -.5 && yPos > .05) yPos -= delta;
 		
-		xAxis.set(xPos);
+		//xAxis.set(xPos); // Ordered to be disabled and based on direction. I.E. forward/reverse
 		yAxis.set(yPos);
+	}
+	
+	public void setServo(int id, double val) {
+		if(id == 0) xAxis.set(val);
+		if(id == 1) yAxis.set(val);
 	}
 	
 	protected void initDefaultCommand() { setDefaultCommand(new CameraWithXBox()); }

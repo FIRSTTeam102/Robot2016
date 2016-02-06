@@ -12,6 +12,7 @@ public class GetInitialData extends Command {
 	public static boolean noAuto = false;
 	public static int startingPos = 1;
 	public static Def def = null;
+	public static boolean turn1, turn2;
 	
 	protected void initialize() {
 		int i = 0;
@@ -30,15 +31,15 @@ public class GetInitialData extends Command {
 		in = null;
 		
 		if(i == 0) { noAuto = true; }
-		if(i == 1) { lowBar = true; }
-		if(i == 2) { startingPos = 2; def = B; }
-		if(i == 3) { startingPos = 2; def = D; }
+		if(i == 1) { lowBar = true; turn1 = true; }
+		if(i == 2) { startingPos = 2; def = B; turn1 = true; }
+		if(i == 3) { startingPos = 2; def = D; turn1 = true;}
 		if(i == 4) { startingPos = 3; def = B; }
 		if(i == 5) { startingPos = 3; def = D; }
-		if(i == 6) { startingPos = 4; def = B; }
-		if(i == 7) { startingPos = 4; def = D; }
-		if(i == 8) { startingPos = 5; def = B; }
-		if(i == 9) { startingPos = 6; def = D; }
+		if(i == 6) { startingPos = 4; def = B; turn2 = true; }
+		if(i == 7) { startingPos = 4; def = D; turn2 = true; }
+		if(i == 8) { startingPos = 5; def = B; turn2 = true;}
+		if(i == 9) { startingPos = 5; def = D; turn2 = true; }
 		if(i == 10) ;
 		if(i == 11) ;
 		if(i == 12) ;

@@ -7,7 +7,6 @@ package org.usfirst.frc.team102.robot;
  * floating around.
  */
 public class RobotMap {
-
 	public static final int driverJoystickPort = 0;
 	public static final int operatorJoystickPort = 1;
 	public static final int testJoystickPort = 2;
@@ -36,13 +35,14 @@ public class RobotMap {
 	// following variables to use with your drivetrain subsystem.
 	// public static int leftMotor = 1;
 	// public static int rightMotor = 2;
-	public static int forwardIndicator = 4;
-	public static int backwardIndicator = 5;
+	public static final int forwardIndicator = 4;
+	public static final int backwardIndicator = 5;
 	
-	public static int cfgSw0 = 2, cfgSw1 = 3, cfgSw2 = 4, cfgSw3 = 5;
+	public static final int cfgSw0 = 2, cfgSw1 = 3, cfgSw2 = 4, cfgSw3 = 5;
 	
-	public static int xAxisServo = 0, yAxisServo = 1;
+	public static final int xAxisServo = 0, yAxisServo = 1;
 	
+	public static final int relay1 = 0;
 	// If you are using multiple modules, make sure to define both the port
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;

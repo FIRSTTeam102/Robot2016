@@ -13,6 +13,8 @@ public class Autonomous extends CommandGroup {
 	public static int initialPosition;
 	
 	public static final boolean IS_TEST_MODE = false;
+	public static final double AUTO_MODE_SPEED = .5;
+	public static final double CROSS_DEF_TIME = 1;
 	
 	public  Autonomous() {
 		// Add Commands here:
@@ -35,13 +37,12 @@ public class Autonomous extends CommandGroup {
 		if(IS_TEST_MODE) { // Test Stuff
 			DriverStation.reportError("Autonomous Tests activated!", false);
 			
-			addSequential(new DriveStraightNoGyro(0.33, 0.25));
-			addSequential(new DriveStraightNoGyro(0.66, 0.25));
-			addSequential(new DriveStraightNoGyro(1.0, 5.0));
-			addSequential(new DriveStraightNoGyro(0.0, 0.1));
+			addSequential(new DriveStraightNoGyro(2));
 		} else { // "REAL" auto-mode code
 			addSequential(new GetInitialData());
-			
+			addSequential(new DriveStraightWithGyro(CROSS_DEF_TIME));
+			addSequential(new Turn()); // TODO make sure turn direction is correct
+			addSequential(new ShootBall());
 		}
 	}
 	

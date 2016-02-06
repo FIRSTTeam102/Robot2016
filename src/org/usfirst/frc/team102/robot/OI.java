@@ -1,8 +1,13 @@
 package org.usfirst.frc.team102.robot;
 
 import org.usfirst.frc.team102.robot.commands.CommandToggleReverse;
+import org.usfirst.frc.team102.robot.commands.Dancing;
+import org.usfirst.frc.team102.robot.commands.GetBall;
 import org.usfirst.frc.team102.robot.commands.MoveArm;
 import org.usfirst.frc.team102.robot.commands.MoveArmOpposite;
+import org.usfirst.frc.team102.robot.commands.ShootBall;
+import org.usfirst.frc.team102.robot.commands.Whip;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -19,10 +24,11 @@ public class OI {
 	private JoystickButton xBoxY;
 	private JoystickButton xBoxB;
 	private JoystickButton xBoxX;
-	private JoystickButton xBoxRightBump;
-	private JoystickButton xBoxLeftBump;
+	//private JoystickButton xBoxRightBump;
+	//private JoystickButton xBoxLeftBump;
 	private JoystickButton xBoxStart;
-	
+	private JoystickButton xBoxOpStart;
+	private JoystickButton xBoxOpBack;
 	public static Rumbler driveRumble, opRumble, testRumble;
 	
 	public OI() {
@@ -35,30 +41,42 @@ public class OI {
 		testRumble = new Rumbler(xBoxTest);
 		
 		xBoxA = new JoystickButton(xBoxOperator, RobotMap.xBoxAIndex);
-		xBoxA.whenPressed(new MoveArmOpposite(0.3, 1));
+		xBoxA.whenPressed(new MoveArmOpposite(0.6, 1));
 		xBoxA.whenReleased(new MoveArmOpposite(0.0, 1));
 
 		xBoxY = new JoystickButton(xBoxOperator, RobotMap.xBoxYIndex);
-		xBoxY.whenPressed(new MoveArm(0.3, 1));
+		xBoxY.whenPressed(new MoveArm(0.6, 1));
 		xBoxY.whenReleased(new MoveArm(0.0, 1));
 
 		xBoxB = new JoystickButton(xBoxOperator, RobotMap.xBoxBIndex);
-		xBoxB.whenPressed(new MoveArm(0.3, 2));
-		xBoxB.whenReleased(new MoveArm(0.0, 2));
-
-		xBoxX = new JoystickButton(xBoxOperator, RobotMap.xBoxXIndex);
-		xBoxX.whenPressed(new MoveArmOpposite(0.3, 2));
-		xBoxX.whenReleased(new MoveArmOpposite(0.0, 2));
-	
-		xBoxRightBump = new JoystickButton(xBoxOperator, RobotMap.xBoxRightBumperIndex);
-		xBoxRightBump.whenPressed(new MoveArmOpposite(0.3, 3));
-		xBoxRightBump.whenReleased(new MoveArmOpposite(0.0, 3));
+		//xBoxB.whenPressed(new MoveArm(0.6, 2)); // These arms currently don't exist, and
+		//xBoxB.whenReleased(new MoveArm(0.0, 2)); // probably never will.
 		
-		xBoxLeftBump = new JoystickButton(xBoxOperator, RobotMap.xBoxLeftBumperIndex);
-		xBoxLeftBump.whenPressed(new MoveArm(0.3, 3));
-		xBoxLeftBump.whenReleased(new MoveArm(0.0, 3));
+		// Now used to get the ball.
+		xBoxB.whenPressed(new GetBall());
+		
+		xBoxX = new JoystickButton(xBoxOperator, RobotMap.xBoxXIndex);
+		//xBoxX.whenPressed(new MoveArmOpposite(0.6, 2)); // These arms don't currently don't exist, and
+		//xBoxX.whenReleased(new MoveArmOpposite(0.0, 2)); // probably never will.
+		
+		// Now used to shoot the ball.
+		xBoxX.whenPressed(new ShootBall());
+		
+		//xBoxRightBump = new JoystickButton(xBoxOperator, RobotMap.xBoxRightBumperIndex);
+		//xBoxRightBump.whenPressed(new MoveArmOpposite(0.6, 3)); // These arms currently don't exist, and
+		//xBoxRightBump.whenReleased(new MoveArmOpposite(0.0, 3)); // probably never will.
+		
+		//xBoxLeftBump = new JoystickButton(xBoxOperator, RobotMap.xBoxLeftBumperIndex);
+		//xBoxLeftBump.whenPressed(new MoveArm(0.6, 3)); // These arms currently don't exist, and
+		//xBoxLeftBump.whenReleased(new MoveArm(0.0, 3)); // probably never will.
 		
 		xBoxA = new JoystickButton(xBoxDriver, RobotMap.xBoxAIndex);
+		
+		xBoxOpStart = new JoystickButton(xBoxOperator, RobotMap.xBoxStartButtonIndex);
+		xBoxOpStart.whenPressed(new Dancing(.5));
+		
+		xBoxOpBack = new JoystickButton(xBoxOperator, RobotMap.xBoxBackButtonIndex);
+		xBoxOpBack.whenPressed(new Whip());
 		
 		// THIS IS COMMENTED FOR RUMBLER TEST MODE.
 		// Uncomment the next two lines and comment the line after
@@ -71,6 +89,8 @@ public class OI {
 	
 	public Joystick getDriverXBox() { return xBoxDriver; }
 	public Joystick getOperatorXBox() { return xBoxOperator; }
+	
+	
 	
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a

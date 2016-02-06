@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import static org.usfirst.frc.team102.robot.commands.CommandToggleReverse.isReverse;
-
+import static org.usfirst.frc.team102.robot.commands.Autonomous.AUTO_MODE_SPEED;
 /**
  *
  */
@@ -76,29 +76,30 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 	
-	//1.84, 1.71, 
-	public void straightDrive(double speed){
-		m1.set(-speed);
+	public void danceDriveLeft(double speed) {
 		m2.set(speed);
-		m3.set(-speed);
 		m4.set(speed);
 	}
 	
+	public void danceDriveRight(double speed) {
+		m1.set(-speed);
+		m3.set(-speed);
+	}
+	
 	// ========== Begin autonomous mode handling code ==========
-	public static final double autoSpeed = .5;
 	
 	public void startDriving(boolean isReverse) {
-		m1.set(isReverse ? -autoSpeed : autoSpeed);
-		m3.set(isReverse ? -autoSpeed : autoSpeed);
-		m2.set(!isReverse ? -autoSpeed : autoSpeed);
-		m4.set(!isReverse ? -autoSpeed : autoSpeed);
+		m1.set(isReverse ? -AUTO_MODE_SPEED : AUTO_MODE_SPEED);
+		m3.set(isReverse ? -AUTO_MODE_SPEED : AUTO_MODE_SPEED);
+		m2.set(!isReverse ? -AUTO_MODE_SPEED : AUTO_MODE_SPEED);
+		m4.set(!isReverse ? -AUTO_MODE_SPEED : AUTO_MODE_SPEED);
 	}
 	
 	public void startTurning(boolean direction) {
-		m1.set(direction ? -autoSpeed : autoSpeed);
-		m3.set(direction ? -autoSpeed : autoSpeed);
-		m2.set(direction ? -autoSpeed : autoSpeed);
-		m4.set(direction ? -autoSpeed : autoSpeed);
+		m1.set(direction ? -AUTO_MODE_SPEED : AUTO_MODE_SPEED);
+		m3.set(direction ? -AUTO_MODE_SPEED : AUTO_MODE_SPEED);
+		m2.set(direction ? -AUTO_MODE_SPEED : AUTO_MODE_SPEED);
+		m4.set(direction ? -AUTO_MODE_SPEED : AUTO_MODE_SPEED);
 	}
 	
 	public void stop() { m1.set(0); m2.set(0); m3.set(0); m4.set(0); }

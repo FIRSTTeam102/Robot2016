@@ -1,39 +1,54 @@
 package org.usfirst.frc.team102.robot.commands;
 
 import org.usfirst.frc.team102.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class Turn extends Command {
+public class Dancing extends Command {
+
+	double speed;
+	int timeout;
 	
-    public Turn() {
+    public Dancing(double speed) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	
+    	requires(Robot.robotArm);
     	requires(Robot.robotDriveTrain);
-    	setTimeout(.3);
-    	if(GetInitialData.noAuto) cancel();
+    	
+    	this.setTimeout(5.0);
+    	this.speed = speed;
     }
-    
+
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if(GetInitialData.noAuto) return;
-    	
-    	if(GetInitialData.turn1) Robot.robotDriveTrain.startTurning(true);
-    	if(GetInitialData.turn2) Robot.robotDriveTrain.startTurning(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {}
-
+    protected void execute() {	
+    	timeout++;
+    	 
+    	if(timeout < 25) {
+    		Robot.robotDriveTrain.danceDriveRight(0);
+    		Robot.robotArm.startArm(-speed, 1);	
+    		Robot.robotDriveTrain.danceDriveLeft(-speed);
+    	} else if(timeout < 45){
+    		Robot.robotDriveTrain.danceDriveLeft(0);
+    		Robot.robotArm.startArm(speed, 1);
+    		Robot.robotDriveTrain.danceDriveRight(-speed);
+    	} else timeout = 0;
+    }
+    
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() { return isTimedOut(); }
-    
+
     // Called once after isFinished returns true
-    protected void end() { if(!GetInitialData.noAuto) Robot.robotDriveTrain.stop(); }
+    protected void end() {
+    	Robot.robotArm.stopArm();
+		Robot.robotDriveTrain.stop();
+    }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run

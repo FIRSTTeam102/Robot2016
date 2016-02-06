@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team102.robot.commands.Autonomous;
 import org.usfirst.frc.team102.robot.subsystems.Arm;
+import org.usfirst.frc.team102.robot.subsystems.BallHandler;
 import org.usfirst.frc.team102.robot.subsystems.CameraMovement;
 import org.usfirst.frc.team102.robot.subsystems.DriveTrain;
 
@@ -22,9 +23,12 @@ import org.usfirst.frc.team102.robot.subsystems.DriveTrain;
 public class Robot extends IterativeRobot {
 
 	public static OI oi;
+	
 	public static DriveTrain robotDriveTrain;
 	public static Arm robotArm;
 	public static CameraMovement robotCam;
+	public static BallHandler robotRelay;
+	
 	public static Joystick driverJoystick;
 	public static Joystick operatorJoystick;
 	Command autonomousCommand;
@@ -39,6 +43,7 @@ public class Robot extends IterativeRobot {
 			robotDriveTrain = new DriveTrain();
 			robotArm = new Arm();
 			robotCam = new CameraMovement();
+			robotRelay = new BallHandler();
 			oi = new OI();
 		} catch(Exception ex1) {
 			ex1.printStackTrace();
