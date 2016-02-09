@@ -10,6 +10,8 @@ public class BallHandler extends Subsystem {
 	
 	Relay rl;
 	
+	public static boolean direction = true;
+	
 	public BallHandler() { rl = new Relay(RobotMap.relay1); }
 	protected void initDefaultCommand() {}
 	public void setRelay(boolean direction) { rl.set(direction ? Value.kForward : Value.kReverse); }

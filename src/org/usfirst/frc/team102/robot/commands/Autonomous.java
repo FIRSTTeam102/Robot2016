@@ -1,5 +1,8 @@
 package org.usfirst.frc.team102.robot.commands;
 
+import org.usfirst.frc.team102.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -15,6 +18,8 @@ public class Autonomous extends CommandGroup {
 	public static final boolean IS_TEST_MODE = false;
 	public static final double AUTO_MODE_SPEED = .5;
 	public static final double CROSS_DEF_TIME = 1;
+	
+	private static AnalogInput distanceSensor;
 	
 	public  Autonomous() {
 		// Add Commands here:
@@ -47,4 +52,29 @@ public class Autonomous extends CommandGroup {
 	}
 	
 	public static enum Def { B, D; }
+	
+	public static int getDistanceSensorRawInput() {
+		if(distanceSensor == null) distanceSensor = new AnalogInput(RobotMap.distanceSensorIndex);
+		
+		return distanceSensor.getValue();
+	}
+	
+	public static int getModulatedDistance() {
+		int raw = getDistanceSensorRawInput();
+		
+		if(raw > 550 || raw < 1) {
+			DriverStation.reportError("Warning: Distance sensor output is out of the expected range. (Check callibration??)", false);
+			return -2;
+		}
+		
+		int out = -1;
+		
+		// Begin really complicated best-fit math-y stuff to calculate a linear distance
+		
+		// TODO brain-explode-y math
+		
+		// O.K. We're done. You can look without brain explosions now.
+		
+		return out;
+	}
 }

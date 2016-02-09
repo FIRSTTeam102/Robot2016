@@ -15,7 +15,7 @@ public class Whip extends Command {
     	
     	requires(Robot.robotArm);
     	requires(Robot.robotDriveTrain);
-     	this.setTimeout(1.5);
+     	this.setTimeout(.25);
     }
 
     // Called just before this Command runs the first time
@@ -23,7 +23,7 @@ public class Whip extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.robotArm.startArm(1.0, 1);
+    	Robot.robotArm.startArm(-1.0, 1);
     	Robot.robotDriveTrain.danceDriveRight(.5);
     }
 
