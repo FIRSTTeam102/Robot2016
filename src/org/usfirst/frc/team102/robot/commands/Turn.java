@@ -27,15 +27,23 @@ public class Turn extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {}
+    protected void execute() {
+    	
+    }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() { return isTimedOut(); }
+    protected boolean isFinished() { 
+    	return isTimedOut(); 
+    }
     
     // Called once after isFinished returns true
-    protected void end() { if(!GetInitialData.noAuto) Robot.robotDriveTrain.stop(); }
+    protected void end() { 
+    	if(!GetInitialData.noAuto) Robot.robotDriveTrain.stop(); 
+    	}
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted() { end(); }
+    protected void interrupted() { 
+    	end(); 
+    	}
 }

@@ -47,7 +47,7 @@ public class Autonomous extends CommandGroup {
 			addSequential(new GetInitialData());
 			addSequential(new DriveStraightWithGyro(CROSS_DEF_TIME));
 			addSequential(new Turn()); // TODO make sure turn direction is correct
-			addSequential(new ShootBall());
+			//addSequential(new ShootBall()); // TODO implement properly FIXME
 		}
 	}
 	

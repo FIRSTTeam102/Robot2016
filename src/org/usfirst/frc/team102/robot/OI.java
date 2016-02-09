@@ -2,10 +2,9 @@ package org.usfirst.frc.team102.robot;
 
 import org.usfirst.frc.team102.robot.commands.CommandToggleReverse;
 import org.usfirst.frc.team102.robot.commands.Dancing;
-import org.usfirst.frc.team102.robot.commands.GetBall;
 import org.usfirst.frc.team102.robot.commands.MoveArm;
 import org.usfirst.frc.team102.robot.commands.MoveArmOpposite;
-import org.usfirst.frc.team102.robot.commands.ShootBall;
+import org.usfirst.frc.team102.robot.commands.MoveBall;
 import org.usfirst.frc.team102.robot.commands.Whip;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -22,7 +21,7 @@ public class OI {
 	private Joystick xBoxTest;
 	private JoystickButton xBoxA;
 	private JoystickButton xBoxY;
-	private JoystickButton xBoxB;
+	//private JoystickButton xBoxB;
 	private JoystickButton xBoxX;
 	//private JoystickButton xBoxRightBump;
 	//private JoystickButton xBoxLeftBump;
@@ -48,19 +47,19 @@ public class OI {
 		xBoxY.whenPressed(new MoveArm(0.6, 1));
 		xBoxY.whenReleased(new MoveArm(0.0, 1));
 
-		xBoxB = new JoystickButton(xBoxOperator, RobotMap.xBoxBIndex);
+		//xBoxB = new JoystickButton(xBoxOperator, RobotMap.xBoxBIndex);
 		//xBoxB.whenPressed(new MoveArm(0.6, 2)); // These arms currently don't exist, and
 		//xBoxB.whenReleased(new MoveArm(0.0, 2)); // probably never will.
 		
-		// Now used to get the ball.
-		xBoxB.whenPressed(new GetBall());
+		// Now used to get the ball. // Never mind, it is now one command.
+		// xBoxB.whenPressed(new GetBall());
 		
 		xBoxX = new JoystickButton(xBoxOperator, RobotMap.xBoxXIndex);
 		//xBoxX.whenPressed(new MoveArmOpposite(0.6, 2)); // These arms don't currently don't exist, and
 		//xBoxX.whenReleased(new MoveArmOpposite(0.0, 2)); // probably never will.
 		
 		// Now used to shoot the ball.
-		xBoxX.whenPressed(new ShootBall());
+		xBoxX.whenPressed(new MoveBall());
 		
 		//xBoxRightBump = new JoystickButton(xBoxOperator, RobotMap.xBoxRightBumperIndex);
 		//xBoxRightBump.whenPressed(new MoveArmOpposite(0.6, 3)); // These arms currently don't exist, and
@@ -87,8 +86,12 @@ public class OI {
 		xBoxStart.whenPressed(new CommandToggleReverse());
 	}
 	
-	public Joystick getDriverXBox() { return xBoxDriver; }
-	public Joystick getOperatorXBox() { return xBoxOperator; }
+	public Joystick getDriverXBox() { 
+		return xBoxDriver; 
+		}
+	public Joystick getOperatorXBox() { 
+		return xBoxOperator; 
+		}
 	
 	
 	

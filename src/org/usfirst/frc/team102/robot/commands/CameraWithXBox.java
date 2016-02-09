@@ -10,7 +10,7 @@ public class CameraWithXBox extends Command {
 	
 	protected void initialize() {}
 	protected void execute() { Robot.robotCam.moveCamWithXBox(Robot.oi.getOperatorXBox()); }
-	protected boolean isFinished() { return false; }
+	protected boolean isFinished() { return false;  }
 	protected void end() {}
 	protected void interrupted() {}
 }

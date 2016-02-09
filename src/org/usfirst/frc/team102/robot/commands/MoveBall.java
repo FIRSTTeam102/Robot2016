@@ -5,11 +5,18 @@ import org.usfirst.frc.team102.robot.subsystems.BallHandler;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class GetBall extends Command {
+public class MoveBall extends Command {
 	
-	public GetBall() { requires(Robot.robotRelay); setTimeout(.125); if(BallHandler.direction) cancel(); }
+	public MoveBall() { 
+		requires(Robot.robotRelay);
+		setTimeout(.125);
+	}
 	
-	protected void initialize() { Robot.robotRelay.setRelay(false); BallHandler.direction = true; }
+	protected void initialize() { 
+		Robot.robotRelay.setRelay(BallHandler.direction); 
+		BallHandler.direction = !BallHandler.direction;
+	}
+	
 	protected void execute() {}
 	protected boolean isFinished() { return isTimedOut(); }
 	protected void end() { Robot.robotRelay.stop(); }

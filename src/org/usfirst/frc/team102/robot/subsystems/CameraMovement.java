@@ -37,5 +37,7 @@ public class CameraMovement extends Subsystem {
 		if(id == 1) yAxis.set(val);
 	}
 	
-	protected void initDefaultCommand() { setDefaultCommand(new CameraWithXBox()); }
+	protected void initDefaultCommand() { 
+		setDefaultCommand(new CameraWithXBox()); 
+	}
 }

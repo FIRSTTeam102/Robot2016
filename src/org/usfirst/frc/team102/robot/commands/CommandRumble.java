@@ -22,31 +22,16 @@ public class CommandRumble extends Command {
 	
 	protected void execute() { 
 		try{
-		theRumbler.playRumbleMessage(rType); 
+			theRumbler.playRumbleMessage(rType); 
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
 
 		}
 	}
-	protected boolean isFinished() { 
-		
-		return true; 
-		
-	}
-	protected void initialize() {
-		
-		
-		
-	}
-	protected void end() {
-		
-		
-		
-	}
-	protected void interrupted() {
-		
-		
-		
-	}
+	
+	protected boolean isFinished() { return true; }
+	protected void initialize() {}
+	protected void end() {}
+	protected void interrupted() {}
 }
