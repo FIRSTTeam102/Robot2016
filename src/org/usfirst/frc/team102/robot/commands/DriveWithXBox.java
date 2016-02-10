@@ -22,11 +22,11 @@ public class DriveWithXBox extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		try {
-			if(Robot.robotDriveTrain == null){
+			if (Robot.robotDriveTrain == null) {
 				System.out.println("Medusa is here");
 			}
-				
-			if(Robot.oi == null){
+
+			if (Robot.oi == null) {
 				System.out.println("Zeus threw a lightning bolt");
 			}
 			Robot.robotDriveTrain.driveWithXBox(Robot.oi.getDriverXBox());

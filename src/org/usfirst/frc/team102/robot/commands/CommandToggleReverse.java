@@ -8,13 +8,16 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CommandToggleReverse extends Command {
-	
+
 	public static boolean isReverse = false;
-	
-	public CommandToggleReverse() { requires(Robot.robotCam); requires(Robot.robotDriveTrain); }
-	
+
+	public CommandToggleReverse() {
+		requires(Robot.robotCam);
+		requires(Robot.robotDriveTrain);
+	}
+
 	protected void initialize() {
-		try{
+		try {
 			isReverse = !isReverse;
 			OI.opRumble.playRumbleMessage(isReverse ? Rumbles.reverse : Rumbles.forward);
 			Robot.robotCam.setServo(0, isReverse ? .9 : .1);
@@ -23,9 +26,17 @@ public class CommandToggleReverse extends Command {
 			DriverStation.reportError(ex1.getMessage(), true);
 		}
 	}
-	
-	protected void execute() {}
-	protected boolean isFinished() { return true; }
-	protected void end() {}
-	protected void interrupted() {}
+
+	protected void execute() {
+	}
+
+	protected boolean isFinished() {
+		return true;
+	}
+
+	protected void end() {
+	}
+
+	protected void interrupted() {
+	}
 }
