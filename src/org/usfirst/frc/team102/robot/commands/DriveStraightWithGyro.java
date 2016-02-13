@@ -15,8 +15,6 @@ public class DriveStraightWithGyro extends Command {
 		// eg. requires(chassis);
 		requires(Robot.robotDriveTrain);
 		setTimeout(timeout);
-		if (GetInitialData.noAuto)
-			cancel();
 	}
 
 	// Called just before this Command runs the first time

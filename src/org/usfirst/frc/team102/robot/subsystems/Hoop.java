@@ -7,13 +7,13 @@ import org.usfirst.frc.team102.robot.RobotMap;
 import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class RelaySystem extends Subsystem {
+public class Hoop extends Subsystem {
 
 	public static boolean dir;
 
 	Relay rl;
 
-	public RelaySystem() {
+	public Hoop() {
 		rl = new Relay(RobotMap.relay1);
 		dir = (rl.get() == Value.kForward);
 	}

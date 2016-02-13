@@ -1,40 +1,45 @@
 package org.usfirst.frc.team102.robot.subsystems;
 
+import org.usfirst.frc.team102.robot.Robot;
 import org.usfirst.frc.team102.robot.RobotMap;
+import org.usfirst.frc.team102.robot.Rumbler.Rumbles;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Arm extends Subsystem {
 
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
-	CANTalon armMotor1;
-	// CANTalon armMotor2;
-	// CANTalon armMotor3;
-
+	CANTalon armMotor;
+	private static DigitalInput limitSensorTop, limitSensorBottom;
+	
 	public Arm() {
-		armMotor1 = new CANTalon(RobotMap.m5);
-		// armMotor2 = new CANTalon(RobotMap.m6);
-		// armMotor3 = new CANTalon(RobotMap.m7);
+		armMotor = new CANTalon(RobotMap.armMotor5);
+		
+		limitSensorTop = new DigitalInput(RobotMap.limitSensorTop);
+		limitSensorBottom = new DigitalInput(RobotMap.limitSensorBottom);
 	}
 
 	public void initDefaultCommand() {
 	}
 
-	public void startArm(double speed, int armNumber) {
-		if (armNumber == 1) {
-			armMotor1.set(speed);
-		} else if (armNumber == 2) {
-			// armMotor2.set(speed);
-		} else if (armNumber == 3) {
-			// armMotor3.set(speed);
+	public void startArm(double speed) {
+		//System.out.println(limitSensorTop.get() + " : " + limitSensorBottom.get());
+		
+		if(speed > 0 && !limitSensorTop.get()) {
+			Robot.oi.opRumble.playRumbleMessage(Rumbles.error); // "You can't do that!"
+			return;
 		}
+		
+		if(speed < 0 && !limitSensorBottom.get()) {
+			Robot.oi.opRumble.playRumbleMessage(Rumbles.error); // "You can't do that!"
+			return;
+		}
+		
+		armMotor.set(speed);
 	}
-
+	
 	public void stopArm() {
-		armMotor1.set(0.0);
-		// armMotor2.set(0);
-		// armMotor3.set(0);
+		armMotor.set(0.0);
 	}
 }

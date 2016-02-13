@@ -4,8 +4,6 @@ import org.usfirst.frc.team102.robot.commands.CommandToggleReverse;
 import org.usfirst.frc.team102.robot.commands.Dancing;
 import org.usfirst.frc.team102.robot.commands.MoveArm;
 import org.usfirst.frc.team102.robot.commands.MoveArmOpposite;
-import org.usfirst.frc.team102.robot.commands.MoveHoop;
-import org.usfirst.frc.team102.robot.commands.StopHoop;
 import org.usfirst.frc.team102.robot.commands.Whip;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,7 +17,7 @@ public class OI {
 
 	private Joystick xBoxDriver;
 	private Joystick xBoxOperator;
-	private Joystick xBoxTest;
+	//private Joystick xBoxTest;
 	private JoystickButton xBoxA;
 	private JoystickButton xBoxY;
 	private JoystickButton xBoxB;
@@ -33,24 +31,24 @@ public class OI {
 	private JoystickButton xBoxTestB;
 	private JoystickButton xBoxTestX;
 	private JoystickButton xBoxTestY;
-	public static Rumbler driveRumble, opRumble, testRumble;
+	public Rumbler driveRumble, opRumble, testRumble;
 
 	public OI() {
 		xBoxDriver = new Joystick(RobotMap.driverJoystickPort);
 		xBoxOperator = new Joystick(RobotMap.operatorJoystickPort);
-		xBoxTest = new Joystick(RobotMap.testJoystickPort);
+		//xBoxTest = new Joystick(RobotMap.testJoystickPort);
 
 		driveRumble = new Rumbler(xBoxDriver);
 		opRumble = new Rumbler(xBoxOperator);
-		testRumble = new Rumbler(xBoxTest);
+		//testRumble = new Rumbler(xBoxTest);
 
 		xBoxA = new JoystickButton(xBoxOperator, RobotMap.xBoxAIndex);
-		xBoxA.whenPressed(new MoveArmOpposite(0.6, 1));
-		xBoxA.whenReleased(new MoveArmOpposite(0.0, 1));
+		xBoxA.whenPressed(new MoveArmOpposite(0.6));
+		xBoxA.whenReleased(new MoveArmOpposite(0.0));
 
 		xBoxY = new JoystickButton(xBoxOperator, RobotMap.xBoxYIndex);
-		xBoxY.whenPressed(new MoveArm(0.6, 1));
-		xBoxY.whenReleased(new MoveArm(0.0, 1));
+		xBoxY.whenPressed(new MoveArm(0.6));
+		xBoxY.whenReleased(new MoveArm(0.0));
 
 		xBoxB = new JoystickButton(xBoxOperator, RobotMap.xBoxBIndex);
 		// xBoxB.whenPressed(new MoveArm(0.6, 2)); // These arms currently don't
@@ -96,16 +94,16 @@ public class OI {
 
 		// Test Joystick commands
 
-		xBoxTestA = new JoystickButton(xBoxTest, RobotMap.xBoxAIndex);
-		xBoxTestB = new JoystickButton(xBoxTest, RobotMap.xBoxBIndex);
-		xBoxTestX = new JoystickButton(xBoxTest, RobotMap.xBoxXIndex);
-		xBoxTestY = new JoystickButton(xBoxTest, RobotMap.xBoxYIndex);
+//		xBoxTestA = new JoystickButton(xBoxTest, RobotMap.xBoxAIndex);
+//		xBoxTestB = new JoystickButton(xBoxTest, RobotMap.xBoxBIndex);
+//		xBoxTestX = new JoystickButton(xBoxTest, RobotMap.xBoxXIndex);
+//		xBoxTestY = new JoystickButton(xBoxTest, RobotMap.xBoxYIndex);
 
-		xBoxTestA.whenPressed(new MoveHoop(true));
-		xBoxTestA.whenReleased(new StopHoop());
-
-		xBoxTestB.whenPressed(new MoveHoop(false));
-		xBoxTestB.whenReleased(new StopHoop());
+//		xBoxTestA.whenPressed(new MoveHoop(true));
+//		xBoxTestA.whenReleased(new StopHoop());
+//
+//		xBoxTestB.whenPressed(new MoveHoop(false));
+//		xBoxTestB.whenReleased(new StopHoop());
 
 	}
 

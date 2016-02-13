@@ -15,19 +15,10 @@ public class Turn extends Command {
 
 		requires(Robot.robotDriveTrain);
 		setTimeout(.3);
-		if (GetInitialData.noAuto)
-			cancel();
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		if (GetInitialData.noAuto)
-			return;
-
-		if (GetInitialData.turn1)
-			Robot.robotDriveTrain.startTurning(true);
-		if (GetInitialData.turn2)
-			Robot.robotDriveTrain.startTurning(false);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -42,8 +33,8 @@ public class Turn extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		if (!GetInitialData.noAuto)
-			Robot.robotDriveTrain.stop();
+//		if (!GetInitialData.noAuto)
+//			Robot.robotDriveTrain.stop();
 	}
 
 	// Called when another command which requires one or more of the same

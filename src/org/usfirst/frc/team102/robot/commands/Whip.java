@@ -24,7 +24,7 @@ public class Whip extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.robotArm.startArm(-1.0, 1);
+		Robot.robotArm.startArm(-1.0);
 		Robot.robotDriveTrain.danceDriveRight(.5);
 	}
 

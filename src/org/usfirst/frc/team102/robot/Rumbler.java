@@ -61,6 +61,18 @@ public class Rumbler {
 
 					break;
 				}
+				
+				case error: { // "You can't do that!"
+					setRough(true);
+					time(.25);
+					setRough(false);
+					time(.1);
+					setSoft(true);
+					time(.25);
+					setSoft(false);
+					
+					break;
+				}
 
 				default: {
 					DriverStation.reportError("Rumbler: Unknown rumble with name \"" + type.name() + "\".\n", false);
@@ -83,7 +95,11 @@ public class Rumbler {
 	public static enum Rumbles {
 		// (Disabled) Test Rumbles
 		// L1R1, LR1, L2, R2,
-
+		
+		// Directional indicators
 		reverse, forward,
+		
+		// "You can't do that!"
+		error,
 	}
 }

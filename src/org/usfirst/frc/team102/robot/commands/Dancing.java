@@ -31,11 +31,11 @@ public class Dancing extends Command {
     	 
     	if(timeout < 25) {
     		Robot.robotDriveTrain.danceDriveRight(0);
-    		Robot.robotArm.startArm(-speed, 1);	
+    		Robot.robotArm.startArm(-speed);	
     		Robot.robotDriveTrain.danceDriveLeft(-speed);
     	} else if(timeout < 45){
     		Robot.robotDriveTrain.danceDriveLeft(0);
-    		Robot.robotArm.startArm(speed, 1);
+    		Robot.robotArm.startArm(speed);
     		Robot.robotDriveTrain.danceDriveRight(-speed);
     	} else timeout = 0;
     }

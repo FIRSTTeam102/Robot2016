@@ -10,7 +10,7 @@ public class ToggleHoop extends Command {
 
 	public ToggleHoop(boolean direction) {
 		requires(Robot.robotRelay);
-		setTimeout(.125);
+		setTimeout(.25);
 
 		dir = direction;
 	}

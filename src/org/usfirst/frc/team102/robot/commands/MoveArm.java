@@ -11,19 +11,17 @@ import edu.wpi.first.wpilibj.command.Command;
 public class MoveArm extends Command {
 
 	double speed;
-	int armNumber;
 
-	public MoveArm(double speed, int armNumber) {
+	public MoveArm(double speed) {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.robotArm);
 		this.speed = speed;
-		this.armNumber = armNumber;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		try {
-			Robot.robotArm.startArm(speed, armNumber);
+			Robot.robotArm.startArm(speed);
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
