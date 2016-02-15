@@ -11,7 +11,7 @@ public class RobotMap {
 	// Joysticks
 	public static final int driverJoystickPort = 0;
 	public static final int operatorJoystickPort = 1;
-	// public static final int testJoystickPort = 2;
+	public static final int testJoystickPort = 2;
 
 	// Joystick Axis's
 	public static final int xBoxLeftXAxis = 0;
@@ -43,6 +43,8 @@ public class RobotMap {
 	// Analog Inputs
 	// Distance Sensors
 	public static final int distanceSensorIndex = 0;
+	// The Gyro
+	public static final int theGryoAnalogID = 1;
 
 	//Digital Inputs/Outputs
 	// Switch Digital Inputs
@@ -53,6 +55,7 @@ public class RobotMap {
 	// Magnet sensors for arm limiting
 	public static final int limitSensorTop = 4;
 	public static final int limitSensorBottom = 5;
+	
 	// Analog Inputs
 	// (Nolonger used) Hardware LED reverse vs. forward indicators
 	//public static final int forwardIndicator = 4;

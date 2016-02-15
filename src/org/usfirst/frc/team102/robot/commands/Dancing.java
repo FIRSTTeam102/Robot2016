@@ -18,7 +18,7 @@ public class Dancing extends Command {
     	requires(Robot.robotArm);
     	requires(Robot.robotDriveTrain);
     	
-    	this.setTimeout(5.0);
+    	this.setTimeout(2.0);
     	this.speed = speed;
     }
 

@@ -3,31 +3,40 @@ package org.usfirst.frc.team102.robot.subsystems;
 import org.usfirst.frc.team102.robot.RobotMap;
 import org.usfirst.frc.team102.robot.commands.DriveWithXBox;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class DriveTrain extends Subsystem {
+public class DriveTrain extends PIDSubsystem {
 
 	CANTalon m1;
 	CANTalon m2;
 	CANTalon m3;
 	CANTalon m4;
-	//private DigitalOutput isGoingForward, isGoingBackward; // We are now using outputs on the Driver station
+	// private DigitalOutput isGoingForward, isGoingBackward; // We are now
+	// using outputs on the Driver station
 	private double leftJoyX;
 	private double leftJoyY;
 	private double rightJoyX;
 	private double rightJoyY;
 	public final double autoModeSpeed = .5;
 	public boolean isReverse;
-	private static AnalogInput distanceSensor;
-	
-	// WARNING: This array has 2500 pre-calculated values!! It is 75 lines long!!
+	private AnalogInput distanceSensor;
+	public AnalogGyro theGyro;
+	private double gyroVal;
+	private double desiredGyroMeasure;
+	public boolean isDoneTurning = false;
+	private double encoderZeroPos = 0;
+
+	// WARNING: This array has 2500 pre-calculated values!! It is 75 lines
+	// long!!
 	private int[] distanceSensorValues = { 0, 48, 44, 41, 39, 38, 37, 36, 35, 34, 34, 33, 33, 32, 32, 31, 31, 31, 30,
 			30, 30, 29, 29, 29, 28, 28, 28, 28, 28, 27, 27, 27, 27, 27, 26, 26, 26, 26, 26, 26, 25, 25, 25, 25, 25, 25,
 			25, 24, 24, 24, 24, 24, 24, 24, 24, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 22, 22, 22, 22, 22, 22, 22, 22,
@@ -102,7 +111,7 @@ public class DriveTrain extends Subsystem {
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -113,22 +122,40 @@ public class DriveTrain extends Subsystem {
 		setDefaultCommand(new DriveWithXBox());
 	}
 
-	public DriveTrain() {
+	public DriveTrain(double p, double i, double d) {
+		super(p, i, d);
 		m1 = new CANTalon(RobotMap.backRightMotor1);
 		m2 = new CANTalon(RobotMap.backLeftMotor2);
 		m3 = new CANTalon(RobotMap.frontRightMotor3);
 		m4 = new CANTalon(RobotMap.frontLeftMotor4);
 
-		//isGoingForward = new DigitalOutput(RobotMap.forwardIndicator);
-		//isGoingBackward = new DigitalOutput(RobotMap.backwardIndicator);
+		// isGoingForward = new DigitalOutput(RobotMap.forwardIndicator);
+		// isGoingBackward = new DigitalOutput(RobotMap.backwardIndicator);
 
-		//populateDistancesArray();
-		// Use the method described in Notes.txt to calculate the values if you wish.
+		// populateDistancesArray();
+		// Use the method described in Notes.txt to calculate the values if you
+		// wish.
+
+		// AnalogInput.setGlobalSampleRate(62500);
+		theGyro = new AnalogGyro(RobotMap.theGryoAnalogID);
+
+		// Encoders:
+		// Left = Motor 4
+		// Right = Motor 3
+
+		resetEncoder();
 	}
 
 	public void driveWithXBox(Joystick xBox) {
-		//isGoingForward.set(!isReverse);
-		//isGoingBackward.set(isReverse);
+		// isGoingForward.set(!isReverse);
+		// isGoingBackward.set(isReverse);
+
+		// Reverse indicator on the Driver Station, as requested.
+		SmartDashboard.putBoolean("DB/LED 0", isReverse); // FIXME
+		
+		/*if (getEncoderValue() >= 5000)
+			resetEncoder();
+		System.out.println(getEncoderValue());*/
 
 		try {
 			leftJoyX = xBox.getRawAxis(RobotMap.xBoxLeftXAxis);
@@ -149,6 +176,14 @@ public class DriveTrain extends Subsystem {
 				rightJoyX = 0.0;
 			if (Math.abs(rightJoyY) < 0.1)
 				rightJoyY = 0.0;
+//			if (Math.abs(leftJoyX) >= 1.0)
+//				leftJoyX = 0.75;
+//			if (Math.abs(leftJoyY) >= 1.0)
+//				leftJoyY = 0.75;
+//			if (Math.abs(rightJoyX) >= 1.0)
+//				rightJoyX = 0.75;
+//			if (Math.abs(rightJoyY) >= 1.0)
+//				rightJoyY = 0.75;
 
 			m1.set(isReverse ? -rightJoyY : rightJoyY);
 			m3.set(isReverse ? -rightJoyY : rightJoyY);
@@ -194,6 +229,8 @@ public class DriveTrain extends Subsystem {
 		m4.set(0);
 	}
 
+	// End auto-mode handling code
+
 	public int getDistanceSensorRawInput() {
 		if (distanceSensor == null)
 			distanceSensor = new AnalogInput(RobotMap.distanceSensorIndex);
@@ -214,16 +251,70 @@ public class DriveTrain extends Subsystem {
 		return distanceSensorValues[raw];
 	}
 
-	public void populateDistancesArray() {
-		for (int i = 0; i < 2500; i++) { // Cap is 2500
-			double val = i; // = 2635.55e^(-.164904x)
-			val /= 2635.55; // = e^(-.164904x)
-			val = Math.log(val);// = -.164904x
-			val /= -.164904; // = x
+	protected double returnPIDInput() {
+		return gyroVal = (theGyro.getAngle() % 360);
+	}
 
-			// distanceSensorValues[i] = (int)Math.round(val);
+	protected void usePIDOutput(double output) {		
+		output = Math.round(output);
+		gyroVal = Math.round(gyroVal);
 
-			System.out.print(val + ", ");
+		System.out.println("Gyro: " + gyroVal + ", Out: " + output + ", Desired Angle: " + desiredGyroMeasure);
+
+		if (gyroVal == desiredGyroMeasure && gyroVal != 0) {
+			theGyro.reset();
+			setSetpoint(desiredGyroMeasure = 0);
+			disable();
+			isDoneTurning = true;
 		}
+
+		if (desiredGyroMeasure == 0) {
+			m1.set(autoModeSpeed + output);
+			m2.set(-autoModeSpeed + output);
+			m3.set(autoModeSpeed + output);
+			m4.set(-autoModeSpeed + output);
+		} else {
+			m1.set(output);
+			m2.set(-output);
+			m3.set(output);
+			m4.set(-output);
+		}
+	}
+
+	public void setDriveStraight() {
+		desiredGyroMeasure = 0;
+		theGyro.reset();
+		enable();
+		startDriving(false);
+
+		setSetpoint(desiredGyroMeasure);
+	}
+
+	/**
+	 * @param degrees
+	 *            Degrees relative to CURRENT POSITION
+	 */
+	public void setTurnToAngle(double degrees) {
+		desiredGyroMeasure = degrees;
+		theGyro.reset();
+		enable();
+		isDoneTurning = false;
+
+		setSetpoint(desiredGyroMeasure);
+	}
+
+	public double getEncoderValue() {
+		int val = Math.abs(m3.getEncPosition()) + Math.abs(m4.getEncPosition()) / 2;
+		 //Math.abs(m4.getEncPosition());
+
+		return val - encoderZeroPos;
+	}
+
+	public void resetEncoder() {
+		encoderZeroPos = getEncoderValue();
+	}
+
+	public int getEncoderInches() {
+		return (int) (Math.round(getEncoderValue()) / 3600);
 	}
 }

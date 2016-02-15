@@ -4,6 +4,8 @@ import org.usfirst.frc.team102.robot.commands.CommandToggleReverse;
 import org.usfirst.frc.team102.robot.commands.Dancing;
 import org.usfirst.frc.team102.robot.commands.MoveArm;
 import org.usfirst.frc.team102.robot.commands.MoveArmOpposite;
+import org.usfirst.frc.team102.robot.commands.MoveHoop;
+import org.usfirst.frc.team102.robot.commands.StopHoop;
 import org.usfirst.frc.team102.robot.commands.Whip;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -17,7 +19,7 @@ public class OI {
 
 	private Joystick xBoxDriver;
 	private Joystick xBoxOperator;
-	//private Joystick xBoxTest;
+	private Joystick xBoxTest;
 	private JoystickButton xBoxA;
 	private JoystickButton xBoxY;
 	private JoystickButton xBoxB;
@@ -33,14 +35,18 @@ public class OI {
 	private JoystickButton xBoxTestY;
 	public Rumbler driveRumble, opRumble, testRumble;
 
+	public final boolean enableTestJoystick = false;
+
 	public OI() {
 		xBoxDriver = new Joystick(RobotMap.driverJoystickPort);
 		xBoxOperator = new Joystick(RobotMap.operatorJoystickPort);
-		//xBoxTest = new Joystick(RobotMap.testJoystickPort);
+		if (enableTestJoystick)
+			xBoxTest = new Joystick(RobotMap.testJoystickPort);
 
 		driveRumble = new Rumbler(xBoxDriver);
 		opRumble = new Rumbler(xBoxOperator);
-		//testRumble = new Rumbler(xBoxTest);
+		if (enableTestJoystick)
+			testRumble = new Rumbler(xBoxTest);
 
 		xBoxA = new JoystickButton(xBoxOperator, RobotMap.xBoxAIndex);
 		xBoxA.whenPressed(new MoveArmOpposite(0.6));
@@ -54,11 +60,15 @@ public class OI {
 		// xBoxB.whenPressed(new MoveArm(0.6, 2)); // These arms currently don't
 		// exist, and
 		// xBoxB.whenReleased(new MoveArm(0.0, 2)); // probably never will.
+		xBoxB.whenPressed(new MoveHoop(true));
+		xBoxB.whenReleased(new StopHoop());
 
 		// Now used to get the ball. // Never mind, it is now one command.
 		// xBoxB.whenPressed(new GetBall());
 
 		xBoxX = new JoystickButton(xBoxOperator, RobotMap.xBoxXIndex);
+		xBoxX.whenPressed(new MoveHoop(false));
+		xBoxX.whenReleased(new StopHoop());
 		// xBoxX.whenPressed(new MoveArmOpposite(0.6, 2)); // These arms don't
 		// currently don't exist, and
 		// xBoxX.whenReleased(new MoveArmOpposite(0.0, 2)); // probably never
@@ -92,19 +102,21 @@ public class OI {
 		xBoxStart = new JoystickButton(xBoxDriver, RobotMap.xBoxStartButtonIndex);
 		xBoxStart.whenPressed(new CommandToggleReverse());
 
-		// Test Joystick commands
+		if (enableTestJoystick) {
 
-//		xBoxTestA = new JoystickButton(xBoxTest, RobotMap.xBoxAIndex);
-//		xBoxTestB = new JoystickButton(xBoxTest, RobotMap.xBoxBIndex);
-//		xBoxTestX = new JoystickButton(xBoxTest, RobotMap.xBoxXIndex);
-//		xBoxTestY = new JoystickButton(xBoxTest, RobotMap.xBoxYIndex);
+			// Test Joystick commands
 
-//		xBoxTestA.whenPressed(new MoveHoop(true));
-//		xBoxTestA.whenReleased(new StopHoop());
-//
-//		xBoxTestB.whenPressed(new MoveHoop(false));
-//		xBoxTestB.whenReleased(new StopHoop());
+			xBoxTestA = new JoystickButton(xBoxTest, RobotMap.xBoxAIndex);
+			xBoxTestB = new JoystickButton(xBoxTest, RobotMap.xBoxBIndex);
+			xBoxTestX = new JoystickButton(xBoxTest, RobotMap.xBoxXIndex);
+			xBoxTestY = new JoystickButton(xBoxTest, RobotMap.xBoxYIndex);
 
+			xBoxTestA.whenPressed(new MoveHoop(true));
+			xBoxTestA.whenReleased(new StopHoop());
+
+			xBoxTestB.whenPressed(new MoveHoop(false));
+			xBoxTestB.whenReleased(new StopHoop());
+		}
 	}
 
 	public Joystick getDriverXBox() {

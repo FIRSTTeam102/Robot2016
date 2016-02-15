@@ -25,9 +25,9 @@ public class LowBar extends CommandGroup {
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
 		addSequential(new ToggleHoop(true));
-		addSequential(new DriveStraightWithGyro(5.0));
-		addSequential(new Turn());
-		addSequential(new DriveStraightWithGyro(2.0));
+		addSequential(new DriveStraightWithGyro(222));
+		addSequential(new Turn(60));
+		addSequential(new DriveStraightWithGyro(177));
 		addSequential(new ToggleHoop(false));
 	}
 }

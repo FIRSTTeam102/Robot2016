@@ -73,6 +73,22 @@ public class Rumbler {
 					
 					break;
 				}
+				
+				case alert: { // Warning! The arm has probably hit the floor!
+					setRough(true);
+					time(.25);
+					setRough(false);
+					time(.1);
+					setRough(true);
+					time(.25);
+					setRough(false);
+					time(.1);
+					setRough(true);
+					time(.25);
+					setRough(false);
+					
+					break;
+				}
 
 				default: {
 					DriverStation.reportError("Rumbler: Unknown rumble with name \"" + type.name() + "\".\n", false);
@@ -101,5 +117,8 @@ public class Rumbler {
 		
 		// "You can't do that!"
 		error,
+		
+		// Warning! The arm has probably hit the floor!
+		alert,
 	}
 }

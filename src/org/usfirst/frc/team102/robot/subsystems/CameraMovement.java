@@ -41,7 +41,7 @@ public class CameraMovement extends Subsystem {
 		if (id == 0)
 			xAxis.set(val);
 		if (id == 1)
-			yAxis.set(val);
+			yAxis.set(-val);
 	}
 
 	protected void initDefaultCommand() {

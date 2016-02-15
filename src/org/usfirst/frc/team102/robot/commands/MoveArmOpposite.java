@@ -20,6 +20,11 @@ public class MoveArmOpposite extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		
+	}
+
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
 		try {
 			Robot.robotArm.startArm(-speed);
 		} catch (Exception ex1) {
@@ -27,10 +32,6 @@ public class MoveArmOpposite extends Command {
 			DriverStation.reportError(ex1.getMessage(), true);
 
 		}
-	}
-
-	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

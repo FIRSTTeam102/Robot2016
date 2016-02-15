@@ -11,21 +11,29 @@ public class Hoop extends Subsystem {
 
 	public static boolean dir;
 
-	Relay rl;
+	private Relay r1;
 
 	public Hoop() {
-		rl = new Relay(RobotMap.relay1);
-		dir = (rl.get() == Value.kForward);
+		r1 = new Relay(RobotMap.relay1);
 	}
 
 	protected void initDefaultCommand() {
 	}
 
 	public void setRelay(boolean direction) {
-		rl.set(direction ? Value.kForward : Value.kReverse);
+		
+		
+		if (direction = true){
+			
+			r1.set(Value.kForward);
+			
+		}else if (direction = false){
+			r1.set(Value.kReverse);
+		}
+		
 	}
 
 	public void stop() {
-		rl.set(Value.kOff);
+		r1.set(Value.kOff);
 	}
 }

@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		try {
 			System.out.println("Enodia will block your path!");
-			robotDriveTrain = new DriveTrain();
+			robotDriveTrain = new DriveTrain(.04, 0, 0);
 			robotArm = new Arm();
 			robotCam = new CameraMovement();
 			robotRelay = new Hoop();
@@ -70,50 +70,66 @@ public class Robot extends IterativeRobot {
 		try {
 			int i = 0;
 			DigitalInput in = new DigitalInput(RobotMap.autoSwitch0);
-			
+
 			if (in.get())
 				i++;
 
 			in.free();
 			in = new DigitalInput(RobotMap.autoSwitch1);
-			
+
 			if (in.get())
 				i += 2;
 
 			in.free();
 			in = new DigitalInput(RobotMap.autoSwitch2);
-			
+
 			if (in.get())
 				i += 4;
 
 			in.free();
 			in = new DigitalInput(RobotMap.autoSwitch3);
-			
+
 			if (in.get())
 				i += 8;
 
 			in.free();
 			in = null;
-			
-			//System.out.println(i);
-			
-			if(i == 0) autonomousCommand = null;
-			if(i == 1) autonomousCommand = new LowBar();
-			if(i == 2) autonomousCommand = new DefensePos2('B');
-			if(i == 3) autonomousCommand = new DefensePos2('D');
-			if(i == 4) autonomousCommand = new DefensePos3('B');
-			if(i == 5) autonomousCommand = new DefensePos3('D');
-			if(i == 6) autonomousCommand = new DefensePos4('B');
-			if(i == 7) autonomousCommand = new DefensePos4('D');
-			if(i == 8) autonomousCommand = new DefensePos5('B');
-			if(i == 9) autonomousCommand = new DefensePos5('D');
-			if(i == 10) autonomousCommand = null;
-			if(i == 11) autonomousCommand = null;
-			if(i == 12) autonomousCommand = null;
-			if(i == 13) autonomousCommand = null;
-			if(i == 14) autonomousCommand = null;
-			if(i == 15) autonomousCommand = null;
-			
+
+			// System.out.println(i);
+
+			/*if (i == 0)
+				autonomousCommand = null;*/ // Uncomment all this bit BEFORE STOP BUILD DAY
+			if (i == 1)
+				autonomousCommand = new LowBar();
+			/*if (i == 2)
+				autonomousCommand = new DefensePos2('B');
+			if (i == 3)
+				autonomousCommand = new DefensePos2('D');
+			if (i == 4)
+				autonomousCommand = new DefensePos3('B');
+			if (i == 5)
+				autonomousCommand = new DefensePos3('D');
+			if (i == 6)
+				autonomousCommand = new DefensePos4('B');
+			if (i == 7)
+				autonomousCommand = new DefensePos4('D');
+			if (i == 8)
+				autonomousCommand = new DefensePos5('B');
+			if (i == 9)
+				autonomousCommand = new DefensePos5('D');
+			if (i == 10)
+				autonomousCommand = null;
+			if (i == 11)
+				autonomousCommand = null;
+			if (i == 12)
+				autonomousCommand = null;
+			if (i == 13)
+				autonomousCommand = null;
+			if (i == 14)
+				autonomousCommand = null;
+			if (i == 15)
+				autonomousCommand = null;*/
+
 			if (autonomousCommand != null)
 				autonomousCommand.start();
 		} catch (Exception ex1) {
