@@ -127,7 +127,12 @@ public class DriveTrain extends PIDSubsystem {
 		m1 = new CANTalon(RobotMap.backRightMotor1);
 		m2 = new CANTalon(RobotMap.backLeftMotor2);
 		m3 = new CANTalon(RobotMap.frontRightMotor3);
-		m4 = new CANTalon(RobotMap.frontLeftMotor4);
+		
+		if(RobotMap.isTestBed) {
+			m4 = new CANTalon(RobotMap.testBedRealMotor);
+		} else {
+			m4 = new CANTalon(RobotMap.frontLeftMotor4);
+		}
 
 		// isGoingForward = new DigitalOutput(RobotMap.forwardIndicator);
 		// isGoingBackward = new DigitalOutput(RobotMap.backwardIndicator);
@@ -135,10 +140,15 @@ public class DriveTrain extends PIDSubsystem {
 		// populateDistancesArray();
 		// Use the method described in Notes.txt to calculate the values if you
 		// wish.
-
-		// AnalogInput.setGlobalSampleRate(62500);
+		
+		// This is the line that causes segfaults on the test bed
+		//AnalogInput.setGlobalSampleRate(62500);
+		// Crash happens in getAnalogNumActiveChannels
+		
 		theGyro = new AnalogGyro(RobotMap.theGryoAnalogID);
-
+		theGyro.initGyro();
+		theGyro.calibrate();
+		
 		// Encoders:
 		// Left = Motor 4
 		// Right = Motor 3
@@ -176,20 +186,18 @@ public class DriveTrain extends PIDSubsystem {
 				rightJoyX = 0.0;
 			if (Math.abs(rightJoyY) < 0.1)
 				rightJoyY = 0.0;
-//			if (Math.abs(leftJoyX) >= 1.0)
-//				leftJoyX = 0.75;
-//			if (Math.abs(leftJoyY) >= 1.0)
-//				leftJoyY = 0.75;
-//			if (Math.abs(rightJoyX) >= 1.0)
-//				rightJoyX = 0.75;
-//			if (Math.abs(rightJoyY) >= 1.0)
-//				rightJoyY = 0.75;
 
-			m1.set(isReverse ? -rightJoyY : rightJoyY);
-			m3.set(isReverse ? -rightJoyY : rightJoyY);
-
-			m2.set(!isReverse ? -leftJoyY : leftJoyY);
-			m4.set(!isReverse ? -leftJoyY : leftJoyY);
+			if(isReverse){
+				m1.set(-leftJoyY);
+				m3.set(-leftJoyY);
+				m2.set(rightJoyY);
+				m4.set(rightJoyY);
+			}else{
+				m1.set(rightJoyY);
+				m3.set(rightJoyY);
+				m2.set(-leftJoyY);
+				m4.set(-leftJoyY);
+			}
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
@@ -259,7 +267,7 @@ public class DriveTrain extends PIDSubsystem {
 		output = Math.round(output);
 		gyroVal = Math.round(gyroVal);
 
-		System.out.println("Gyro: " + gyroVal + ", Out: " + output + ", Desired Angle: " + desiredGyroMeasure);
+		System.out.println("Gyro: " + gyroVal + ", Out: " + output + ", Desired Angle: " + desiredGyroMeasure + ", Encoder (Inches): " + getEncoderInches());
 
 		if (gyroVal == desiredGyroMeasure && gyroVal != 0) {
 			theGyro.reset();
@@ -299,22 +307,28 @@ public class DriveTrain extends PIDSubsystem {
 		theGyro.reset();
 		enable();
 		isDoneTurning = false;
-
 		setSetpoint(desiredGyroMeasure);
 	}
 
-	public double getEncoderValue() {
-		int val = Math.abs(m3.getEncPosition()) + Math.abs(m4.getEncPosition()) / 2;
-		 //Math.abs(m4.getEncPosition());
-
-		return val - encoderZeroPos;
+	private double getEncoderValue() {
+		int val;
+		//Math.abs(m3.getEncPosition()) + Math.abs(m4.getEncPosition()) / 2; // Enodia
+		//Math.abs(m4.getEncPosition()); // Test bed
+		
+		if(RobotMap.isTestBed) {
+			val = Math.abs(m4.getEncPosition());
+		} else {
+			val = Math.abs(m3.getEncPosition()) + Math.abs(m4.getEncPosition()) / 2;
+		}
+		
+		return Math.abs(val);
 	}
-
+	
 	public void resetEncoder() {
 		encoderZeroPos = getEncoderValue();
 	}
 
 	public int getEncoderInches() {
-		return (int) (Math.round(getEncoderValue()) / 3600);
+		return (int) ((Math.round(getEncoderValue()) - encoderZeroPos) / 360);
 	}
 }

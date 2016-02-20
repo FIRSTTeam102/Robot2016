@@ -13,12 +13,13 @@ public class StopHoop extends Command {
 	public StopHoop() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
+		requires(Robot.robotHoop);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		try {
-			Robot.robotRelay.stop();
+			Robot.robotHoop.stop();
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
@@ -32,7 +33,7 @@ public class StopHoop extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return true;
 	}
 
 	// Called once after isFinished returns true

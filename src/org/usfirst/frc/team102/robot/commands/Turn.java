@@ -2,6 +2,7 @@ package org.usfirst.frc.team102.robot.commands;
 
 import org.usfirst.frc.team102.robot.Robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -22,6 +23,18 @@ public class Turn extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		Robot.robotDriveTrain.resetEncoder();
+		
+		while(Robot.robotDriveTrain.getEncoderInches() > 0) {
+			//System.out.println(Robot.robotDriveTrain.getEncoderInches());
+			try {
+				Thread.sleep(20);
+			} catch(InterruptedException e) {
+				DriverStation.reportError("Error while preforming sleep:", false);
+				e.printStackTrace();
+			}
+		}
+		
 		Robot.robotDriveTrain.setTurnToAngle(degrees);
 	}
 

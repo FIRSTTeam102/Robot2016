@@ -1,6 +1,7 @@
 package org.usfirst.frc.team102.robot.commands;
 
 import org.usfirst.frc.team102.robot.Robot;
+import org.usfirst.frc.team102.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -9,18 +10,18 @@ public class ToggleHoop extends Command {
 	private final boolean dir;
 
 	public ToggleHoop(boolean direction) {
-		requires(Robot.robotRelay);
+		requires(Robot.robotHoop);
 		setTimeout(.25);
 
 		dir = direction;
 	}
 
 	protected void initialize() {
-		Robot.robotRelay.setRelay(dir);
+		Robot.robotHoop.setRelay(dir);
 	}
 
 	protected void execute() {
-
+		if(!RobotMap.isTestBed) Robot.robotHoop.checkLimitSwitches();
 	}
 
 	protected boolean isFinished() {
@@ -28,7 +29,7 @@ public class ToggleHoop extends Command {
 	}
 
 	protected void end() {
-		Robot.robotRelay.stop();
+		Robot.robotHoop.stop();
 	}
 
 	protected void interrupted() {

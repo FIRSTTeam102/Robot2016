@@ -7,10 +7,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team102.robot.commands.DefensePos2;
-import org.usfirst.frc.team102.robot.commands.DefensePos3;
-import org.usfirst.frc.team102.robot.commands.DefensePos4;
-import org.usfirst.frc.team102.robot.commands.DefensePos5;
 import org.usfirst.frc.team102.robot.commands.LowBar;
 import org.usfirst.frc.team102.robot.subsystems.Arm;
 import org.usfirst.frc.team102.robot.subsystems.CameraMovement;
@@ -31,11 +27,13 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain robotDriveTrain;
 	public static Arm robotArm;
 	public static CameraMovement robotCam;
-	public static Hoop robotRelay;
+	public static Hoop robotHoop;
 
 	public static Joystick driverJoystick;
 	public static Joystick operatorJoystick;
 	Command autonomousCommand = null;
+	
+	public static boolean isRobotActive = false;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -47,7 +45,7 @@ public class Robot extends IterativeRobot {
 			robotDriveTrain = new DriveTrain(.04, 0, 0);
 			robotArm = new Arm();
 			robotCam = new CameraMovement();
-			robotRelay = new Hoop();
+			robotHoop = new Hoop();
 			oi = new OI();
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
@@ -68,6 +66,11 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousInit() {
 		try {
+			if(autonomousCommand != null) {
+				autonomousCommand.cancel();
+				autonomousCommand = null;
+			}
+			
 			int i = 0;
 			DigitalInput in = new DigitalInput(RobotMap.autoSwitch0);
 
@@ -95,7 +98,7 @@ public class Robot extends IterativeRobot {
 			in.free();
 			in = null;
 
-			// System.out.println(i);
+			//System.out.println(i);
 
 			/*if (i == 0)
 				autonomousCommand = null;*/ // Uncomment all this bit BEFORE STOP BUILD DAY
@@ -132,6 +135,8 @@ public class Robot extends IterativeRobot {
 
 			if (autonomousCommand != null)
 				autonomousCommand.start();
+			
+			isRobotActive = true;
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
@@ -154,6 +159,8 @@ public class Robot extends IterativeRobot {
 		try {
 			if (autonomousCommand != null)
 				autonomousCommand.cancel();
+			
+			isRobotActive = true;
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
@@ -181,6 +188,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	public void disabledInit() {
+		isRobotActive = false;
 	}
 
 	public void disabledPeriodic() {

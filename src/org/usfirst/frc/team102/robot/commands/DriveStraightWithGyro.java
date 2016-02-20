@@ -25,8 +25,14 @@ public class DriveStraightWithGyro extends Command {
 	protected void initialize() {
 		try {
 			//Robot.robotDriveTrain.startDriving(false);
-			Robot.robotDriveTrain.setDriveStraight();
 			Robot.robotDriveTrain.resetEncoder();
+			
+			while(Robot.robotDriveTrain.getEncoderInches() > 0) {
+				//System.out.println(Robot.robotDriveTrain.getEncoderInches());
+				Thread.sleep(20);
+			}
+			
+			Robot.robotDriveTrain.setDriveStraight();
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
@@ -54,6 +60,7 @@ public class DriveStraightWithGyro extends Command {
 	protected void end() {
 		//Robot.robotDriveTrain.stop();
 		Robot.robotDriveTrain.disable();
+		Robot.robotDriveTrain.stop();
 	}
 
 	// Called when another command which requires one or more of the same

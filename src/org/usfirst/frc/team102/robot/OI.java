@@ -24,14 +24,16 @@ public class OI {
 	private JoystickButton xBoxY;
 	private JoystickButton xBoxB;
 	private JoystickButton xBoxX;
-	private JoystickButton xBoxRightBump;
-	private JoystickButton xBoxLeftBump;
+	//private JoystickButton xBoxRightBump;
+	//private JoystickButton xBoxLeftBump;
 	private JoystickButton xBoxStart;
 	private JoystickButton xBoxOpStart;
 	private JoystickButton xBoxOpBack;
 	private JoystickButton xBoxTestA;
 	private JoystickButton xBoxTestB;
+	@SuppressWarnings("unused")
 	private JoystickButton xBoxTestX;
+	@SuppressWarnings("unused")
 	private JoystickButton xBoxTestY;
 	public Rumbler driveRumble, opRumble, testRumble;
 
@@ -48,13 +50,13 @@ public class OI {
 		if (enableTestJoystick)
 			testRumble = new Rumbler(xBoxTest);
 
-		xBoxA = new JoystickButton(xBoxOperator, RobotMap.xBoxAIndex);
-		xBoxA.whenPressed(new MoveArmOpposite(0.6));
-		xBoxA.whenReleased(new MoveArmOpposite(0.0));
-
 		xBoxY = new JoystickButton(xBoxOperator, RobotMap.xBoxYIndex);
-		xBoxY.whenPressed(new MoveArm(0.6));
-		xBoxY.whenReleased(new MoveArm(0.0));
+		xBoxY.whenPressed(new MoveArmOpposite(0.6));
+		xBoxY.whenReleased(new MoveArmOpposite(0.0));
+
+		xBoxA = new JoystickButton(xBoxOperator, RobotMap.xBoxAIndex);
+		xBoxA.whenPressed(new MoveArm(0.6));
+		xBoxA.whenReleased(new MoveArm(0.0));
 
 		xBoxB = new JoystickButton(xBoxOperator, RobotMap.xBoxBIndex);
 		// xBoxB.whenPressed(new MoveArm(0.6, 2)); // These arms currently don't
@@ -74,13 +76,13 @@ public class OI {
 		// xBoxX.whenReleased(new MoveArmOpposite(0.0, 2)); // probably never
 		// will.
 
-		xBoxRightBump = new JoystickButton(xBoxOperator, RobotMap.xBoxRightBumperIndex);
+		//xBoxRightBump = new JoystickButton(xBoxOperator, RobotMap.xBoxRightBumperIndex);
 		// xBoxRightBump.whenPressed(new MoveArmOpposite(0.6, 3)); // These arms
 		// currently don't exist, and
 		// xBoxRightBump.whenReleased(new MoveArmOpposite(0.0, 3)); // probably
 		// never will.
 
-		xBoxLeftBump = new JoystickButton(xBoxOperator, RobotMap.xBoxLeftBumperIndex);
+		//xBoxLeftBump = new JoystickButton(xBoxOperator, RobotMap.xBoxLeftBumperIndex);
 		// xBoxLeftBump.whenPressed(new MoveArm(0.6, 3)); // These arms
 		// currently don't exist, and
 		// xBoxLeftBump.whenReleased(new MoveArm(0.0, 3)); // probably never

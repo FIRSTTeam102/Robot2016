@@ -8,6 +8,15 @@ package org.usfirst.frc.team102.robot;
  */
 public class RobotMap {
 
+	// Are we on the test bed?
+	public static final boolean isTestBed = true;
+	// Do we have USB Cameras?
+	public static final boolean hasUSBCams = false;
+	
+	// USB camera IDs
+	public static final int frontCameraID = 1;
+	public static final int backCameraID = 3;
+	
 	// Joysticks
 	public static final int driverJoystickPort = 0;
 	public static final int operatorJoystickPort = 1;
@@ -37,6 +46,7 @@ public class RobotMap {
 	public static final int frontRightMotor3 = 3;
 	public static final int frontLeftMotor4 = 4;
 	public static final int armMotor5 = 5;
+	public static final int testBedRealMotor = 10;
 	// public static final int m6 = 6;
 	// public static final int m7 = 7;
 
@@ -52,9 +62,12 @@ public class RobotMap {
 	public static final int autoSwitch1 = 1;
 	public static final int autoSwitch2 = 2;
 	public static final int autoSwitch3 = 3;
-	// Magnet sensors for arm limiting
-	public static final int limitSensorTop = 4;
-	public static final int limitSensorBottom = 5;
+	// Momentary switches to disable arm movement
+	public static final int armLimitSensorTop = 4;
+	public static final int armLimitSensorBottom = 5;
+	// Momentary switches to disable hoop movement
+	public static final int hoopLimitSensorTop = 6;
+	public static final int hoopLimitSensorBottom = 7;
 	
 	// Analog Inputs
 	// (Nolonger used) Hardware LED reverse vs. forward indicators

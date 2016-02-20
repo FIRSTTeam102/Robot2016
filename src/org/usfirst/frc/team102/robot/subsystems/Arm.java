@@ -12,41 +12,43 @@ public class Arm extends Subsystem {
 
 	CANTalon armMotor;
 	private DigitalInput limitSensorTop, limitSensorBottom;
-	private double maxNominalCurrent = 24.5;
+	//private double maxNominalCurrent = 24.5;
 
 	public Arm() {
 		armMotor = new CANTalon(RobotMap.armMotor5);
 
-		limitSensorTop = new DigitalInput(RobotMap.limitSensorTop);
-		limitSensorBottom = new DigitalInput(RobotMap.limitSensorBottom);
+		limitSensorTop = new DigitalInput(RobotMap.armLimitSensorTop);
+		limitSensorBottom = new DigitalInput(RobotMap.armLimitSensorBottom);
 	}
 
 	public void initDefaultCommand() {
 	}
 
 	public void startArm(double speed) {
-		//System.out.println(limitSensorTop.get() + " : " + limitSensorBottom.get());
+		// System.out.println(limitSensorTop.get() + " : " +
+		// limitSensorBottom.get());
 		// System.out.println("Output current: " + armMotor.getOutputCurrent());
-		//
-		// if (armMotor.getOutputCurrent() > maxNominalCurrent) { // Arm has
-		// // probably hit
-		// // the floor.
-		// Robot.oi.opRumble.playRumbleMessage(Rumbles.alert);
-		// stopArm();
-		// return;
-		// }
-		//
-//		if (speed > 0 && !limitSensorTop.get()) {
-//			Robot.oi.opRumble.playRumbleMessage(Rumbles.error);
-//			stopArm();
-//			return;
-//		}
-//
-//		if (speed < 0 && !limitSensorBottom.get()) {
-//			Robot.oi.opRumble.playRumbleMessage(Rumbles.error);
-//			stopArm();
-//			return;
-//		}
+
+		// I was told to NOT have this...
+		/*if (Math.abs(armMotor.getOutputCurrent()) > maxNominalCurrent) { // Arm has
+			// probably hit
+			// the floor.
+			Robot.oi.opRumble.playRumbleMessage(Rumbles.alert);
+			stopArm();
+			return;
+		}*/
+
+		if (speed > 0 && !limitSensorTop.get()) {
+			Robot.oi.opRumble.playRumbleMessage(Rumbles.error);
+			stopArm();
+			return;
+		}
+
+		if (speed < 0 && !limitSensorBottom.get()) {
+			Robot.oi.opRumble.playRumbleMessage(Rumbles.error);
+			stopArm();
+			return;
+		}
 
 		armMotor.set(speed);
 	}
