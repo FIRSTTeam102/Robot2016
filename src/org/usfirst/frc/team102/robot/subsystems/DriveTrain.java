@@ -267,8 +267,9 @@ public class DriveTrain extends PIDSubsystem {
 		output = Math.round(output);
 		gyroVal = Math.round(gyroVal);
 
-		System.out.println("Gyro: " + gyroVal + ", Out: " + output + ", Desired Angle: " + desiredGyroMeasure + ", Encoder (Inches): " + getEncoderInches());
-
+		//System.out.println("Gyro: " + gyroVal + ", Out: " + output + ", Desired Angle: " + desiredGyroMeasure + ", Encoder (Inches): " + getEncoderInches());
+		System.out.println("Encoder (Position): " + getEncoderPos());
+		
 		if (gyroVal == desiredGyroMeasure && gyroVal != 0) {
 			theGyro.reset();
 			setSetpoint(desiredGyroMeasure = 0);
@@ -324,11 +325,15 @@ public class DriveTrain extends PIDSubsystem {
 		return Math.abs(val);
 	}
 	
+	public int getEncoderPos() {
+		return (int)(Math.round(getEncoderValue()) - encoderZeroPos);
+	}
+	
 	public void resetEncoder() {
 		encoderZeroPos = getEncoderValue();
 	}
 
 	public int getEncoderInches() {
-		return (int) ((Math.round(getEncoderValue()) - encoderZeroPos) / 360);
+		return (int) ((Math.round(getEncoderValue()) - encoderZeroPos) / 36);
 	}
 }

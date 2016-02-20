@@ -9,9 +9,9 @@ package org.usfirst.frc.team102.robot;
 public class RobotMap {
 
 	// Are we on the test bed?
-	public static final boolean isTestBed = true;
+	public static final boolean isTestBed = false;
 	// Do we have USB Cameras?
-	public static final boolean hasUSBCams = false;
+	public static final boolean hasUSBCams = !isTestBed;
 	
 	// USB camera IDs
 	public static final int frontCameraID = 1;
@@ -39,7 +39,7 @@ public class RobotMap {
 	public static final int xBoxStartButtonIndex = 8;
 	public static final int xBoxLeftJoystickPress = 9;
 	public static final int xBoxRightJoystickPress = 10;
-
+ 
 	// PWMs
 	public static final int backRightMotor1 = 1;
 	public static final int backLeftMotor2 = 2;
