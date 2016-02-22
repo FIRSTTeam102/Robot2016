@@ -1,6 +1,7 @@
 package org.usfirst.frc.team102.robot.commands;
 
 import org.usfirst.frc.team102.robot.Robot;
+import org.usfirst.frc.team102.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,7 +12,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class MoveHoop extends Command {
 
 	private boolean direction;
-
+	private boolean done = false;
+	
 	public MoveHoop(boolean direction) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -32,12 +34,16 @@ public class MoveHoop extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.robotHoop.checkLimitSwitches();
+		if(!RobotMap.isTestBed) {
+			Robot.robotHoop.checkLimitSwitches();
+			
+			if(!Robot.robotHoop.isActive()) done = true;
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return done;
 	}
 
 	// Called once after isFinished returns true

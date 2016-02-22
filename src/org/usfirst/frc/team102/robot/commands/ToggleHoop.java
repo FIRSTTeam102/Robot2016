@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ToggleHoop extends Command {
 
 	private final boolean dir;
-
+	private boolean done;
+	
 	public ToggleHoop(boolean direction) {
 		requires(Robot.robotHoop);
 		setTimeout(.25);
@@ -21,11 +22,15 @@ public class ToggleHoop extends Command {
 	}
 
 	protected void execute() {
-		if(!RobotMap.isTestBed) Robot.robotHoop.checkLimitSwitches();
+		if(!RobotMap.isTestBed) {
+			Robot.robotHoop.checkLimitSwitches();
+			
+			if(!Robot.robotHoop.isActive()) done = true;
+		}
 	}
 
 	protected boolean isFinished() {
-		return isTimedOut();
+		return isTimedOut() || done;
 	}
 
 	protected void end() {

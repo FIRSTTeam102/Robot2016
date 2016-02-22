@@ -334,6 +334,6 @@ public class DriveTrain extends PIDSubsystem {
 	}
 
 	public int getEncoderInches() {
-		return (int) ((Math.round(getEncoderValue()) - encoderZeroPos) / 36);
+		return (int) ((Math.round(getEncoderValue()) - encoderZeroPos) / 360);
 	}
 }

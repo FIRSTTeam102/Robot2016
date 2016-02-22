@@ -28,6 +28,10 @@ public class Hoop extends Subsystem {
 	protected void initDefaultCommand() {
 	}
 	
+	public boolean isActive() {
+		return r1.get() != Value.kOff;
+	}
+	
 	public void checkLimitSwitches() {
 		if (r1.get() == Value.kForward && !limitSensorTop.get()) {
 			Robot.oi.opRumble.playRumbleMessage(Rumbles.error);
@@ -42,7 +46,6 @@ public class Hoop extends Subsystem {
 		}
 	}
 	
-	@SuppressWarnings("unused")
 	public void setRelay(boolean direction) {
 		if (direction && !limitSensorTop.get() && !RobotMap.isTestBed) {
 			Robot.oi.opRumble.playRumbleMessage(Rumbles.error);
