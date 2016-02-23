@@ -95,8 +95,7 @@ public class CameraMovement extends Subsystem {
 		if (y < -.5 && yPos > .05)
 			yPos -= delta;
 
-		// xAxis.set(xPos); // Ordered to be disabled and based on direction.
-		// I.E. forward/reverse
+		xAxis.set(xPos);
 		yAxis.set(yPos);
 	}
 
@@ -104,7 +103,7 @@ public class CameraMovement extends Subsystem {
 		if (id == 0)
 			xAxis.set(val);
 		if (id == 1)
-			yAxis.set(-val);
+			yAxis.set(val);
 	}
 
 	protected void initDefaultCommand() {

@@ -17,7 +17,7 @@ public class CommandToggleReverse extends Command {
 		try {
 			Robot.robotDriveTrain.isReverse = !Robot.robotDriveTrain.isReverse;
 			Robot.oi.opRumble.playRumbleMessage(Robot.robotDriveTrain.isReverse ? Rumbles.reverse : Rumbles.forward);
-			Robot.robotCam.setServo(0, Robot.robotDriveTrain.isReverse ? .9 : .1);
+			//Robot.robotCam.setServo(0, Robot.robotDriveTrain.isReverse ? .9 : .1);
 			Robot.robotCam.setActiveCamera(Robot.robotDriveTrain.isReverse ? RobotMap.backCameraID : RobotMap.frontCameraID);
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
