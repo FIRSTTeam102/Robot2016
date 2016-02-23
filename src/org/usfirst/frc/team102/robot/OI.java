@@ -1,12 +1,6 @@
 package org.usfirst.frc.team102.robot;
 
-import org.usfirst.frc.team102.robot.commands.CommandToggleReverse;
-import org.usfirst.frc.team102.robot.commands.Dancing;
-import org.usfirst.frc.team102.robot.commands.MoveArm;
-import org.usfirst.frc.team102.robot.commands.MoveArmOpposite;
-import org.usfirst.frc.team102.robot.commands.MoveHoop;
-import org.usfirst.frc.team102.robot.commands.StopHoop;
-import org.usfirst.frc.team102.robot.commands.Whip;
+import org.usfirst.frc.team102.robot.commands.*;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -24,8 +18,8 @@ public class OI {
 	private JoystickButton xBoxY;
 	private JoystickButton xBoxB;
 	private JoystickButton xBoxX;
-	//private JoystickButton xBoxRightBump;
-	//private JoystickButton xBoxLeftBump;
+	private JoystickButton xBoxRightBump;
+	private JoystickButton xBoxLeftBump;
 	private JoystickButton xBoxStart;
 	private JoystickButton xBoxOpStart;
 	private JoystickButton xBoxOpBack;
@@ -76,17 +70,21 @@ public class OI {
 		// xBoxX.whenReleased(new MoveArmOpposite(0.0, 2)); // probably never
 		// will.
 
-		//xBoxRightBump = new JoystickButton(xBoxOperator, RobotMap.xBoxRightBumperIndex);
+		xBoxRightBump = new JoystickButton(xBoxOperator, RobotMap.xBoxRightBumperIndex);
 		// xBoxRightBump.whenPressed(new MoveArmOpposite(0.6, 3)); // These arms
 		// currently don't exist, and
 		// xBoxRightBump.whenReleased(new MoveArmOpposite(0.0, 3)); // probably
 		// never will.
-
-		//xBoxLeftBump = new JoystickButton(xBoxOperator, RobotMap.xBoxLeftBumperIndex);
+		xBoxRightBump.whenPressed(new BallInOrOut(true));
+		xBoxRightBump.whenReleased(new StopBall());
+		
+		xBoxLeftBump = new JoystickButton(xBoxOperator, RobotMap.xBoxLeftBumperIndex);
 		// xBoxLeftBump.whenPressed(new MoveArm(0.6, 3)); // These arms
 		// currently don't exist, and
 		// xBoxLeftBump.whenReleased(new MoveArm(0.0, 3)); // probably never
 		// will.
+		xBoxLeftBump.whenPressed(new BallInOrOut(false));
+		xBoxLeftBump.whenReleased(new StopBall());
 
 		xBoxA = new JoystickButton(xBoxDriver, RobotMap.xBoxAIndex);
 

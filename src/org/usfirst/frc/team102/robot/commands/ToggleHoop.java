@@ -34,7 +34,7 @@ public class ToggleHoop extends Command {
 	}
 
 	protected void end() {
-		Robot.robotHoop.stop();
+		Robot.robotHoop.stopRelay();
 	}
 
 	protected void interrupted() {

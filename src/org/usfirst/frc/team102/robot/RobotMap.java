@@ -39,8 +39,9 @@ public class RobotMap {
 	public static final int xBoxStartButtonIndex = 8;
 	public static final int xBoxLeftJoystickPress = 9;
 	public static final int xBoxRightJoystickPress = 10;
- 
-	// PWMs
+	
+	// Motors
+	// CAN IDs.
 	public static final int backRightMotor1 = 1;
 	public static final int backLeftMotor2 = 2;
 	public static final int frontRightMotor3 = 3;
@@ -49,6 +50,12 @@ public class RobotMap {
 	public static final int testBedRealMotor = 10;
 	// public static final int m6 = 6;
 	// public static final int m7 = 7;
+	// PWMs
+	// Servo Motor
+	public static final int xAxisServo = 0;
+	public static final int yAxisServo = 1;
+	// The Talon
+	public static final int hoopTalon = 2;
 
 	// Analog Inputs
 	// Distance Sensors
@@ -73,10 +80,6 @@ public class RobotMap {
 	// (Nolonger used) Hardware LED reverse vs. forward indicators
 	//public static final int forwardIndicator = 4;
 	//public static final int backwardIndicator = 5;
-
-	// Servo Motor
-	public static final int xAxisServo = 0;
-	public static final int yAxisServo = 1;
 
 	// Relay
 	public static final int relay1 = 0;

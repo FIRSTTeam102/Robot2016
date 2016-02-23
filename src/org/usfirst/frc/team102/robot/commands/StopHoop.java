@@ -19,7 +19,7 @@ public class StopHoop extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		try {
-			Robot.robotHoop.stop();
+			Robot.robotHoop.stopRelay();
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);

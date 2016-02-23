@@ -9,6 +9,7 @@ import org.usfirst.frc.team102.robot.Rumbler.Rumbles;
 
 import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.Relay.Value;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Hoop extends Subsystem {
@@ -18,11 +19,15 @@ public class Hoop extends Subsystem {
 	private Relay r1;
 	private DigitalInput limitSensorTop, limitSensorBottom;
 	
+	private Talon tal1;
+	
 	public Hoop() {
 		r1 = new Relay(RobotMap.relay1, Direction.kBoth);
 		
 		limitSensorTop = new DigitalInput(RobotMap.hoopLimitSensorTop);
 		limitSensorBottom = new DigitalInput(RobotMap.hoopLimitSensorBottom);
+		
+		tal1 = new Talon(RobotMap.hoopTalon);
 	}
 
 	protected void initDefaultCommand() {
@@ -66,7 +71,15 @@ public class Hoop extends Subsystem {
 		}
 	}
 
-	public void stop() {
+	public void stopRelay() {
 		r1.set(Value.kOff);
+	}
+	
+	public void setTalon(boolean direction) {
+		tal1.set(direction ? -1 : 1);
+	}
+	
+	public void stopTalon() {
+		tal1.set(0);
 	}
 }
