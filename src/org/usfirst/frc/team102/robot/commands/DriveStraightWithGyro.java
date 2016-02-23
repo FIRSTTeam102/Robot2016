@@ -1,8 +1,6 @@
 package org.usfirst.frc.team102.robot.commands;
 
 import org.usfirst.frc.team102.robot.Robot;
-import org.usfirst.frc.team102.robot.RobotMap;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -12,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveStraightWithGyro extends Command {
 	
 	private int distance;
-	private int startDistance;
+	private int distanceAtLastFoot = -1, encoderAtLastFoot = -1;
 	private boolean done = false;
 	
 	public DriveStraightWithGyro(/*double timeout*/ int inches) {
@@ -28,7 +26,6 @@ public class DriveStraightWithGyro extends Command {
 		try {
 			//Robot.robotDriveTrain.startDriving(false);
 			Robot.robotDriveTrain.resetEncoder();
-			startDistance = Robot.robotDriveTrain.getModulatedDistance();
 			
 			while(Robot.robotDriveTrain.getEncoderInches() > 0) {
 				//System.out.println(Robot.robotDriveTrain.getEncoderInches());
@@ -44,32 +41,47 @@ public class DriveStraightWithGyro extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if(startDistance != -1 && Robot.robotDriveTrain.getModulatedDistance() != -1) {
-			int distanceSensor = Robot.robotDriveTrain.getModulatedDistance() - startDistance;
-			int encoder = Robot.robotDriveTrain.getEncoderInches();
-			
-			if(distanceSensor != encoder) {
-				if(distanceSensor > encoder) {
-					if(distanceSensor - encoder > 6) {
-						DriverStation.reportError("Encoder and Distance Sensor are wildly off! Robot full-stopped.", false);
-						Robot.robotDriveTrain.disable();
-						Robot.robotDriveTrain.stop();
-						
-						done = true;
-					}
-				} else if(encoder > distanceSensor) {
-					if(encoder - distanceSensor > 6) {
-						DriverStation.reportError("Encoder and Distance Sensor are wildly off! Robot full-stopped.", false);
-						Robot.robotDriveTrain.disable();
-						Robot.robotDriveTrain.stop();
-						
-						done = true;
-					}
-				} else {
-					DriverStation.reportError("What the ****??? The values !=, !>, !< each other! ComSci Gods, where are you??", false);
+		// "Polling" mode -- MUTUALLY EXCLUSIVE
+		if(Robot.robotDriveTrain.getEncoderInches() + 12 > distance) {
+			if(distanceAtLastFoot == -1) {
+				distanceAtLastFoot = Robot.robotDriveTrain.getModulatedDistance();
+				encoderAtLastFoot = Robot.robotDriveTrain.getEncoderInches();
+			} else {
+				int sensorDif = distanceAtLastFoot - Robot.robotDriveTrain.getModulatedDistance();
+				int encoderDif = encoderAtLastFoot - Robot.robotDriveTrain.getEncoderInches();
+				
+				if(Math.abs(sensorDif - encoderDif) > 3) {
+					DriverStation.reportError("Encoder and Distance Sensor do not agree with each other! Robot full-stopped.", false);
+					Robot.robotDriveTrain.disable();
+					Robot.robotDriveTrain.stop();
+					
+					done = true;
 				}
 			}
 		}
+		
+		// "Too close" mode -- MUTUALLY EXCLUSIVE
+		/*if(Robot.robotDriveTrain.getModulatedDistance() != -1) {
+			DriverStation.reportError("Distance sensor said that we are too close to the wall! Robot full-stopped.", false);
+			Robot.robotDriveTrain.disable();
+			Robot.robotDriveTrain.stop();
+			
+			done = true;
+		}*/
+		
+		// Old version
+		/*if(startDistance != -1 && Robot.robotDriveTrain.getModulatedDistance() != -1) {
+			int distanceSensor = Robot.robotDriveTrain.getModulatedDistance() - startDistance;
+			int encoder = Robot.robotDriveTrain.getEncoderInches();
+			
+			if(Math.abs(distanceSensor - encoder) > 24) {
+				DriverStation.reportError("Encoder and Distance Sensor are wildly off! Robot full-stopped.", false);
+				Robot.robotDriveTrain.disable();
+				Robot.robotDriveTrain.stop();
+				
+				done = true;
+			}
+		}*/
 		
 		if(Robot.robotDriveTrain.getEncoderInches() >= distance) {
 			done = true;
