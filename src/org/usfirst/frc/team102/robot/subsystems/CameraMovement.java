@@ -33,29 +33,31 @@ public class CameraMovement extends Subsystem {
 		cs.setQuality(50);
 		cs.startAutomaticCapture("cam" + RobotMap.frontCameraID);*/
 		
-		img = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
-		
-		Thread camThread = new Thread(() -> {
-			while(true) {
-				if(currCam == -1 || ssid == -1 || !Robot.isRobotActive) {
-					try {
-						Thread.sleep(10);
-					} catch (Exception e) {
-						DriverStation.reportError("Error while preforming sleep:", false);
-						e.printStackTrace();
+		if(RobotMap.hasUSBCams) {
+			img = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
+			
+			Thread camThread = new Thread(() -> {
+				while(true) {
+					if(currCam == -1 || ssid == -1 || !Robot.isRobotActive) {
+						try {
+							Thread.sleep(10);
+						} catch (Exception e) {
+							DriverStation.reportError("Error while preforming sleep: ", false);
+							e.printStackTrace();
+						}
+					} else {
+						NIVision.IMAQdxGrab(ssid, img, 1);
+						CameraServer.getInstance().setImage(img);
 					}
-				} else {
-					NIVision.IMAQdxGrab(ssid, img, 1);
-					CameraServer.getInstance().setImage(img);
 				}
-			}
-		});
-		
-		camThread.setDaemon(true);
-		camThread.setName("Camera Capturing Manager Daemon");
-		if(RobotMap.hasUSBCams) camThread.start();
-		
-		setActiveCamera(1);
+			});
+			
+			camThread.setDaemon(true);
+			camThread.setName("Camera Capturing Manager Daemon");
+			camThread.start();
+			
+			setActiveCamera(1);
+		}
 	}
 	
 	public void setActiveCamera(int camNum) {
@@ -68,16 +70,26 @@ public class CameraMovement extends Subsystem {
 	}
 	
 	private void stopCam(int num) {
-		NIVision.IMAQdxStopAcquisition(num);
-		NIVision.IMAQdxCloseCamera(num);
+		try {
+			NIVision.IMAQdxStopAcquisition(ssid);
+			NIVision.IMAQdxCloseCamera(ssid);
+		} catch(Exception e) {
+			System.err.println("Camera switch failed in quit: ");
+			e.printStackTrace();
+		}
 	}
 	
 	private void startCam(int num) {
-		ssid = NIVision.IMAQdxOpenCamera("cam" + num, IMAQdxCameraControlMode.CameraControlModeController);
-		NIVision.IMAQdxConfigureGrab(ssid);
-		NIVision.IMAQdxStartAcquisition(ssid);
-		
-		currCam = num;
+		try {
+			ssid = NIVision.IMAQdxOpenCamera("cam" + num, IMAQdxCameraControlMode.CameraControlModeController);
+			NIVision.IMAQdxConfigureGrab(ssid);
+			NIVision.IMAQdxStartAcquisition(ssid);
+			
+			currCam = num;
+		} catch(Exception e) {
+			System.err.println("Camera switch failed in initializion: ");
+			e.printStackTrace();
+		}
 	}
 	
 	public void moveCamWithXBox(Joystick js) {
