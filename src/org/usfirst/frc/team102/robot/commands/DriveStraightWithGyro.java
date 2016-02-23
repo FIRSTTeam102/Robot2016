@@ -1,6 +1,7 @@
 package org.usfirst.frc.team102.robot.commands;
 
 import org.usfirst.frc.team102.robot.Robot;
+import org.usfirst.frc.team102.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveStraightWithGyro extends Command {
 	
 	private int distance;
+	private int startDistance;
 	private boolean done = false;
 	
 	public DriveStraightWithGyro(/*double timeout*/ int inches) {
@@ -26,6 +28,7 @@ public class DriveStraightWithGyro extends Command {
 		try {
 			//Robot.robotDriveTrain.startDriving(false);
 			Robot.robotDriveTrain.resetEncoder();
+			startDistance = Robot.robotDriveTrain.getModulatedDistance();
 			
 			while(Robot.robotDriveTrain.getEncoderInches() > 0) {
 				//System.out.println(Robot.robotDriveTrain.getEncoderInches());
@@ -41,6 +44,33 @@ public class DriveStraightWithGyro extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		if(startDistance != -1 && Robot.robotDriveTrain.getModulatedDistance() != -1) {
+			int distanceSensor = Robot.robotDriveTrain.getModulatedDistance() - startDistance;
+			int encoder = Robot.robotDriveTrain.getEncoderInches();
+			
+			if(distanceSensor != encoder) {
+				if(distanceSensor > encoder) {
+					if(distanceSensor - encoder > 6) {
+						DriverStation.reportError("Encoder and Distance Sensor are wildly off! Robot full-stopped.", false);
+						Robot.robotDriveTrain.disable();
+						Robot.robotDriveTrain.stop();
+						
+						done = true;
+					}
+				} else if(encoder > distanceSensor) {
+					if(encoder - distanceSensor > 6) {
+						DriverStation.reportError("Encoder and Distance Sensor are wildly off! Robot full-stopped.", false);
+						Robot.robotDriveTrain.disable();
+						Robot.robotDriveTrain.stop();
+						
+						done = true;
+					}
+				} else {
+					DriverStation.reportError("What the ****??? The values !=, !>, !< each other! ComSci Gods, where are you??", false);
+				}
+			}
+		}
+		
 		if(Robot.robotDriveTrain.getEncoderInches() >= distance) {
 			done = true;
 			Robot.robotDriveTrain.resetEncoder();
