@@ -44,6 +44,12 @@ public class Turn extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
+		if(Robot.autonomousCommand != null && Robot.autonomousCommand.isCanceled()) {
+			Robot.robotDriveTrain.disable();
+			Robot.robotDriveTrain.stop();
+			return true;
+		}
+		
 		//return isTimedOut();
 		return Robot.robotDriveTrain.isDoneTurning;
 	}
@@ -53,6 +59,7 @@ public class Turn extends Command {
 //		if (!GetInitialData.noAuto)
 //			Robot.robotDriveTrain.stop();
 		Robot.robotDriveTrain.disable();
+		Robot.robotDriveTrain.stop();
 	}
 
 	// Called when another command which requires one or more of the same

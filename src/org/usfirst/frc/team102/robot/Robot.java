@@ -1,17 +1,12 @@
 package org.usfirst.frc.team102.robot;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team102.robot.commands.LowBar;
-import org.usfirst.frc.team102.robot.subsystems.Arm;
-import org.usfirst.frc.team102.robot.subsystems.CameraMovement;
-import org.usfirst.frc.team102.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team102.robot.subsystems.Hoop;
+
+import org.usfirst.frc.team102.robot.commands.*;
+import org.usfirst.frc.team102.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,7 +26,7 @@ public class Robot extends IterativeRobot {
 
 	public static Joystick driverJoystick;
 	public static Joystick operatorJoystick;
-	Command autonomousCommand = null;
+	public static Command autonomousCommand = null;
 	
 	public static boolean isRobotActive = false;
 
@@ -100,11 +95,11 @@ public class Robot extends IterativeRobot {
 
 			//System.out.println(i);
 
-			/*if (i == 0)
-				autonomousCommand = null;*/ // Uncomment all this bit BEFORE STOP BUILD DAY
+			if (i == 0)
+				autonomousCommand = null;
 			if (i == 1)
 				autonomousCommand = new LowBar();
-			/*if (i == 2)
+			if (i == 2)
 				autonomousCommand = new DefensePos2('B');
 			if (i == 3)
 				autonomousCommand = new DefensePos2('D');
@@ -131,7 +126,7 @@ public class Robot extends IterativeRobot {
 			if (i == 14)
 				autonomousCommand = null;
 			if (i == 15)
-				autonomousCommand = null;*/
+				autonomousCommand = null;
 
 			if (autonomousCommand != null)
 				autonomousCommand.start();
@@ -147,7 +142,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
+		if(autonomousCommand != null && !autonomousCommand.isCanceled()) Scheduler.getInstance().run();
 	}
 
 	public void teleopInit() {

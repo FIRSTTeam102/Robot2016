@@ -168,6 +168,8 @@ public class DriveTrain extends PIDSubsystem {
 		 * System.out.println(getEncoderValue());
 		 */
 
+		// System.out.println(getEncoderInches());
+
 		try {
 			leftJoyX = xBox.getRawAxis(RobotMap.xBoxLeftXAxis);
 			leftJoyY = xBox.getRawAxis(RobotMap.xBoxLeftYAxis);
@@ -241,6 +243,8 @@ public class DriveTrain extends PIDSubsystem {
 	// End auto-mode handling code
 
 	public int getDistanceSensorRawInput() {
+		if(!RobotMap.hasDistanceSensor) return -1;
+		
 		if (distanceSensor == null)
 			distanceSensor = new AnalogInput(RobotMap.distanceSensorIndex);
 
@@ -249,16 +253,22 @@ public class DriveTrain extends PIDSubsystem {
 
 	// returns: distance reading from distance sensor in centimeters
 	public int getModulatedDistance() {
+		if(!RobotMap.hasDistanceSensor) return 32;
+		
 		int raw = getDistanceSensorRawInput();
-
+		//System.out.println(raw);
+		
 		if (raw > 2253 || raw < 328) {
-			/*DriverStation.reportError(
-					"Warning: Distance sensor output is out of the expected range. (Check callibration??)", false);*/
+			/*
+			 * DriverStation.reportError(
+			 * "Warning: Distance sensor output is out of the expected range. (Check callibration??)"
+			 * , false);
+			 */
 			return -1;
 		}
-		
+
 		// Distance sensor units are in CM, converted to IN by dividing by 2.54
-		return (int)Math.round(distanceSensorValues[raw - 328] / 2.54);
+		return (int) Math.round(distanceSensorValues[raw - 328] / 2.54);
 	}
 
 	protected double returnPIDInput() {
@@ -269,10 +279,10 @@ public class DriveTrain extends PIDSubsystem {
 		output = Math.round(output);
 		gyroVal = Math.round(gyroVal);
 
-		// System.out.println("Gyro: " + gyroVal + ", Out: " + output + ",
-		// Desired Angle: " + desiredGyroMeasure + ", Encoder (Inches): " +
-		// getEncoderInches());
-		System.out.println("Encoder (Position): " + getEncoderPos());
+		//if (RobotMap.isTestBed)
+		//	System.out.println("Gyro: " + gyroVal + ", Out: " + output + ", Desired Angle: " + desiredGyroMeasure
+		//			+ ", Encoder (Inches): " + getEncoderInches());
+		//System.out.println("Encoder (Position): " + getEncoderPos());
 
 		if (gyroVal == desiredGyroMeasure && gyroVal != 0) {
 			theGyro.reset();
@@ -298,7 +308,7 @@ public class DriveTrain extends PIDSubsystem {
 		desiredGyroMeasure = 0;
 		theGyro.reset();
 		enable();
-		startDriving(false);
+		//startDriving(false);
 
 		setSetpoint(desiredGyroMeasure);
 	}
@@ -339,6 +349,8 @@ public class DriveTrain extends PIDSubsystem {
 	}
 
 	public int getEncoderInches() {
-		return (int) ((Math.round(getEncoderValue()) - encoderZeroPos) / 360);
+		// Empirically, 1 rotation ~= 1400 encoder ticks
+		// 1 turn ~= 10 inches
+		return (int) ((Math.round(getEncoderValue()) - encoderZeroPos) / 140);
 	}
 }

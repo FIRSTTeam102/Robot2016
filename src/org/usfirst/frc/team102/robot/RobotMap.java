@@ -9,9 +9,13 @@ package org.usfirst.frc.team102.robot;
 public class RobotMap {
 
 	// Are we on the test bed?
-	public static final boolean isTestBed = false;
+	public static final boolean isTestBed = true;
 	// Do we have USB Cameras?
 	public static final boolean hasUSBCams = !isTestBed;
+	// Do we have a distance sensor?
+	public static final boolean hasDistanceSensor = !isTestBed;
+	// Do we have the scaling mechanism?
+	public static final boolean hasScaleMotors = false;
 	
 	// USB camera IDs
 	public static final int frontCameraID = 1;
@@ -54,8 +58,10 @@ public class RobotMap {
 	// Servo Motor
 	public static final int xAxisServo = 0;
 	public static final int yAxisServo = 1;
-	// The Talon
+	// The Talons
 	public static final int hoopTalon = 2;
+	public static final int leftScaleTalon = 3;
+	public static final int rightScaleTalon = 4;
 
 	// Analog Inputs
 	// Distance Sensors

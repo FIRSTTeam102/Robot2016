@@ -19,7 +19,7 @@ public class Hoop extends Subsystem {
 	private Relay r1;
 	private DigitalInput limitSensorTop, limitSensorBottom;
 	
-	private Talon tal1;
+	private Talon handleBallMotor;
 	
 	public Hoop() {
 		r1 = new Relay(RobotMap.relay1, Direction.kBoth);
@@ -27,7 +27,7 @@ public class Hoop extends Subsystem {
 		limitSensorTop = new DigitalInput(RobotMap.hoopLimitSensorTop);
 		limitSensorBottom = new DigitalInput(RobotMap.hoopLimitSensorBottom);
 		
-		tal1 = new Talon(RobotMap.hoopTalon);
+		handleBallMotor = new Talon(RobotMap.hoopTalon);
 	}
 
 	protected void initDefaultCommand() {
@@ -51,6 +51,7 @@ public class Hoop extends Subsystem {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	public void setRelay(boolean direction) {
 		if (direction && !limitSensorTop.get() && !RobotMap.isTestBed) {
 			Robot.oi.opRumble.playRumbleMessage(Rumbles.error);
@@ -75,11 +76,11 @@ public class Hoop extends Subsystem {
 		r1.set(Value.kOff);
 	}
 	
-	public void setTalon(boolean direction) {
-		tal1.set(direction ? -1 : 1);
+	public void handleBall(boolean direction) {
+		handleBallMotor.set(direction ? -1 : 1);
 	}
 	
 	public void stopTalon() {
-		tal1.set(0);
+		handleBallMotor.set(0);
 	}
 }

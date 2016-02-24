@@ -3,6 +3,7 @@ package org.usfirst.frc.team102.robot.commands;
 import org.usfirst.frc.team102.robot.Robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  *
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveStraightWithGyro extends Command {
 	
 	private int distance;
+	@SuppressWarnings("unused")
 	private int distanceAtLastFoot = -1, encoderAtLastFoot = -1;
 	private boolean done = false;
 	
@@ -42,7 +44,7 @@ public class DriveStraightWithGyro extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		// "Polling" mode -- MUTUALLY EXCLUSIVE
-		if(Robot.robotDriveTrain.getEncoderInches() + 12 > distance) {
+		/*if(Robot.robotDriveTrain.getEncoderInches() + 12 > distance) {
 			if(distanceAtLastFoot == -1) {
 				distanceAtLastFoot = Robot.robotDriveTrain.getModulatedDistance();
 				encoderAtLastFoot = Robot.robotDriveTrain.getEncoderInches();
@@ -55,19 +57,25 @@ public class DriveStraightWithGyro extends Command {
 					Robot.robotDriveTrain.disable();
 					Robot.robotDriveTrain.stop();
 					
+					if(Robot.autonomousCommand != null) Robot.autonomousCommand.cancel();
+					
 					done = true;
 				}
 			}
-		}
+		}*/
+		
+		//System.out.println(Robot.robotDriveTrain.getModulatedDistance());
 		
 		// "Too close" mode -- MUTUALLY EXCLUSIVE
-		/*if(Robot.robotDriveTrain.getModulatedDistance() != -1) {
+		if(Robot.robotDriveTrain.getModulatedDistance() != -1) {
 			DriverStation.reportError("Distance sensor said that we are too close to the wall! Robot full-stopped.", false);
 			Robot.robotDriveTrain.disable();
 			Robot.robotDriveTrain.stop();
 			
+			if(Robot.autonomousCommand != null) Robot.autonomousCommand.cancel();
+			
 			done = true;
-		}*/
+		}
 		
 		// Old version
 		/*if(startDistance != -1 && Robot.robotDriveTrain.getModulatedDistance() != -1) {
@@ -95,6 +103,12 @@ public class DriveStraightWithGyro extends Command {
 	protected boolean isFinished() {
 		//return isTimedOut();
 		//return Robot.robotDriveTrain.getEncoderInches() >= distance;
+		if(Robot.autonomousCommand != null && Robot.autonomousCommand.isCanceled()) {
+			Robot.robotDriveTrain.disable();
+			Robot.robotDriveTrain.stop();
+			return true;
+		}
+		
 		return done;
 	}
 

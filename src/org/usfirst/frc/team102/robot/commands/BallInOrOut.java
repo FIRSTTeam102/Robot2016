@@ -14,7 +14,7 @@ public class BallInOrOut extends Command {
 	}
 
 	protected void initialize() {
-		Robot.robotHoop.setTalon(direction);
+		Robot.robotHoop.handleBall(direction);
 	}
 
 	protected void execute() {

@@ -25,11 +25,13 @@ public class DefensePos3 extends CommandGroup {
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
 		addSequential(new ToggleHoop(true));
-		addSequential(new DriveStraightWithGyro(50));
+		addSequential(new DriveStraightWithGyro(222));
 		addSequential(new Turn(90));
-		addSequential(new DriveStraightWithGyro(10));
-		addSequential(new Turn(150));
-		addSequential(new DriveStraightWithGyro(20));
+		addSequential(new DriveStraightWithGyro(48));
+		addSequential(new Turn(-90));
+		addSequential(new DriveStraightWithGyro(18));
+		addSequential(new Turn(60));
+		addSequential(new DriveStraightWithGyro(177));
 		addSequential(new ToggleHoop(false));
 	}
 }
