@@ -86,8 +86,11 @@ public class OI {
 		xBoxLeftBump.whenPressed(new BallInOrOut(false));
 		xBoxLeftBump.whenReleased(new StopBall());
 
+		
+		//passes in direction.  speed is defined as a constant in RobotMap
 		xBoxA = new JoystickButton(xBoxDriver, RobotMap.xBoxAIndex);
-
+		//xBoxA.whenPressed(new Scale());
+		
 		xBoxOpStart = new JoystickButton(xBoxOperator, RobotMap.xBoxStartButtonIndex);
 		xBoxOpStart.whenPressed(new Dancing(.5));
 

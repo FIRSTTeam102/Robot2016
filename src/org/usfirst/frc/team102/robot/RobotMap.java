@@ -17,6 +17,9 @@ public class RobotMap {
 	// Do we have the scaling mechanism?
 	public static final boolean hasScaleMotors = false;
 	
+	// How long it takes to scale the tower in each direction
+	public static final double scaleTime = 3;
+	
 	// USB camera IDs
 	public static final int frontCameraID = 1;
 	public static final int backCameraID = 3;
@@ -43,6 +46,8 @@ public class RobotMap {
 	public static final int xBoxStartButtonIndex = 8;
 	public static final int xBoxLeftJoystickPress = 9;
 	public static final int xBoxRightJoystickPress = 10;
+	public static final int xBoxLeftTriggerAxis = 2;
+	public static final int xBoxRightTriggerAxis = 3;
 	
 	// Motors
 	// CAN IDs.

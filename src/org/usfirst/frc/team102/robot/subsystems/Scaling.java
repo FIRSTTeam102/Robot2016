@@ -2,7 +2,6 @@ package org.usfirst.frc.team102.robot.subsystems;
 
 import org.usfirst.frc.team102.robot.RobotMap;
 import org.usfirst.frc.team102.robot.commands.Scale;
-
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -16,26 +15,23 @@ public class Scaling extends Subsystem {
 	}
 	
 	protected void initDefaultCommand() {
+		setDefaultCommand(new Scale());
 	}
 	
-	public void startScaling(boolean dir) {
-		
-		//if(Scale.Dir.ArmsUp){
-			leftScaleTal.set(1.0);
-		    rightScaleTal.set(1.0);
-		//}
-		//if(Scale.Dir.RobotUp){
-		    leftScaleTal.set(1.0);
-			rightScaleTal.set(1.0);    
-		//}
+	//scale speed is defined in the RobotMap
+	public void startScaling(boolean direction) {
+		if(direction){
+			leftScaleTal.set(1);
+		    rightScaleTal.set(1);
+		} else {
+		    leftScaleTal.set(-1);
+			rightScaleTal.set(-1);    
+		}
 		
 	}
 	
 	public void stopScaling(){
-		
-		leftScaleTal.set(1.0);
-		rightScaleTal.set(1.0); 
-		
+		leftScaleTal.set(0);
+		rightScaleTal.set(0); 
 	}
-	
 }

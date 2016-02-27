@@ -23,6 +23,7 @@ public class Robot extends IterativeRobot {
 	public static Arm robotArm;
 	public static CameraMovement robotCam;
 	public static Hoop robotHoop;
+	public static Scaling scale;
 
 	public static Joystick driverJoystick;
 	public static Joystick operatorJoystick;
@@ -41,7 +42,10 @@ public class Robot extends IterativeRobot {
 			robotArm = new Arm();
 			robotCam = new CameraMovement();
 			robotHoop = new Hoop();
+			scale = new Scaling();
 			oi = new OI();
+			
+			TimeUtil.init();
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
