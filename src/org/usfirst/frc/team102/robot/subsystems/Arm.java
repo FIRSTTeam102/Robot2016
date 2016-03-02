@@ -7,6 +7,7 @@ import org.usfirst.frc.team102.robot.Rumbler.Rumbles;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends Subsystem {
 
@@ -51,6 +52,14 @@ public class Arm extends Subsystem {
 		}
 
 		armMotor.set(speed);
+	}
+	
+	public void updateDashboard(){
+		
+		if(!limitSensorTop.get())
+			SmartDashboard.putString("DB/String 0", "Arm: SWITCH ON");
+		else
+			SmartDashboard.putString("DB/String 0", "Arm: ");
 	}
 
 	public void stopArm() {

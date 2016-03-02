@@ -27,6 +27,7 @@ public class MoveArm extends Command {
 	protected void execute() {
 		try {
 			Robot.robotArm.startArm(speed);
+			Robot.robotArm.updateDashboard();
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);

@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 public class StopBall extends Command {
 	
 	public StopBall() {
-		requires(Robot.robotHoop);
+		requires(Robot.robotBallHandler);
 	}
 	
 	protected void initialize() {
-		Robot.robotHoop.stopTalon();
+		Robot.robotBallHandler.stopTalon();
 	}
 
 	protected void execute() {

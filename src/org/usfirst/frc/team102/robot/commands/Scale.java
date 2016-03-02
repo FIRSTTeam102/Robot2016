@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class Scale extends Command {
 	
+	public static ScaleState scale = ScaleState.none;
+	
 	public Scale() {
 		requires(Robot.scale);
 	}
@@ -30,6 +32,7 @@ public class Scale extends Command {
 		double operatorLAxis = operator.getRawAxis(RobotMap.xBoxLeftTriggerAxis);
 		double operatorRAxis = operator.getRawAxis(RobotMap.xBoxRightTriggerAxis);
 		
+		//how to simplify this boolean expression??
 		boolean timeExpired = (TimeUtil.has("Scale Timeout") ? TimeUtil.isElapsed("Scale Timeout") : true);
 		
 		if(driverLAxis == 1 && driverRAxis == 0 && operatorLAxis == 1 && operatorRAxis == 0 && timeExpired) {
@@ -39,6 +42,7 @@ public class Scale extends Command {
 			Robot.scale.startScaling(true);
 			
 			TimeUtil.setTimer("Scale Timeout", RobotMap.scaleTime + 1);
+			scale = ScaleState.tapeUp;
 		}
 		
 		if(driverLAxis == 0 && driverRAxis == 1 && operatorLAxis == 0 && operatorRAxis == 1 && timeExpired) {
@@ -48,6 +52,7 @@ public class Scale extends Command {
 			Robot.scale.startScaling(false);
 			
 			TimeUtil.setTimer("Scale Timeout", RobotMap.scaleTime + 1);
+			scale = ScaleState.robotUp;
 		}
 	}
 	
@@ -61,5 +66,10 @@ public class Scale extends Command {
 	
 	protected void interrupted() {
 		end();
+	}
+	
+	public enum ScaleState {
+		
+		none, robotUp, tapeUp;
 	}
 }

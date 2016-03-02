@@ -11,21 +11,21 @@ public class ToggleHoop extends Command {
 	private boolean done;
 	
 	public ToggleHoop(boolean direction) {
-		requires(Robot.robotHoop);
+		requires(Robot.robotBallHandler);
 		setTimeout(.25);
 
 		dir = direction;
 	}
 
 	protected void initialize() {
-		Robot.robotHoop.setRelay(dir);
+		Robot.robotBallHandler.setRelay(dir);
 	}
 
 	protected void execute() {
 		if(!RobotMap.isTestBed) {
-			Robot.robotHoop.checkLimitSwitches();
+			Robot.robotBallHandler.checkLimitSwitches();
 			
-			if(!Robot.robotHoop.isActive()) done = true;
+			if(!Robot.robotBallHandler.isActive()) done = true;
 		}
 	}
 
@@ -34,7 +34,7 @@ public class ToggleHoop extends Command {
 	}
 
 	protected void end() {
-		Robot.robotHoop.stopRelay();
+		Robot.robotBallHandler.stopRelay();
 	}
 
 	protected void interrupted() {

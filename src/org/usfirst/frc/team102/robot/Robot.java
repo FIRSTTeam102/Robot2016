@@ -22,7 +22,7 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain robotDriveTrain;
 	public static Arm robotArm;
 	public static CameraMovement robotCam;
-	public static Hoop robotHoop;
+	public static BallHandler robotBallHandler;
 	public static Scaling scale;
 
 	public static Joystick driverJoystick;
@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot {
 			robotDriveTrain = new DriveTrain(.04, 0, 0);
 			robotArm = new Arm();
 			robotCam = new CameraMovement();
-			robotHoop = new Hoop();
+			robotBallHandler = new BallHandler();
 			scale = new Scaling();
 			oi = new OI();
 			
@@ -156,6 +156,7 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 
 		try {
+			updateMessages();
 			if (autonomousCommand != null)
 				autonomousCommand.cancel();
 			
@@ -172,6 +173,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		updateMessages();
 	}
 
 	/**
@@ -192,5 +194,12 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+	}
+	
+	public void updateMessages(){
+		robotBallHandler.updateDashboard();
+		robotArm.updateDashboard();
+		scale.updateDashbaord();
+		
 	}
 }

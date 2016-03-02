@@ -13,13 +13,13 @@ public class StopHoop extends Command {
 	public StopHoop() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.robotHoop);
+		requires(Robot.robotBallHandler);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		try {
-			Robot.robotHoop.stopRelay();
+			Robot.robotBallHandler.stopRelay();
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);

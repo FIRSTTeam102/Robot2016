@@ -17,14 +17,14 @@ public class MoveHoop extends Command {
 	public MoveHoop(boolean direction) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.robotHoop);
+		requires(Robot.robotBallHandler);
 		this.direction = direction;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		try {
-			Robot.robotHoop.setRelay(direction);
+			Robot.robotBallHandler.setRelay(direction);
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
@@ -35,9 +35,9 @@ public class MoveHoop extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if(!RobotMap.isTestBed) {
-			Robot.robotHoop.checkLimitSwitches();
+			Robot.robotBallHandler.checkLimitSwitches();
 			
-			if(!Robot.robotHoop.isActive()) done = true;
+			if(!Robot.robotBallHandler.isActive()) done = true;
 		}
 	}
 

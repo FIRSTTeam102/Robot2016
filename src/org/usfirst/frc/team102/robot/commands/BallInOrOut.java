@@ -9,12 +9,12 @@ public class BallInOrOut extends Command {
 	public boolean direction;
 
 	public BallInOrOut(boolean direction) {
-		requires(Robot.robotHoop);
+		requires(Robot.robotBallHandler);
 		this.direction = direction;
 	}
 
 	protected void initialize() {
-		Robot.robotHoop.handleBall(direction);
+		Robot.robotBallHandler.handleBall(direction);
 	}
 
 	protected void execute() {

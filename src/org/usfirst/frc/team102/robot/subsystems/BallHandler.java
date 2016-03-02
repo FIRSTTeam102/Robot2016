@@ -11,8 +11,9 @@ import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Hoop extends Subsystem {
+public class BallHandler extends Subsystem {
 
 	public static boolean dir;
 
@@ -21,7 +22,7 @@ public class Hoop extends Subsystem {
 	
 	private Talon handleBallMotor;
 	
-	public Hoop() {
+	public BallHandler() {
 		r1 = new Relay(RobotMap.relay1, Direction.kBoth);
 		
 		limitSensorTop = new DigitalInput(RobotMap.hoopLimitSensorTop);
@@ -82,5 +83,15 @@ public class Hoop extends Subsystem {
 	
 	public void stopTalon() {
 		handleBallMotor.set(0);
+	}
+	
+	public void updateDashboard(){
+		
+		if(!limitSensorTop.get())
+			SmartDashboard.putString("DB/String 0", "BH: TOP ON");
+		else if(!limitSensorBottom.get())
+			SmartDashboard.putString("DB/String 0", "BH: BOTTOM ON");
+		else
+			SmartDashboard.putString("DB/String 0", "BH: ");
 	}
 }

@@ -4,6 +4,7 @@ import org.usfirst.frc.team102.robot.RobotMap;
 import org.usfirst.frc.team102.robot.commands.Scale;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Scaling extends Subsystem {
 	
@@ -33,5 +34,15 @@ public class Scaling extends Subsystem {
 	public void stopScaling(){
 		leftScaleTal.set(0);
 		rightScaleTal.set(0); 
+	}
+	
+	public void updateDashbaord(){
+		
+		if(Scale.scale == Scale.scale.none)
+			SmartDashboard.putString("DB/String 2", " ");
+		else if(Scale.scale == Scale.ScaleState.tapeUp)
+			SmartDashboard.putString("DB/String 2", "SCALE: TAPE UP");
+		else if(Scale.scale == Scale.ScaleState.robotUp)
+			SmartDashboard.putString("DB/String 2", "SCALE: ROBOT UP");
 	}
 }
