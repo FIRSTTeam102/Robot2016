@@ -1,13 +1,23 @@
 package org.usfirst.frc.team102.robot.subsystems;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Scanner;
+
 import org.usfirst.frc.team102.robot.RobotMap;
 import org.usfirst.frc.team102.robot.commands.DriveWithXBox;
 
+import team102Lib.MessageLogger;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -34,6 +44,9 @@ public class DriveTrain extends PIDSubsystem {
 	private double desiredGyroMeasure;
 	public boolean isDoneTurning = false;
 	private double encoderZeroPos = 0;
+	BufferedWriter logWriter = null;
+	public String simDistanceFile = "SensorData.txt";
+	Scanner SimDistanceFile = null;
 
 	// WARNING: This array has TONZ of pre-calculated values for the distance
 	// sensor.
@@ -243,8 +256,9 @@ public class DriveTrain extends PIDSubsystem {
 	// End auto-mode handling code
 
 	public int getDistanceSensorRawInput() {
-		if(!RobotMap.hasDistanceSensor) return -1;
-		
+		if (!RobotMap.hasDistanceSensor)
+			return -1;
+
 		if (distanceSensor == null)
 			distanceSensor = new AnalogInput(RobotMap.distanceSensorIndex);
 
@@ -253,11 +267,12 @@ public class DriveTrain extends PIDSubsystem {
 
 	// returns: distance reading from distance sensor in centimeters
 	public int getModulatedDistance() {
-		if(!RobotMap.hasDistanceSensor) return 32;
-		
+		if (!RobotMap.hasDistanceSensor)
+			return 32;
+
 		int raw = getDistanceSensorRawInput();
-		//System.out.println(raw);
-		
+		// System.out.println(raw);
+
 		if (raw > 2253 || raw < 328) {
 			/*
 			 * DriverStation.reportError(
@@ -279,10 +294,11 @@ public class DriveTrain extends PIDSubsystem {
 		output = Math.round(output);
 		gyroVal = Math.round(gyroVal);
 
-		//if (RobotMap.isTestBed)
-		//	System.out.println("Gyro: " + gyroVal + ", Out: " + output + ", Desired Angle: " + desiredGyroMeasure
-		//			+ ", Encoder (Inches): " + getEncoderInches());
-		//System.out.println("Encoder (Position): " + getEncoderPos());
+		// if (RobotMap.isTestBed)
+		// System.out.println("Gyro: " + gyroVal + ", Out: " + output + ",
+		// Desired Angle: " + desiredGyroMeasure
+		// + ", Encoder (Inches): " + getEncoderInches());
+		// System.out.println("Encoder (Position): " + getEncoderPos());
 
 		if (gyroVal == desiredGyroMeasure && gyroVal != 0) {
 			theGyro.reset();
@@ -308,7 +324,7 @@ public class DriveTrain extends PIDSubsystem {
 		desiredGyroMeasure = 0;
 		theGyro.reset();
 		enable();
-		//startDriving(false);
+		// startDriving(false);
 
 		setSetpoint(desiredGyroMeasure);
 	}
@@ -352,5 +368,60 @@ public class DriveTrain extends PIDSubsystem {
 		// Empirically, 1 rotation ~= 1400 encoder ticks
 		// 1 turn ~= 10 inches
 		return (int) ((Math.round(getEncoderValue()) - encoderZeroPos) / 140);
+	}
+
+	public void getInfo() {
+		int reading = -1;
+		if (RobotMap.isTestBed) {
+			if (simDistanceFile != null) {
+				 if (SimDistanceFile.hasNextInt())
+				 reading = SimDistanceFile.nextInt();
+			}
+		} else {
+			reading = distanceSensor.getValue();
+		}
+
+		if (reading != -1) {
+			// Put the reading into the moving stats.
+			// frontMovingStats.update(reading);
+			// Write reading to the log file.
+			try {
+				logWriter.write(String.format("%f\t%.0f", Timer.getFPGATimestamp(), reading));
+				 MessageLogger.LogMessage(String.format("%f\t%.0f\t%.0f",
+			     Timer.getFPGATimestamp(), reading));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} else {
+			// Indicate end of reading in the log file.
+		}
+	}
+	
+	public void SetUpDistanceSensor() {
+		if (RobotMap.isTestBed) {
+			try {
+				String simFile = "/home/lvuser/SimDist/" + simDistanceFile;
+				MessageLogger.LogMessage("Opening simulation file: " + simFile);
+				SimDistanceFile = new Scanner(new File(simFile));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		// Open a file for logging the distance sensor output.
+		try {
+			// create a temporary file
+			String timeLog = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+			File logFile = new File("/home/lvuser/SimDist/Distance-" + timeLog + ".log");
+
+			MessageLogger.LogMessage("Logging distance to: " + logFile.getCanonicalPath());
+
+			logWriter = new BufferedWriter(new FileWriter(logFile));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 }

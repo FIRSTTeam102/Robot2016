@@ -57,9 +57,9 @@ public class Arm extends Subsystem {
 	public void updateDashboard(){
 		
 		if(!limitSensorTop.get())
-			SmartDashboard.putString("DB/String 0", "Arm: SWITCH ON");
+			SmartDashboard.putString("DB/String 1", "Arm: SWITCH ON");
 		else
-			SmartDashboard.putString("DB/String 0", "Arm: ");
+			SmartDashboard.putString("DB/String 1", "Arm: ");
 	}
 
 	public void stopArm() {

@@ -199,7 +199,7 @@ public class Robot extends IterativeRobot {
 	public void updateMessages(){
 		robotBallHandler.updateDashboard();
 		robotArm.updateDashboard();
-		scale.updateDashbaord();
+		scale.updateDashboard();
 		
 	}
 }

@@ -13,7 +13,7 @@ public class OI {
 
 	private Joystick xBoxDriver;
 	private Joystick xBoxOperator;
-	private Joystick xBoxTest;
+	private Joystick xBoxTester;
 	private JoystickButton xBoxA;
 	private JoystickButton xBoxY;
 	private JoystickButton xBoxB;
@@ -31,18 +31,18 @@ public class OI {
 	private JoystickButton xBoxTestY;
 	public Rumbler driveRumble, opRumble, testRumble;
 
-	public final boolean enableTestJoystick = false;
+	public final boolean enableTestJoystick = true;
 
 	public OI() {
 		xBoxDriver = new Joystick(RobotMap.driverJoystickPort);
 		xBoxOperator = new Joystick(RobotMap.operatorJoystickPort);
 		if (enableTestJoystick)
-			xBoxTest = new Joystick(RobotMap.testJoystickPort);
+			xBoxTester = new Joystick(RobotMap.testJoystickPort);
 
 		driveRumble = new Rumbler(xBoxDriver);
 		opRumble = new Rumbler(xBoxOperator);
 		if (enableTestJoystick)
-			testRumble = new Rumbler(xBoxTest);
+			testRumble = new Rumbler(xBoxTester);
 
 		xBoxY = new JoystickButton(xBoxOperator, RobotMap.xBoxYIndex);
 		xBoxY.whenPressed(new MoveArmOpposite(0.6));
@@ -109,10 +109,10 @@ public class OI {
 
 			// Test Joystick commands
 
-			xBoxTestA = new JoystickButton(xBoxTest, RobotMap.xBoxAIndex);
-			xBoxTestB = new JoystickButton(xBoxTest, RobotMap.xBoxBIndex);
-			xBoxTestX = new JoystickButton(xBoxTest, RobotMap.xBoxXIndex);
-			xBoxTestY = new JoystickButton(xBoxTest, RobotMap.xBoxYIndex);
+			xBoxTestA = new JoystickButton(xBoxTester, RobotMap.xBoxAIndex);
+			xBoxTestB = new JoystickButton(xBoxTester, RobotMap.xBoxBIndex);
+			xBoxTestX = new JoystickButton(xBoxTester, RobotMap.xBoxXIndex);
+			xBoxTestY = new JoystickButton(xBoxTester, RobotMap.xBoxYIndex);
 
 			xBoxTestA.whenPressed(new MoveHoop(true));
 			xBoxTestA.whenReleased(new StopHoop());
@@ -128,6 +128,10 @@ public class OI {
 
 	public Joystick getOperatorXBox() {
 		return xBoxOperator;
+	}
+
+	public Joystick getTesterXBox() {
+		return xBoxTester;
 	}
 
 	//// CREATING BUTTONS

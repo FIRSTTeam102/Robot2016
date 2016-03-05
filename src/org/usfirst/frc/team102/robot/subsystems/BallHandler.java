@@ -28,7 +28,7 @@ public class BallHandler extends Subsystem {
 		limitSensorTop = new DigitalInput(RobotMap.hoopLimitSensorTop);
 		limitSensorBottom = new DigitalInput(RobotMap.hoopLimitSensorBottom);
 		
-		handleBallMotor = new Talon(RobotMap.hoopTalon);
+		handleBallMotor = new Talon(RobotMap.ballHandlerTalon);
 	}
 
 	protected void initDefaultCommand() {

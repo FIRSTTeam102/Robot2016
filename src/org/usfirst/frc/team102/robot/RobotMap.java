@@ -64,8 +64,8 @@ public class RobotMap {
 	public static final int xAxisServo = 0;
 	public static final int yAxisServo = 1;
 	// The Talons
-	public static final int hoopTalon = 2;
-	public static final int leftScaleTalon = 3;
+	public static final int ballHandlerTalon = 3;
+	public static final int leftScaleTalon = 2;
 	public static final int rightScaleTalon = 4;
 
 	// Analog Inputs
