@@ -22,11 +22,13 @@ public class Scaling extends Subsystem {
 	public void startScaling(double speed) {
 		leftScaleTal.set(speed);
 		rightScaleTal.set(speed);
+		System.out.println("Scale speed: " + speed);
 	}
 
 	public void stopScaling() {
 		leftScaleTal.set(0);
 		rightScaleTal.set(0);
+		System.out.println("Stop Scale");
 	}
 
 	public void updateDashboard() {

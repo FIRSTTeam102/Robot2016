@@ -98,6 +98,7 @@ public class DriveStraightWithGyro extends Command {
 		//System.out.println(Robot.robotDriveTrain.getEncoderInches());
 		
 		//create file for distanceSensor/encoders/gyro info
+		Robot.robotDriveTrain.SetUpDistanceSensor();
 		Robot.robotDriveTrain.getInfo();
 	}
 

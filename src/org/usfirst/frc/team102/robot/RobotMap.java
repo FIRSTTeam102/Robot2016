@@ -15,7 +15,7 @@ public class RobotMap {
 	// Do we have a distance sensor?
 	public static final boolean hasDistanceSensor = !isTestBed;
 	// Do we have the scaling mechanism?
-	public static final boolean hasScaleMotors = false;
+	//public static final boolean hasScaleMotors = false;
 	
 	// How long it takes to scale the tower in each direction
 	public static final double scaleTime = 3;
@@ -64,8 +64,8 @@ public class RobotMap {
 	public static final int xAxisServo = 0;
 	public static final int yAxisServo = 1;
 	// The Talons
-	public static final int ballHandlerTalon = 3;
-	public static final int leftScaleTalon = 2;
+	public static final int ballHandlerTalon = 2;
+	public static final int leftScaleTalon = 3;
 	public static final int rightScaleTalon = 4;
 
 	// Analog Inputs

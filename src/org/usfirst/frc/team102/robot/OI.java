@@ -119,6 +119,10 @@ public class OI {
 
 			xBoxTestB.whenPressed(new MoveHoop(false));
 			xBoxTestB.whenReleased(new StopHoop());
+
+			xBoxTestX.whenReleased(new TestScale(1.0));
+
+			xBoxTestY.whenReleased(new TestScale(-1.0));
 		}
 	}
 
