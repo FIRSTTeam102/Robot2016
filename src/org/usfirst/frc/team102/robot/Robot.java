@@ -65,10 +65,10 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousInit() {
 		try {
-			if(autonomousCommand != null) {
-				autonomousCommand.cancel();
-				autonomousCommand = null;
-			}
+			//if(autonomousCommand != null) {
+				//autonomousCommand.cancel();
+				//autonomousCommand = null;
+			//}
 			
 			int i = 0;
 			DigitalInput in = new DigitalInput(RobotMap.autoSwitch0);
@@ -135,6 +135,7 @@ public class Robot extends IterativeRobot {
 			if (autonomousCommand != null)
 				autonomousCommand.start();
 			
+			System.out.println(i);
 			isRobotActive = true;
 		} catch (Exception ex1) {
 			ex1.printStackTrace();

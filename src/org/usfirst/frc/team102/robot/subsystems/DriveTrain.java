@@ -45,8 +45,8 @@ public class DriveTrain extends PIDSubsystem {
 	public boolean isDoneTurning = false;
 	private double encoderZeroPos = 0;
 	BufferedWriter logWriter = null;
-	public String simDistanceFile = "SensorData.txt";
-	Scanner SimDistanceFile = null;
+	public String SimAutoInfoFile = "SensorData.txt";
+	Scanner simAutoInfoFile = null;
 
 	// WARNING: This array has TONZ of pre-calculated values for the distance
 	// sensor.
@@ -268,7 +268,7 @@ public class DriveTrain extends PIDSubsystem {
 	// returns: distance reading from distance sensor in centimeters
 	public int getModulatedDistance() {
 		if (!RobotMap.hasDistanceSensor)
-			return 32;
+			return -1;
 
 		int raw = getDistanceSensorRawInput();
 		// System.out.println(raw);
@@ -371,24 +371,29 @@ public class DriveTrain extends PIDSubsystem {
 	}
 
 	public void getInfo() {
-		int reading = -1;
-		if (RobotMap.isTestBed) {
-			if (simDistanceFile != null) {
-				 if (SimDistanceFile.hasNextInt())
-				 reading = SimDistanceFile.nextInt();
-			}
-		} else {
-			reading = distanceSensor.getValue();
-		}
+		double distanceSensorReading = -1;
+		double gyroReading = -1;
+		double encoderReading = -1;
+//		if (RobotMap.isTestBed) {
+//			if (simAutoInfoFile != null) {
+//				 if (simAutoInfoFile.hasNextInt()){
+//					 distanceSensorReading = getModulatedDistance();
+//				 	 gyroReading = theGyro.getAngle();
+//				 	 encoderReading = getEncoderValue();
+//				 }
+//			}
+//		} else {
+			distanceSensorReading = getModulatedDistance();
+			gyroReading = theGyro.getAngle();
+		 	encoderReading = getEncoderValue();			
+//		}
 
-		if (reading != -1) {
-			// Put the reading into the moving stats.
-			// frontMovingStats.update(reading);
-			// Write reading to the log file.
+		if (distanceSensorReading != -1) {
+
 			try {
-				logWriter.write(String.format("%f\t%.0f", Timer.getFPGATimestamp(), reading));
-				 MessageLogger.LogMessage(String.format("%f\t%.0f\t%.0f",
-			     Timer.getFPGATimestamp(), reading));
+				logWriter.write(String.format("%f\t%.0f", Timer.getFPGATimestamp(), distanceSensorReading));
+				 MessageLogger.LogMessage(String.format("%f\t%.0f\t%.0f\t%.0f\t%.0f",
+			     Timer.getFPGATimestamp(), distanceSensorReading, gyroReading, encoderReading));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -396,14 +401,15 @@ public class DriveTrain extends PIDSubsystem {
 		} else {
 			// Indicate end of reading in the log file.
 		}
+	
 	}
 	
-	public void SetUpDistanceSensor() {
+	public void setUpAutoInfo() {
 		if (RobotMap.isTestBed) {
 			try {
-				String simFile = "/home/lvuser/SimDist/" + simDistanceFile;
+				String simFile = "/home/lvuser/SimDist/" + SimAutoInfoFile;
 				MessageLogger.LogMessage("Opening simulation file: " + simFile);
-				SimDistanceFile = new Scanner(new File(simFile));
+				simAutoInfoFile = new Scanner(new File(simFile));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -414,9 +420,9 @@ public class DriveTrain extends PIDSubsystem {
 		try {
 			// create a temporary file
 			String timeLog = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-			File logFile = new File("/home/lvuser/SimDist/Distance-" + timeLog + ".log");
+			File logFile = new File("/home/lvuser/SimDist/AutoInfo-" + timeLog + ".log");
 
-			MessageLogger.LogMessage("Logging distance to: " + logFile.getCanonicalPath());
+			MessageLogger.LogMessage("Logging AutoInfo to: " + logFile.getCanonicalPath());
 
 			logWriter = new BufferedWriter(new FileWriter(logFile));
 		} catch (Exception e) {

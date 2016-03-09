@@ -22,7 +22,6 @@ public class Scale extends Command {
 
 	protected void execute() {
 		if(TimeUtil.isElapsed("Scale")) {
-			System.out.println("SCALE DONE");
 			Robot.scale.stopScaling();
 			scale = ScaleState.none;
 			TimeUtil.remove("Scale");
@@ -81,6 +80,7 @@ public class Scale extends Command {
 			}
 		}
 		
+		//stop scale in test mode
 		if(testRAxis == 0 && testLAxis == 0 && !running){
 			testScale = false;
 			Robot.scale.stopScaling();

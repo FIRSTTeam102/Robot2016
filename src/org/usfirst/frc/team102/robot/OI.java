@@ -41,9 +41,11 @@ public class OI {
 
 		driveRumble = new Rumbler(xBoxDriver);
 		opRumble = new Rumbler(xBoxOperator);
+		
 		if (enableTestJoystick)
 			testRumble = new Rumbler(xBoxTester);
 
+		//Operator Joystick Commands
 		xBoxY = new JoystickButton(xBoxOperator, RobotMap.xBoxYIndex);
 		xBoxY.whenPressed(new MoveArmOpposite(0.6));
 		xBoxY.whenReleased(new MoveArmOpposite(0.0));
@@ -53,57 +55,37 @@ public class OI {
 		xBoxA.whenReleased(new MoveArm(0.0));
 
 		xBoxB = new JoystickButton(xBoxOperator, RobotMap.xBoxBIndex);
-		// xBoxB.whenPressed(new MoveArm(0.6, 2)); // These arms currently don't
-		// exist, and
-		// xBoxB.whenReleased(new MoveArm(0.0, 2)); // probably never will.
 		xBoxB.whenPressed(new MoveHoop(true));
 		xBoxB.whenReleased(new StopHoop());
-
-		// Now used to get the ball. // Never mind, it is now one command.
-		// xBoxB.whenPressed(new GetBall());
 
 		xBoxX = new JoystickButton(xBoxOperator, RobotMap.xBoxXIndex);
 		xBoxX.whenPressed(new MoveHoop(false));
 		xBoxX.whenReleased(new StopHoop());
-		// xBoxX.whenPressed(new MoveArmOpposite(0.6, 2)); // These arms don't
-		// currently don't exist, and
-		// xBoxX.whenReleased(new MoveArmOpposite(0.0, 2)); // probably never
-		// will.
 
 		xBoxRightBump = new JoystickButton(xBoxOperator, RobotMap.xBoxRightBumperIndex);
-		// xBoxRightBump.whenPressed(new MoveArmOpposite(0.6, 3)); // These arms
-		// currently don't exist, and
-		// xBoxRightBump.whenReleased(new MoveArmOpposite(0.0, 3)); // probably
-		// never will.
 		xBoxRightBump.whenPressed(new BallInOrOut(true));
 		xBoxRightBump.whenReleased(new StopBall());
 		
 		xBoxLeftBump = new JoystickButton(xBoxOperator, RobotMap.xBoxLeftBumperIndex);
-		// xBoxLeftBump.whenPressed(new MoveArm(0.6, 3)); // These arms
-		// currently don't exist, and
-		// xBoxLeftBump.whenReleased(new MoveArm(0.0, 3)); // probably never
-		// will.
 		xBoxLeftBump.whenPressed(new BallInOrOut(false));
 		xBoxLeftBump.whenReleased(new StopBall());
 
-		
-		//passes in direction.  speed is defined as a constant in RobotMap
-		xBoxA = new JoystickButton(xBoxDriver, RobotMap.xBoxAIndex);
-		//xBoxA.whenPressed(new Scale());
-		
 		xBoxOpStart = new JoystickButton(xBoxOperator, RobotMap.xBoxStartButtonIndex);
 		xBoxOpStart.whenPressed(new Dancing(.5));
 
 		xBoxOpBack = new JoystickButton(xBoxOperator, RobotMap.xBoxBackButtonIndex);
 		xBoxOpBack.whenPressed(new Whip());
+		
+		//Driver Joystick commands
+		xBoxA = new JoystickButton(xBoxDriver, RobotMap.xBoxAIndex);
+		
+		xBoxStart = new JoystickButton(xBoxDriver, RobotMap.xBoxStartButtonIndex);
+		xBoxStart.whenPressed(new CommandToggleReverse());
 
 		// THIS IS COMMENTED FOR RUMBLER TEST MODE.
 		// Uncomment the next two lines and comment the line after
 		// to disable this.
-		// xBoxA.whenPressed(new CommandRumble(xBoxDriver, Rumbles.L1R1));
-
-		xBoxStart = new JoystickButton(xBoxDriver, RobotMap.xBoxStartButtonIndex);
-		xBoxStart.whenPressed(new CommandToggleReverse());
+		// xBoxA.whenPressed(new CommandRumble(xBoxDriver, Rumbles.L1R1));		
 
 		if (enableTestJoystick) {
 
@@ -120,9 +102,6 @@ public class OI {
 			xBoxTestB.whenPressed(new MoveHoop(false));
 			xBoxTestB.whenReleased(new StopHoop());
 
-			xBoxTestX.whenReleased(new TestScale(1.0));
-
-			xBoxTestY.whenReleased(new TestScale(-1.0));
 		}
 	}
 

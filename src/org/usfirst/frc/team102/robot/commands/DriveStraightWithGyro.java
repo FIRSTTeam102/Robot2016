@@ -71,14 +71,16 @@ public class DriveStraightWithGyro extends Command {
 			Robot.robotDriveTrain.disable();
 			Robot.robotDriveTrain.stop();
 			
-			if(Robot.autonomousCommand != null) Robot.autonomousCommand.cancel();
+	//		if(Robot.autonomousCommand != null) Robot.autonomousCommand.cancel();
 			
 			done = true;
+			System.out.println("Auto Driving!");
 		}
 		
 		// Old version
 		/*if(startDistance != -1 && Robot.robotDriveTrain.getModulatedDistance() != -1) {
 			int distanceSensor = Robot.robotDriveTrain.getModulatedDistance() - startDistance;
+
 			int encoder = Robot.robotDriveTrain.getEncoderInches();
 			
 			if(Math.abs(distanceSensor - encoder) > 24) {
@@ -98,7 +100,7 @@ public class DriveStraightWithGyro extends Command {
 		//System.out.println(Robot.robotDriveTrain.getEncoderInches());
 		
 		//create file for distanceSensor/encoders/gyro info
-		Robot.robotDriveTrain.SetUpDistanceSensor();
+		Robot.robotDriveTrain.setUpAutoInfo();
 		Robot.robotDriveTrain.getInfo();
 	}
 
