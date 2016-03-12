@@ -130,7 +130,7 @@ public class Robot extends IterativeRobot {
 			if (i == 14)
 				autonomousCommand = null;
 			if (i == 15)
-				autonomousCommand = null;
+				autonomousCommand = new DriveStraightWithGyro(80);
 
 			if (autonomousCommand != null)
 				autonomousCommand.start();

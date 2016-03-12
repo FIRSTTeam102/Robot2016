@@ -78,7 +78,7 @@ public class BallHandler extends Subsystem {
 	}
 	
 	public void handleBall(boolean direction) {
-		handleBallMotor.set(direction ? -1 : 1);
+		handleBallMotor.set(direction ? -.5 : .5);
 	}
 	
 	public void stopTalon() {

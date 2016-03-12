@@ -28,12 +28,14 @@ public class DriveStraightWithGyro extends Command {
 			//Robot.robotDriveTrain.startDriving(false);
 			Robot.robotDriveTrain.resetEncoder();
 			
-			while(Robot.robotDriveTrain.getEncoderInches() > 0) {
+		//	while(Robot.robotDriveTrain.getEncoderInches() > 0) {
 				//System.out.println(Robot.robotDriveTrain.getEncoderInches());
-				Thread.sleep(20);
-			}
+		//		Thread.sleep(20);
+		//	}
 			
 			Robot.robotDriveTrain.setDriveStraight();
+			Robot.robotDriveTrain.setUpAutoInfo();
+			System.out.println("Set up file.");
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
@@ -74,7 +76,6 @@ public class DriveStraightWithGyro extends Command {
 	//		if(Robot.autonomousCommand != null) Robot.autonomousCommand.cancel();
 			
 			done = true;
-			System.out.println("Auto Driving!");
 		}
 		
 		// Old version
@@ -97,11 +98,13 @@ public class DriveStraightWithGyro extends Command {
 			Robot.robotDriveTrain.resetEncoder();
 		}
 		
-		//System.out.println(Robot.robotDriveTrain.getEncoderInches());
+	//	System.out.println(Robot.robotDriveTrain.getEncoderInches()+ "\t" + Robot.robotDriveTrain.theGyro.getAngle());
 		
 		//create file for distanceSensor/encoders/gyro info
-		Robot.robotDriveTrain.setUpAutoInfo();
-		Robot.robotDriveTrain.getInfo();
+		if(Robot.robotDriveTrain.m3 != null){
+		//	System.out.println("Giving data...");
+			Robot.robotDriveTrain.getInfo();
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -122,6 +125,7 @@ public class DriveStraightWithGyro extends Command {
 		//Robot.robotDriveTrain.stop();
 		Robot.robotDriveTrain.disable();
 		Robot.robotDriveTrain.stop();
+		Robot.robotDriveTrain.closeFile();
 	}
 
 	// Called when another command which requires one or more of the same

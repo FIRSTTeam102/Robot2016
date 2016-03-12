@@ -26,10 +26,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveTrain extends PIDSubsystem {
 
-	CANTalon m1;
-	CANTalon m2;
-	CANTalon m3;
-	CANTalon m4;
+	public CANTalon m1;
+	public CANTalon m2;
+	public CANTalon m3;
+	public CANTalon m4;
 	// private DigitalOutput isGoingForward, isGoingBackward; // We are now
 	// using outputs on the Driver station
 	private double leftJoyX;
@@ -44,9 +44,11 @@ public class DriveTrain extends PIDSubsystem {
 	private double desiredGyroMeasure;
 	public boolean isDoneTurning = false;
 	private double encoderZeroPos = 0;
-	BufferedWriter logWriter = null;
+	public BufferedWriter logWriter = null;
 	public String SimAutoInfoFile = "SensorData.txt";
 	Scanner simAutoInfoFile = null;
+	File logFile = null;
+	String strGyroReading = " ";
 
 	// WARNING: This array has TONZ of pre-calculated values for the distance
 	// sensor.
@@ -385,49 +387,49 @@ public class DriveTrain extends PIDSubsystem {
 //		} else {
 			distanceSensorReading = getModulatedDistance();
 			gyroReading = theGyro.getAngle();
-		 	encoderReading = getEncoderValue();			
+		 	encoderReading = getEncoderInches();
+		 	strGyroReading = String.format("%1.6s", gyroReading);
 //		}
-
-		if (distanceSensorReading != -1) {
-
 			try {
-				logWriter.write(String.format("%f\t%.0f", Timer.getFPGATimestamp(), distanceSensorReading));
-				 MessageLogger.LogMessage(String.format("%f\t%.0f\t%.0f\t%.0f\t%.0f",
-			     Timer.getFPGATimestamp(), distanceSensorReading, gyroReading, encoderReading));
+				 logWriter.write(String.format("\n" + Timer.getFPGATimestamp() + "\t" + distanceSensorReading + "\t" + strGyroReading + 
+						 "\t" + encoderReading));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-		} else {
-			// Indicate end of reading in the log file.
-		}
-	
 	}
 	
 	public void setUpAutoInfo() {
-		if (RobotMap.isTestBed) {
-			try {
-				String simFile = "/home/lvuser/SimDist/" + SimAutoInfoFile;
-				MessageLogger.LogMessage("Opening simulation file: " + simFile);
-				simAutoInfoFile = new Scanner(new File(simFile));
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+//		if (RobotMap.isTestBed) {
+//			try {
+//				String simFile = "/home/lvuser/SimDist/" + SimAutoInfoFile;
+//				MessageLogger.LogMessage("Opening simulation file: " + simFile);
+//				simAutoInfoFile = new Scanner(new File(simFile));
+//			} catch (FileNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 
 		// Open a file for logging the distance sensor output.
 		try {
 			// create a temporary file
 			String timeLog = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-			File logFile = new File("/home/lvuser/SimDist/AutoInfo-" + timeLog + ".log");
-
-			MessageLogger.LogMessage("Logging AutoInfo to: " + logFile.getCanonicalPath());
-
+			logFile = new File("/home/lvuser/" + timeLog + ".log");
 			logWriter = new BufferedWriter(new FileWriter(logFile));
+			logWriter.write("TimeStamp:\t\tds:\t\tgyro:\tenc.(in.):");
+			System.out.println("Created log writer.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void closeFile() {
+		try {
+			// Close the log file.
+			logWriter.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

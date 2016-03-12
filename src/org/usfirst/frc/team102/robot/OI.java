@@ -55,20 +55,24 @@ public class OI {
 		xBoxA.whenReleased(new MoveArm(0.0));
 
 		xBoxB = new JoystickButton(xBoxOperator, RobotMap.xBoxBIndex);
-		xBoxB.whenPressed(new MoveHoop(true));
-		xBoxB.whenReleased(new StopHoop());
-
+	//	xBoxB.whenPressed(new MoveHoop(true));
+	//	xBoxB.whenReleased(new StopHoop());
+		xBoxB.whenPressed(new BallInOrOut(true));
+		xBoxB.whenReleased(new StopBall());
+		
 		xBoxX = new JoystickButton(xBoxOperator, RobotMap.xBoxXIndex);
-		xBoxX.whenPressed(new MoveHoop(false));
-		xBoxX.whenReleased(new StopHoop());
+	//	xBoxX.whenPressed(new MoveHoop(false));
+	//	xBoxX.whenReleased(new StopHoop());
+		xBoxX.whenPressed(new BallInOrOut(false));
+		xBoxX.whenReleased(new StopBall());
 
 		xBoxRightBump = new JoystickButton(xBoxOperator, RobotMap.xBoxRightBumperIndex);
-		xBoxRightBump.whenPressed(new BallInOrOut(true));
-		xBoxRightBump.whenReleased(new StopBall());
+	//	xBoxRightBump.whenPressed(new BallInOrOut(true));
+	//	xBoxRightBump.whenReleased(new StopBall());
 		
 		xBoxLeftBump = new JoystickButton(xBoxOperator, RobotMap.xBoxLeftBumperIndex);
-		xBoxLeftBump.whenPressed(new BallInOrOut(false));
-		xBoxLeftBump.whenReleased(new StopBall());
+	//	xBoxLeftBump.whenPressed(new BallInOrOut(false));
+	//	xBoxLeftBump.whenReleased(new StopBall());
 
 		xBoxOpStart = new JoystickButton(xBoxOperator, RobotMap.xBoxStartButtonIndex);
 		xBoxOpStart.whenPressed(new Dancing(.5));
