@@ -1,6 +1,4 @@
 package org.usfirst.frc.team102.robot.commands;
-
-import org.usfirst.frc.team102.robot.OI;
 import org.usfirst.frc.team102.robot.Robot;
 import org.usfirst.frc.team102.robot.RobotMap;
 import org.usfirst.frc.team102.robot.TimeUtil;
@@ -13,6 +11,9 @@ public class Scale extends Command {
 	public static ScaleState scale = ScaleState.none;
 	public static boolean testScale = false;
 	boolean running = false;
+	Joystick tester = null;
+	double testLAxis;
+	double testRAxis;
 	
 	public Scale() {
 		requires(Robot.scale);
@@ -31,16 +32,18 @@ public class Scale extends Command {
 		
 		Joystick driver = Robot.oi.getDriverXBox();
 		Joystick operator = Robot.oi.getOperatorXBox();
-		Joystick tester = Robot.oi.getTesterXBox();
 
 		
 		double driverLAxis = driver.getRawAxis(RobotMap.xBoxLeftTriggerAxis);
 		double driverRAxis = driver.getRawAxis(RobotMap.xBoxRightTriggerAxis);
 		double operatorLAxis = operator.getRawAxis(RobotMap.xBoxLeftTriggerAxis);
 		double operatorRAxis = operator.getRawAxis(RobotMap.xBoxRightTriggerAxis);	
-	    double testLAxis = tester.getRawAxis(RobotMap.xBoxLeftTriggerAxis);
-	    double testRAxis = tester.getRawAxis(RobotMap.xBoxRightTriggerAxis);
 		
+		if(Robot.oi.enableTestJoystick){
+			Joystick tester = Robot.oi.getTesterXBox();
+			double testLAxis = tester.getRawAxis(RobotMap.xBoxLeftTriggerAxis);
+			double testRAxis = tester.getRawAxis(RobotMap.xBoxRightTriggerAxis);
+		}
 		//deadband
 		//if(Math.abs(testLAxis) < 0.1)
 		//	testLAxis = 0.0;
@@ -69,24 +72,28 @@ public class Scale extends Command {
 		}
 		
 		//scale manually in test-mode
-		if(testRAxis * testLAxis == 0){
-			
-			if(testRAxis > 0 && driverLAxis == 0 && driverRAxis == 0 && operatorLAxis == 0 && operatorRAxis == 0){
-				Robot.scale.startScaling(testRAxis);
-			    testScale = true;
-			}
 
-			else if (testLAxis > 0 && driverLAxis == 0 && driverRAxis == 0 && operatorLAxis == 0 && operatorRAxis == 0){
-				Robot.scale.startScaling(testLAxis);
-			    testScale = true;
+		if(Robot.oi.enableTestJoystick){
+			if(testRAxis * testLAxis == 0){
+			
+				if(testRAxis > 0 && driverLAxis == 0 && driverRAxis == 0 && operatorLAxis == 0 && operatorRAxis == 0){
+					Robot.scale.startScaling(testRAxis);
+					testScale = true;
+				}
+
+				else if (testLAxis > 0 && driverLAxis == 0 && driverRAxis == 0 && operatorLAxis == 0 && operatorRAxis == 0){
+					Robot.scale.startScaling(testLAxis);
+					testScale = true;
+				}
+			}	
+		
+		//stop scale in test mode
+			if(testRAxis == 0 && testLAxis == 0 && !running){
+				testScale = false;
+				Robot.scale.stopScaling();
 			}
 		}
 		
-		//stop scale in test mode
-		if(testRAxis == 0 && testLAxis == 0 && !running){
-			testScale = false;
-			Robot.scale.stopScaling();
-		}
 	}
 	
 	protected boolean isFinished() {

@@ -31,7 +31,7 @@ public class OI {
 	private JoystickButton xBoxTestY;
 	public Rumbler driveRumble, opRumble, testRumble;
 
-	public final boolean enableTestJoystick = true;
+	public final boolean enableTestJoystick = false;
 
 	public OI() {
 		xBoxDriver = new Joystick(RobotMap.driverJoystickPort);
@@ -67,18 +67,22 @@ public class OI {
 		xBoxX.whenReleased(new StopBall());
 
 		xBoxRightBump = new JoystickButton(xBoxOperator, RobotMap.xBoxRightBumperIndex);
-	//	xBoxRightBump.whenPressed(new BallInOrOut(true));
-	//	xBoxRightBump.whenReleased(new StopBall());
+		xBoxRightBump.whenPressed(new MoveGrabberManual(true));
+		xBoxRightBump.whenReleased(new StopGrabber());
 		
 		xBoxLeftBump = new JoystickButton(xBoxOperator, RobotMap.xBoxLeftBumperIndex);
-	//	xBoxLeftBump.whenPressed(new BallInOrOut(false));
-	//	xBoxLeftBump.whenReleased(new StopBall());
+		xBoxLeftBump.whenPressed(new MoveGrabberManual(false));
+		xBoxLeftBump.whenReleased(new StopGrabber());
 
 		xBoxOpStart = new JoystickButton(xBoxOperator, RobotMap.xBoxStartButtonIndex);
-		xBoxOpStart.whenPressed(new Dancing(.5));
+	//	xBoxOpStart.whenPressed(new Dancing(.5));
+		xBoxOpStart.whenPressed(new MoveGrabberAuto(true));
+		xBoxOpStart.whenReleased(new StopGrabber());
 
 		xBoxOpBack = new JoystickButton(xBoxOperator, RobotMap.xBoxBackButtonIndex);
-		xBoxOpBack.whenPressed(new Whip());
+	//	xBoxOpBack.whenPressed(new Whip());
+		xBoxOpBack.whenPressed(new MoveGrabberAuto(false));
+		xBoxOpBack.whenReleased(new StopGrabber());
 		
 		//Driver Joystick commands
 		xBoxA = new JoystickButton(xBoxDriver, RobotMap.xBoxAIndex);
@@ -100,11 +104,11 @@ public class OI {
 			xBoxTestX = new JoystickButton(xBoxTester, RobotMap.xBoxXIndex);
 			xBoxTestY = new JoystickButton(xBoxTester, RobotMap.xBoxYIndex);
 
-			xBoxTestA.whenPressed(new MoveHoop(true));
-			xBoxTestA.whenReleased(new StopHoop());
+			xBoxTestA.whenPressed(new MoveGrabberManual(true));
+			xBoxTestA.whenReleased(new StopGrabber());
 
-			xBoxTestB.whenPressed(new MoveHoop(false));
-			xBoxTestB.whenReleased(new StopHoop());
+			xBoxTestB.whenPressed(new MoveGrabberManual(false));
+			xBoxTestB.whenReleased(new StopGrabber());
 
 		}
 	}

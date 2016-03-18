@@ -34,12 +34,12 @@ public class DriveStraightWithGyro extends Command {
 		//	}
 			
 			Robot.robotDriveTrain.setDriveStraight();
-			Robot.robotDriveTrain.setUpAutoInfo();
 			System.out.println("Set up file.");
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
 		}
+		Robot.robotDriveTrain.setUpAutoInfo();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -125,7 +125,7 @@ public class DriveStraightWithGyro extends Command {
 		//Robot.robotDriveTrain.stop();
 		Robot.robotDriveTrain.disable();
 		Robot.robotDriveTrain.stop();
-		Robot.robotDriveTrain.closeFile();
+	//	Robot.robotDriveTrain.closeFile();
 	}
 
 	// Called when another command which requires one or more of the same

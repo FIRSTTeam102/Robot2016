@@ -191,6 +191,10 @@ public class Robot extends IterativeRobot {
 	 */
 	public void disabledInit() {
 		isRobotActive = false;
+		
+		//if(!Robot.robotDriveTrain.isAutoFileClosed && Robot.robotDriveTrain.logWriter != null){
+			//Robot.robotDriveTrain.closeFile();
+		//}
 	}
 
 	public void disabledPeriodic() {

@@ -2,7 +2,6 @@ package org.usfirst.frc.team102.robot.subsystems;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -10,8 +9,6 @@ import java.util.Scanner;
 
 import org.usfirst.frc.team102.robot.RobotMap;
 import org.usfirst.frc.team102.robot.commands.DriveWithXBox;
-
-import team102Lib.MessageLogger;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -30,8 +27,6 @@ public class DriveTrain extends PIDSubsystem {
 	public CANTalon m2;
 	public CANTalon m3;
 	public CANTalon m4;
-	// private DigitalOutput isGoingForward, isGoingBackward; // We are now
-	// using outputs on the Driver station
 	private double leftJoyX;
 	private double leftJoyY;
 	private double rightJoyX;
@@ -49,6 +44,7 @@ public class DriveTrain extends PIDSubsystem {
 	Scanner simAutoInfoFile = null;
 	File logFile = null;
 	String strGyroReading = " ";
+	public boolean isAutoFileClosed = false;
 
 	// WARNING: This array has TONZ of pre-calculated values for the distance
 	// sensor.
@@ -176,7 +172,7 @@ public class DriveTrain extends PIDSubsystem {
 		// isGoingBackward.set(isReverse);
 
 		// Reverse indicator on the Driver Station, as requested.
-		SmartDashboard.putBoolean("DB/LED 0", isReverse); // FIXME
+		SmartDashboard.putBoolean("DB/LED 0", isReverse); 
 
 		/*
 		 * if (getEncoderValue() >= 5000) resetEncoder();
@@ -376,22 +372,16 @@ public class DriveTrain extends PIDSubsystem {
 		double distanceSensorReading = -1;
 		double gyroReading = -1;
 		double encoderReading = -1;
-//		if (RobotMap.isTestBed) {
-//			if (simAutoInfoFile != null) {
-//				 if (simAutoInfoFile.hasNextInt()){
-//					 distanceSensorReading = getModulatedDistance();
-//				 	 gyroReading = theGyro.getAngle();
-//				 	 encoderReading = getEncoderValue();
-//				 }
-//			}
-//		} else {
+
 			distanceSensorReading = getModulatedDistance();
 			gyroReading = theGyro.getAngle();
 		 	encoderReading = getEncoderInches();
 		 	strGyroReading = String.format("%1.6s", gyroReading);
-//		}
+
 			try {
 				 logWriter.write(String.format("\n" + Timer.getFPGATimestamp() + "\t" + distanceSensorReading + "\t" + strGyroReading + 
+						 "\t" + encoderReading));
+				 System.out.println(String.format("\n" + Timer.getFPGATimestamp() + "\t" + distanceSensorReading + "\t" + strGyroReading + 
 						 "\t" + encoderReading));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -399,20 +389,9 @@ public class DriveTrain extends PIDSubsystem {
 	}
 	
 	public void setUpAutoInfo() {
-//		if (RobotMap.isTestBed) {
-//			try {
-//				String simFile = "/home/lvuser/SimDist/" + SimAutoInfoFile;
-//				MessageLogger.LogMessage("Opening simulation file: " + simFile);
-//				simAutoInfoFile = new Scanner(new File(simFile));
-//			} catch (FileNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
 
-		// Open a file for logging the distance sensor output.
 		try {
-			// create a temporary file
+
 			String timeLog = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 			logFile = new File("/home/lvuser/" + timeLog + ".log");
 			logWriter = new BufferedWriter(new FileWriter(logFile));
@@ -428,6 +407,7 @@ public class DriveTrain extends PIDSubsystem {
 		try {
 			// Close the log file.
 			logWriter.close();
+			isAutoFileClosed = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

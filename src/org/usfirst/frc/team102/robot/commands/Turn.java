@@ -18,7 +18,6 @@ public class Turn extends Command {
 
 		requires(Robot.robotDriveTrain);
 		this.degrees = degrees;
-		//setTimeout(.3);
 	}
 
 	// Called just before this Command runs the first time
@@ -40,6 +39,7 @@ public class Turn extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		Robot.robotDriveTrain.getInfo();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -56,8 +56,6 @@ public class Turn extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-//		if (!GetInitialData.noAuto)
-//			Robot.robotDriveTrain.stop();
 		Robot.robotDriveTrain.disable();
 		Robot.robotDriveTrain.stop();
 	}
