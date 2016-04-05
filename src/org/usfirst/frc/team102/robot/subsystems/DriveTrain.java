@@ -31,7 +31,7 @@ public class DriveTrain extends PIDSubsystem {
 	private double leftJoyY;
 	private double rightJoyX;
 	private double rightJoyY;
-	public final double autoModeSpeed = .5;
+	public double autoModeSpeed;
 	public boolean isReverse;
 	private AnalogInput distanceSensor;
 	public AnalogGyro theGyro;
@@ -304,12 +304,12 @@ public class DriveTrain extends PIDSubsystem {
 			disable();
 			isDoneTurning = true;
 		}
-
+		
 		if (desiredGyroMeasure == 0) {
-			m1.set(autoModeSpeed + output);
-			m2.set(-autoModeSpeed + output);
-			m3.set(autoModeSpeed + output);
-			m4.set(-autoModeSpeed + output);
+			m1.set((autoModeSpeed + output) * RobotMap.dirMult);
+			m2.set((-autoModeSpeed + output) * RobotMap.dirMult);
+			m3.set((autoModeSpeed + output) * RobotMap.dirMult);
+			m4.set((-autoModeSpeed + output) * RobotMap.dirMult);
 		} else {
 			m1.set(output);
 			m2.set(-output);

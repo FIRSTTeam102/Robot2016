@@ -1,16 +1,8 @@
 package org.usfirst.frc.team102.robot.subsystems;
 
-import org.usfirst.frc.team102.robot.Robot;
+import org.usfirst.frc.team102.robot.CameraKludgeOfTheCentury;
 import org.usfirst.frc.team102.robot.RobotMap;
 import org.usfirst.frc.team102.robot.commands.CameraWithXBox;
-
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.IMAQdxCameraControlMode;
-import com.ni.vision.NIVision.Image;
-import com.ni.vision.NIVision.ImageType;
-
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -22,8 +14,8 @@ public class CameraMovement extends Subsystem {
 	
 	private double xPos = .5, yPos = 1;
 	
-	private Image img;
-	private int currCam = -1, ssid = -1;
+	//private Image img;
+	//private int currCam = -1, ssid = -1;
 	
 	public CameraMovement() {
 		xAxis = new Servo(RobotMap.xAxisServo);
@@ -34,7 +26,7 @@ public class CameraMovement extends Subsystem {
 		cs.startAutomaticCapture("cam" + RobotMap.frontCameraID);*/
 		
 		if(RobotMap.hasUSBCams) {
-			img = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
+			/*img = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
 			
 			Thread camThread = new Thread(() -> {
 				while(true) {
@@ -52,10 +44,13 @@ public class CameraMovement extends Subsystem {
 				}
 			});
 			
+			setActiveCamera(1);
+			
 			camThread.setDaemon(true);
 			camThread.setName("Camera Capturing Manager Daemon");
-			camThread.start();
+			camThread.start();*/
 			
+			CameraKludgeOfTheCentury.init(RobotMap.frontCameraID);
 			setActiveCamera(1);
 		}
 	}
@@ -63,13 +58,15 @@ public class CameraMovement extends Subsystem {
 	public void setActiveCamera(int camNum) {
 		if(!RobotMap.hasUSBCams) return;
 		
-		if(currCam != -1) stopCam(currCam);
-		startCam(camNum);
+		//if(currCam != -1) stopCam(currCam);
+		//startCam(camNum);
+		
+		CameraKludgeOfTheCentury.setCamera(camNum);
 		
 		//cs.startAutomaticCapture("cam" + camNum);
 	}
 	
-	private void stopCam(int num) {
+	/*private void stopCam(int num) {
 		try {
 			NIVision.IMAQdxStopAcquisition(ssid);
 			NIVision.IMAQdxCloseCamera(ssid);
@@ -90,7 +87,7 @@ public class CameraMovement extends Subsystem {
 			System.err.println("Camera switch failed in initializion: ");
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	public void moveCamWithXBox(Joystick js) {
 		double x = js.getRawAxis(RobotMap.xBoxLeftXAxis);

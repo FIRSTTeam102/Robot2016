@@ -1,6 +1,6 @@
 package org.usfirst.frc.team102.robot.commands;
 
-import org.usfirst.frc.team102.robot.Robot;
+import org.usfirst.frc.team102.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -26,7 +26,7 @@ public class DefensePos4 extends CommandGroup {
 		// e.g. if Command1 requires chassis, and Command2 requires arm,
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
-		addSequential(new MoveGrabberAuto(true));
+		if(RobotMap.hasBallHandlerRelay) addSequential(new MoveGrabberAuto(true));
 		addSequential(new DriveStraightWithGyro(222));
 		addSequential(new Turn(90));
 		addSequential(new DriveStraightWithGyro(96));
@@ -34,6 +34,6 @@ public class DefensePos4 extends CommandGroup {
 		addSequential(new DriveStraightWithGyro(18));
 		addSequential(new Turn(60));
 		addSequential(new DriveStraightWithGyro(177));
-		addSequential(new MoveGrabberAuto(false));
+		if(RobotMap.hasBallHandlerRelay) addSequential(new MoveGrabberAuto(false));
 	}
 }

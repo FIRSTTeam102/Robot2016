@@ -23,7 +23,7 @@ public class BallHandler extends Subsystem {
 	private Talon handleBallMotor;
 	
 	public BallHandler() {
-		r1 = new Relay(RobotMap.relay1, Direction.kBoth);
+		if(RobotMap.hasBallHandlerRelay) r1 = new Relay(RobotMap.relay1, Direction.kBoth);
 		
 		limitSensorTop = new DigitalInput(RobotMap.hoopLimitSensorTop);
 		limitSensorBottom = new DigitalInput(RobotMap.hoopLimitSensorBottom);
@@ -52,8 +52,9 @@ public class BallHandler extends Subsystem {
 		}
 	}
 	
-	@SuppressWarnings("unused")
 	public void setRelay(boolean direction) {
+		if(RobotMap.hasBallHandlerRelay) return;
+		
 		if (direction && !limitSensorTop.get() && !RobotMap.isTestBed) {
 			Robot.oi.opRumble.playRumbleMessage(Rumbles.error);
 			r1.set(Value.kOff);
@@ -77,8 +78,9 @@ public class BallHandler extends Subsystem {
 		r1.set(Value.kOff);
 	}
 	
+	//speed defined in robot map
 	public void handleBall(boolean direction) {
-		handleBallMotor.set(direction ? -.5 : .5);
+		handleBallMotor.set(direction ? -RobotMap.ballGrabSpeed : RobotMap.ballGrabSpeed);
 	}
 	
 	public void stopTalon() {

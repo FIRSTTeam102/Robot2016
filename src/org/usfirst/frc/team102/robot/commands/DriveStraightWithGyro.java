@@ -68,15 +68,15 @@ public class DriveStraightWithGyro extends Command {
 		//System.out.println(Robot.robotDriveTrain.getModulatedDistance());
 		
 		// "Too close" mode -- MUTUALLY EXCLUSIVE
-		if(Robot.robotDriveTrain.getModulatedDistance() != -1) {
+		/*if(Robot.robotDriveTrain.getModulatedDistance() != -1) {
 			DriverStation.reportError("Distance sensor said that we are too close to the wall! Robot full-stopped.", false);
 			Robot.robotDriveTrain.disable();
 			Robot.robotDriveTrain.stop();
 			
-	//		if(Robot.autonomousCommand != null) Robot.autonomousCommand.cancel();
+			if(Robot.autonomousCommand != null) Robot.autonomousCommand.cancel();
 			
 			done = true;
-		}
+		}*/
 		
 		// Old version
 		/*if(startDistance != -1 && Robot.robotDriveTrain.getModulatedDistance() != -1) {
@@ -125,7 +125,7 @@ public class DriveStraightWithGyro extends Command {
 		//Robot.robotDriveTrain.stop();
 		Robot.robotDriveTrain.disable();
 		Robot.robotDriveTrain.stop();
-	//	Robot.robotDriveTrain.closeFile();
+		Robot.robotDriveTrain.closeFile();
 	}
 
 	// Called when another command which requires one or more of the same

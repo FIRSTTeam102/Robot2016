@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team102.robot.commands.*;
 import org.usfirst.frc.team102.robot.subsystems.*;
@@ -28,7 +29,7 @@ public class Robot extends IterativeRobot {
 	public static Joystick driverJoystick;
 	public static Joystick operatorJoystick;
 	public static Command autonomousCommand = null;
-	
+
 	public static boolean isRobotActive = false;
 
 	/**
@@ -37,6 +38,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		try {
+			RobotMap.autoModeNormalSpeed = SmartDashboard.getNumber("DB/Slider 0", 0);
 			System.out.println("Enodia will block your path!");
 			robotDriveTrain = new DriveTrain(.04, 0, 0);
 			robotArm = new Arm();
@@ -44,7 +46,7 @@ public class Robot extends IterativeRobot {
 			robotBallHandler = new BallHandler();
 			scale = new Scaling();
 			oi = new OI();
-			
+
 			TimeUtil.init();
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
@@ -65,39 +67,50 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousInit() {
 		try {
-			//if(autonomousCommand != null) {
-				//autonomousCommand.cancel();
-				//autonomousCommand = null;
-			//}
+			// if(autonomousCommand != null) {
+			// autonomousCommand.cancel();
+			// autonomousCommand = null;
+			// }
+
+			int i = 15;
+
+			if (RobotMap.hasSwitches) {
+				DigitalInput in = new DigitalInput(RobotMap.autoSwitch0);
+
+				if (in.get())
+					i++;
+
+				in.free();
+				in = new DigitalInput(RobotMap.autoSwitch1);
+
+				if (in.get())
+					i += 2;
+
+				in.free();
+				in = new DigitalInput(RobotMap.autoSwitch2);
+
+				if (in.get())
+					i += 4;
+
+				in.free();
+				in = new DigitalInput(RobotMap.autoSwitch3);
+
+				if (in.get())
+					i += 8;
+
+				in.free();
+				in = null;
+
+				// System.out.println(i);
+			} 
+
 			
-			int i = 0;
-			DigitalInput in = new DigitalInput(RobotMap.autoSwitch0);
-
-			if (in.get())
-				i++;
-
-			in.free();
-			in = new DigitalInput(RobotMap.autoSwitch1);
-
-			if (in.get())
-				i += 2;
-
-			in.free();
-			in = new DigitalInput(RobotMap.autoSwitch2);
-
-			if (in.get())
-				i += 4;
-
-			in.free();
-			in = new DigitalInput(RobotMap.autoSwitch3);
-
-			if (in.get())
-				i += 8;
-
-			in.free();
-			in = null;
-
-			//System.out.println(i);
+			if(RobotMap.hasFastSlowSwitch) {
+				DigitalInput dio = new DigitalInput(RobotMap.fastSlowSwitchID);
+				
+				if(dio.get()) Robot.robotDriveTrain.autoModeSpeed = RobotMap.autoModeFastSpeed;
+				else Robot.robotDriveTrain.autoModeSpeed = RobotMap.autoModeSlowSpeed;
+			} else Robot.robotDriveTrain.autoModeSpeed = RobotMap.autoModeNormalSpeed;
 
 			if (i == 0)
 				autonomousCommand = null;
@@ -134,7 +147,7 @@ public class Robot extends IterativeRobot {
 
 			if (autonomousCommand != null)
 				autonomousCommand.start();
-			
+
 			System.out.println(i);
 			isRobotActive = true;
 		} catch (Exception ex1) {
@@ -147,7 +160,8 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		if(autonomousCommand != null && !autonomousCommand.isCanceled()) Scheduler.getInstance().run();
+		if (autonomousCommand != null && !autonomousCommand.isCanceled())
+			Scheduler.getInstance().run();
 	}
 
 	public void teleopInit() {
@@ -160,7 +174,7 @@ public class Robot extends IterativeRobot {
 			updateMessages();
 			if (autonomousCommand != null)
 				autonomousCommand.cancel();
-			
+
 			isRobotActive = true;
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
@@ -191,20 +205,21 @@ public class Robot extends IterativeRobot {
 	 */
 	public void disabledInit() {
 		isRobotActive = false;
-		
-		//if(!Robot.robotDriveTrain.isAutoFileClosed && Robot.robotDriveTrain.logWriter != null){
-			//Robot.robotDriveTrain.closeFile();
-		//}
+
+		// if(!Robot.robotDriveTrain.isAutoFileClosed &&
+		// Robot.robotDriveTrain.logWriter != null){
+		// Robot.robotDriveTrain.closeFile();
+		// }
 	}
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
-	
-	public void updateMessages(){
+
+	public void updateMessages() {
 		robotBallHandler.updateDashboard();
 		robotArm.updateDashboard();
 		scale.updateDashboard();
-		
+
 	}
 }

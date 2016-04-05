@@ -5,12 +5,12 @@ import org.usfirst.frc.team102.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ToggleHoop extends Command {
+public class MoveGrabberAuto extends Command {
 
 	private final boolean dir;
 	private boolean done;
 	
-	public ToggleHoop(boolean direction) {
+	public MoveGrabberAuto(boolean direction) {
 		requires(Robot.robotBallHandler);
 		setTimeout(.25);
 

@@ -1,6 +1,6 @@
 package org.usfirst.frc.team102.robot.commands;
 
-import org.usfirst.frc.team102.robot.Robot;
+import org.usfirst.frc.team102.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -27,11 +27,11 @@ public class LowBar extends CommandGroup {
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
 	//	Robot.robotDriveTrain.setUpAutoInfo();
-		addSequential(new MoveGrabberAuto(true));
+		if(RobotMap.hasBallHandlerRelay) addSequential(new MoveGrabberAuto(true));
 		addSequential(new DriveStraightWithGyro(222));
 		addSequential(new Turn(60));
 		addSequential(new DriveStraightWithGyro(177));
-		addSequential(new MoveGrabberAuto(false));
-		Robot.robotDriveTrain.closeFile();
+		if(RobotMap.hasBallHandlerRelay) addSequential(new MoveGrabberAuto(false));
+	//	Robot.robotDriveTrain.closeFile();
 	}
 }

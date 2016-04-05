@@ -47,11 +47,11 @@ public class OI {
 
 		//Operator Joystick Commands
 		xBoxY = new JoystickButton(xBoxOperator, RobotMap.xBoxYIndex);
-		xBoxY.whenPressed(new MoveArmOpposite(0.6));
+		xBoxY.whenPressed(new MoveArmOpposite(0.75));
 		xBoxY.whenReleased(new MoveArmOpposite(0.0));
 
 		xBoxA = new JoystickButton(xBoxOperator, RobotMap.xBoxAIndex);
-		xBoxA.whenPressed(new MoveArm(0.6));
+		xBoxA.whenPressed(new MoveArm(0.75));
 		xBoxA.whenReleased(new MoveArm(0.0));
 
 		xBoxB = new JoystickButton(xBoxOperator, RobotMap.xBoxBIndex);
@@ -67,22 +67,28 @@ public class OI {
 		xBoxX.whenReleased(new StopBall());
 
 		xBoxRightBump = new JoystickButton(xBoxOperator, RobotMap.xBoxRightBumperIndex);
-		xBoxRightBump.whenPressed(new MoveGrabberManual(true));
-		xBoxRightBump.whenReleased(new StopGrabber());
+		
+		if(RobotMap.hasBallHandlerRelay) {
+			xBoxRightBump.whenPressed(new MoveGrabberManual(true));
+			xBoxRightBump.whenReleased(new StopGrabber());
+		}
 		
 		xBoxLeftBump = new JoystickButton(xBoxOperator, RobotMap.xBoxLeftBumperIndex);
-		xBoxLeftBump.whenPressed(new MoveGrabberManual(false));
-		xBoxLeftBump.whenReleased(new StopGrabber());
+		
+		if(RobotMap.hasBallHandlerRelay) {
+			xBoxLeftBump.whenPressed(new MoveGrabberManual(false));
+			xBoxLeftBump.whenReleased(new StopGrabber());
+		}
 
 		xBoxOpStart = new JoystickButton(xBoxOperator, RobotMap.xBoxStartButtonIndex);
-	//	xBoxOpStart.whenPressed(new Dancing(.5));
-		xBoxOpStart.whenPressed(new MoveGrabberAuto(true));
-		xBoxOpStart.whenReleased(new StopGrabber());
+		xBoxOpStart.whenPressed(new Dancing(.5));
+//		xBoxOpStart.whenPressed(new MoveGrabberAuto(true));
+//		xBoxOpStart.whenReleased(new StopGrabber());
 
 		xBoxOpBack = new JoystickButton(xBoxOperator, RobotMap.xBoxBackButtonIndex);
-	//	xBoxOpBack.whenPressed(new Whip());
-		xBoxOpBack.whenPressed(new MoveGrabberAuto(false));
-		xBoxOpBack.whenReleased(new StopGrabber());
+		xBoxOpBack.whenPressed(new Whip());
+//		xBoxOpBack.whenPressed(new MoveGrabberAuto(false));
+//		xBoxOpBack.whenReleased(new StopGrabber());
 		
 		//Driver Joystick commands
 		xBoxA = new JoystickButton(xBoxDriver, RobotMap.xBoxAIndex);
@@ -103,13 +109,14 @@ public class OI {
 			xBoxTestB = new JoystickButton(xBoxTester, RobotMap.xBoxBIndex);
 			xBoxTestX = new JoystickButton(xBoxTester, RobotMap.xBoxXIndex);
 			xBoxTestY = new JoystickButton(xBoxTester, RobotMap.xBoxYIndex);
+			
+			if(RobotMap.hasBallHandlerRelay) {
+				xBoxTestA.whenPressed(new MoveGrabberManual(true));
+				xBoxTestA.whenReleased(new StopGrabber());
 
-			xBoxTestA.whenPressed(new MoveGrabberManual(true));
-			xBoxTestA.whenReleased(new StopGrabber());
-
-			xBoxTestB.whenPressed(new MoveGrabberManual(false));
-			xBoxTestB.whenReleased(new StopGrabber());
-
+				xBoxTestB.whenPressed(new MoveGrabberManual(false));
+				xBoxTestB.whenReleased(new StopGrabber());
+			}
 		}
 	}
 

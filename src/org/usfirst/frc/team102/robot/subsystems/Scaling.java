@@ -2,6 +2,8 @@ package org.usfirst.frc.team102.robot.subsystems;
 
 import org.usfirst.frc.team102.robot.RobotMap;
 import org.usfirst.frc.team102.robot.commands.Scale;
+import org.usfirst.frc.team102.robot.commands.Scale.ScaleState;
+
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,11 +34,11 @@ public class Scaling extends Subsystem {
 
 	public void updateDashboard() {
 
-		if (Scale.scale == Scale.scale.none)
+		if (Scale.scale == ScaleState.none)
 			SmartDashboard.putString("DB/String 2", " ");
-		else if (Scale.scale == Scale.ScaleState.tapeUp)
+		else if (Scale.scale == ScaleState.tapeUp)
 			SmartDashboard.putString("DB/String 2", "SCALE: TAPE UP");
-		else if (Scale.scale == Scale.ScaleState.robotUp)
+		else if (Scale.scale == ScaleState.robotUp)
 			SmartDashboard.putString("DB/String 2", "SCALE: ROBOT UP");
 		
 		if (Scale.testScale == true)
